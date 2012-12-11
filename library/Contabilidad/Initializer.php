@@ -38,10 +38,6 @@ class Initializer extends Zend_Controller_Plugin_Abstract
      */
     protected $_root;
     /**
-     * @var Vega_Util_CommandBus
-     */
-    protected $_bus;
-    /**
      * @var Zend_Log
      */
     protected $_log;
