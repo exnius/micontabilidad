@@ -8,12 +8,21 @@ class IndexController extends Zend_Controller_Action
         /* Initialize action controller here */
     }
 
-    public function indexAction()
+    public function homeAction()
     {
 //        var_dump("heheheh");
         // action body
     }
+    
+    public function termsAction()  
+    {
+        $this->view->pablo="gay";
+    }
 
-
+    public function aboutAction()
+    {
+        $this->view->andres="carne de res";
+    }
+    
 }
 
