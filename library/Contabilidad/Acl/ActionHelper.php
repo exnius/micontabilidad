@@ -49,7 +49,8 @@ class Contabilidad_Acl_ActionHelper extends Zend_Controller_Action_Helper_Abstra
             Zend_Layout::startMvc(array('layoutPath' => $this->_root . '/application/views/scripts' , 'layout' => 'private-layout'));
             
         }
-//        if($view->isLogged) {
+        if($view->isLogged) {
+//            if()
 //            if($action == "login") {
 //                $helper->direct("index", "index", "default");
 //            }
@@ -61,7 +62,7 @@ class Contabilidad_Acl_ActionHelper extends Zend_Controller_Action_Helper_Abstra
 //        }
 //        else {
 //            print_r("no esta logeado");exit();  
-//        }
+        }
 //        
 //            if($this->_api->login()) {
 //                if ($controller == "index" || ($controller == "login" && $action != "logout") || $controller == "register") {

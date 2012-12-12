@@ -195,7 +195,7 @@ class Initializer extends Zend_Controller_Plugin_Abstract
         $registry = Zend_Registry::getInstance();
         $dbAdapter =  $registry->dbAdapter;
         $authAdapter = new Zend_Auth_Adapter_DbTable($dbAdapter);
-        $authAdapter->setTableName('usuario')
+        $authAdapter->setTableName('user')
                     ->setIdentityColumn('email')
                     ->setCredentialColumn('password');
         Zend_Registry::set('authAdapter', $authAdapter);
