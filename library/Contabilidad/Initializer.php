@@ -138,8 +138,8 @@ class Initializer extends Zend_Controller_Plugin_Abstract
      */
     public function initHelpers ()
     {
-//        $aclHelper = new Contabilidad_Acl_ActionHelper($this->_root);
-//        Zend_Controller_Action_HelperBroker::addHelper($aclHelper);
+        $aclHelper = new Contabilidad_Acl_ActionHelper($this->_root);
+        Zend_Controller_Action_HelperBroker::addHelper($aclHelper);
     }
 
     /**
