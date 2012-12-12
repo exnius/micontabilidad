@@ -19,12 +19,9 @@ class Contabilidad_Auth {
             $authAdapter->setCredential($params['password']);
 
             $result = $auth->authenticate($authAdapter);
-            if($result->isValid()) {
-                var_dump("Valid");
-            } else {
-                var_dump("not Valid");
-            }
+            return $result->isValid();
         }
+        return true;
     }
     
     public function logout(){
