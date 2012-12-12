@@ -1,4 +1,4 @@
-<<?php
+<?php
 class Proxy_Transaction extends Contabilidad_Proxy
 {
     
@@ -10,7 +10,7 @@ class Proxy_Transaction extends Contabilidad_Proxy
     public static function getInstance ()
     {
         if (null === self::$_instance) {
-            self::$_instance = new self('transaccion', 'VO_User');
+            self::$_instance = new self('transaccion', 'VO_Transaction');
         }
         return (self::$_instance);
     }
