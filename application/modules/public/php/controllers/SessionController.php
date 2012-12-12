@@ -1,30 +1,25 @@
 <?php
 
-class SessionControler extends Zend_Controller_Action
+class SessionController extends Zend_Controller_Action
 {
     
      public function registerAction()  
     {
-         $this->view->julian="maestro rochy";
+         $this->view->register="register";
     }
     
     public function loginAction()
     {
-        $this->view->clow="perro";
+        $this->view->login="login";
     }
     
     public function recoverpassAction()
     {
-        $this->view->loco="helman";
+        $this->view->recover="recover pass";
     }
     
     public function setpassAction()
     {
-        $this->view->popo="caca";
+        $this->view->setpass="set pass";
     }
 }
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-?>

@@ -16,12 +16,12 @@ class IndexController extends Zend_Controller_Action
     
     public function termsAction()  
     {
-        $this->view->pablo="gay";
+        $this->view->terms="terms";
     }
 
     public function aboutAction()
     {
-        $this->view->andres="carne de res";
+        $this->view->about="about";
     }
     
 }
