@@ -2,7 +2,7 @@
 
 class Private_AccountController extends Zend_Controller_Action
 {
-    public function allAction(){
+    public function indexAction(){
         $this->view->pru="all";
     }
     

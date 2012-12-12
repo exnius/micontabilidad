@@ -6,6 +6,20 @@ class SessionController extends Zend_Controller_Action
      public function registerAction()  
     {
          $this->view->register="register";
+         $params = $this->_request->getParams();
+         $puser = Proxy_User::getInstance();
+         if(isset($params['full_name']) && isset($params['email']) && isset($params['password']) && isset($params['confirm_password'])){
+             $user = $puser->findByEmail($params['email']);
+             if($user){
+                 var_dump("ya existe " . $params['email']);
+             } else {
+                 $user = $puser->createNew($params);
+                 var_dump("creado!");
+                 var_dump($user);
+             }
+         }
+         var_dump($params);
+//         if()
     }
     
     public function recoverpassAction()
@@ -21,29 +35,15 @@ class SessionController extends Zend_Controller_Action
     public function loginAction()  
     {
         $this->view->login="login";
-        $auth = Zend_Auth::getInstance();
-        if(!$auth->hasIdentity()){
-        
-            $authAdapter = Zend_Registry::get('authAdapter');
-            $authAdapter->setIdentity('andresmauriciopc@gmail.com');
-            $authAdapter->setCredential('123456');
-
-            $result = $auth->authenticate($authAdapter);
-            if($result->isValid()) {
-                var_dump("Valid");
-            } else {
-                var_dump("not Valid");
-            }
-        }
+        $params = array('email' => 'andresmauriciopc@gmail.com',
+                        'password' => '123456');
+        Contabilidad_Auth::getInstance()->login($params);
         $this->view->pablo="gay";
     }
 
     public function logoutAction()
     {
-        $auth = Zend_Auth::getInstance();
-        $auth->clearIdentity();
-        $categories = Proxy_CategoryType::getInstance()->fetchAll();
-        var_dump($categories);
-        exit();
+        Contabilidad_Auth::getInstance()->logout();
+        $this->_redirect("index");
     }
 }
