@@ -54,7 +54,7 @@ class Contabilidad_Acl_ActionHelper extends Zend_Controller_Action_Helper_Abstra
                 $helper->direct("index", "account", "private");
             }
         } else {
-            if($module == "private"){
+            if($module == "private" && $action != "login"){
                 $helper->direct("index", "index", "public");
             }
         }

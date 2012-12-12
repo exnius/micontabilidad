@@ -20,6 +20,8 @@
 
     <body>
 <!--        <h1>Public</h1>-->
+        <?php $home = array("action" => "home", "controller" => "index", "module" => "public"); ?>
+        <a href="<?= $this->url($home) ?>">Home</a>
         <?= $this->layout()->content; ?>
     </body>
 </html>

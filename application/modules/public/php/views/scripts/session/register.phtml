@@ -1,16 +1,16 @@
 <?php $login = array("action" => "login", "controller" => "session", "module" => "public")?>
-<a href="#">Home</a>
+<?php $register = array("action" => "register", "controller" => "session", "module" => "public")?>
 
-    <form action="">
-        <h1>Registro de Usuario</h1>
-        <p>Nombre de usuario</p>
-        <input type="text" name="name">
-        <p>Email</p>
-        <input type="text" name="email">
-        <p>Contraseña</p>
-        <input type="text" name="password">
-        <p>Confirmar contraseña</p>
-        <input type="text" name="confirm_password">
-        <input type="button" value="Enviar">
-    </form>
+<form action="<?= $this->url($register); ?>" method="POST">
+    <h1>Registro de Usuario</h1>
+    <p>Nombre de usuario</p>
+    <input type="text" name="full_name">
+    <p>Email</p>
+    <input type="text" name="email">
+    <p>Contraseña</p>
+    <input type="text" name="password">
+    <p>Confirmar contraseña</p>
+    <input type="text" name="confirm_password">
+    <input type="submit" value="Enviar" />
+</form>
      

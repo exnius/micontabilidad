@@ -9,7 +9,7 @@ class Contabilidad_Proxy
         $this->_table = new Contabilidad_Table($name, $rowClass);
     }
 
-    public function createNew ()
+    protected function createRow ()
     {
         return $this->_table->createRow();
     }

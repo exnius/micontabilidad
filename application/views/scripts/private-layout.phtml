@@ -20,6 +20,8 @@
 
 <body class="wv-blank-layout">
     <h1>Private</h1>
+    <?php $logout = array("action" => "logout", "controller" => "session", "module" => "public"); ?>
+    <a href="<?= $this->url($logout)?>">Logout</a>
     <?= $this->layout()->content; ?>
 
 </body>
