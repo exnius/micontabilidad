@@ -50,18 +50,13 @@ class Contabilidad_Acl_ActionHelper extends Zend_Controller_Action_Helper_Abstra
             
         }
         if($view->isLogged) {
-//            if()
-//            if($action == "login") {
-//                $helper->direct("index", "index", "default");
-//            }
-//        }
-//        else {
-//            if($controller != "account" && $controller != "error") {
-//                $helper->direct("login", "account", "default");
-//            }
-//        }
-//        else {
-//            print_r("no esta logeado");exit();  
+            if($module == "public" && $action != "logout" && $controller != "error"){
+                $helper->direct("index", "account", "private");
+            }
+        } else {
+            if($module == "private"){
+                $helper->direct("index", "index", "public");
+            }
         }
 //        
 //            if($this->_api->login()) {

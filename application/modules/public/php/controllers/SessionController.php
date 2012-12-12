@@ -43,7 +43,6 @@ class SessionController extends Zend_Controller_Action
         $auth = Zend_Auth::getInstance();
         $auth->clearIdentity();
         $categories = Proxy_CategoryType::getInstance()->fetchAll();
-        var_dump($categories);
-        exit();
+        $this->_redirect("index");
     }
 }
