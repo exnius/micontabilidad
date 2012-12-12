@@ -16,23 +16,12 @@ class IndexController extends Zend_Controller_Action
     
     public function termsAction()  
     {
-        $authAdapter = Zend_Registry::get('authAdapter');
-        $authAdapter->setIdentity('andresmauriciopc@gmail.com');
-        $authAdapter->setCredential('123456');
-        
-        $auth = Zend_Auth::getInstance();
-        $result = $auth->authenticate($authAdapter);
-        if($result->isValid()) {
-            var_dump("Valid");
-        } else {
-            var_dump("not Valid");
-        }
-        $this->view->pablo="gay";
+        $this->view->terms="terms";
     }
 
     public function aboutAction()
     {
-        $this->view->andres="carne de res";
+        $this->view->about="about";
     }
     
 }
