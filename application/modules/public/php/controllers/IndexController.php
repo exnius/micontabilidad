@@ -7,11 +7,15 @@ class IndexController extends Zend_Controller_Action
     {
         /* Initialize action controller here */
     }
+    
+    public function indexAction()
+    {
+        $this->_forward("home");
+    }
 
     public function homeAction()
     {
-//        var_dump("heheheh");
-        // action body
+        
     }
     
     public function termsAction()  
