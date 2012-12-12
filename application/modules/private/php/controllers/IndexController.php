@@ -1,6 +1,6 @@
 <?php
 
-class IndexController extends Zend_Controller_Action
+class Private_IndexController extends Zend_Controller_Action
 {
 
     public function init()
@@ -8,10 +8,9 @@ class IndexController extends Zend_Controller_Action
         /* Initialize action controller here */
     }
 
-    public function indexAction()
+    public function homeAction()
     {
-//        var_dump("heheheh");
-        // action body
+      $this->view->pru="home";
     }
 
 
