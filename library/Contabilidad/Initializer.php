@@ -76,6 +76,7 @@ class Initializer extends Zend_Controller_Plugin_Abstract
 		// init routines        
         $this->initView();
         $this->initDb();
+        $this->initAuth();
         $this->initHelpers();
         $this->initPlugins();
         $this->initControllers();
@@ -190,7 +191,15 @@ class Initializer extends Zend_Controller_Plugin_Abstract
     }
 
     public function initAuth ()
-    {}
+    {
+        $registry = Zend_Registry::getInstance();
+        $dbAdapter =  $registry->dbAdapter;
+        $authAdapter = new Zend_Auth_Adapter_DbTable($dbAdapter);
+        $authAdapter->setTableName('usuario')
+                    ->setIdentityColumn('email')
+                    ->setCredentialColumn('password');
+        Zend_Registry::set('authAdapter', $authAdapter);
+    }
     
     public function initMail()
     {
