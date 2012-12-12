@@ -17,7 +17,7 @@ class Contabilidad_Acl_ActionHelper extends Zend_Controller_Action_Helper_Abstra
 	
 	public function __construct($root)
 	{
-//	    $this->auth = Zend_Auth::getInstance();
+	    $this->auth = Zend_Auth::getInstance();
 	    $this->_root = $root;
 	}
 	
@@ -44,11 +44,14 @@ class Contabilidad_Acl_ActionHelper extends Zend_Controller_Action_Helper_Abstra
 
         $viewRenderer = Zend_Controller_Action_HelperBroker::getStaticHelper('viewRenderer');
         $view = $viewRenderer->view;
-//        $view->isLogged = $this->auth->hasIdentity();
+        $view->isLogged = $this->auth->hasIdentity();
+        if($module == "private"){
+            Zend_Layout::startMvc(array('layoutPath' => $this->_root . '/application/views/scripts' , 'layout' => 'private-layout'));
+            
+        }
 //        if($view->isLogged) {
-//            Zend_Layout::startMvc(array('layoutPath' => $this->_root . '/views/layouts' , 'layout' => 'private-layout'));
 //            if($action == "login") {
-                $helper->direct("index", "index", "default");
+//                $helper->direct("index", "index", "default");
 //            }
 //        }
 //        else {
