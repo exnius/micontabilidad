@@ -10,7 +10,7 @@ class Proxy_Transaction extends Contabilidad_Proxy
     public static function getInstance ()
     {
         if (null === self::$_instance) {
-            self::$_instance = new self('transaccion', 'VO_Transaction');
+            self::$_instance = new self('transaction', 'VO_Transaction');
         }
         return (self::$_instance);
     }

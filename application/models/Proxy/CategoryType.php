@@ -10,7 +10,7 @@ class Proxy_CategoryType extends Contabilidad_Proxy
     public static function getInstance ()
     {
         if (null === self::$_instance) {
-            self::$_instance = new self('tipo_categoria', 'VO_CategoryType');
+            self::$_instance = new self('category_type', 'VO_CategoryType');
         }
         return (self::$_instance);
     }

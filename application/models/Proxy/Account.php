@@ -9,7 +9,7 @@ class Proxy_Account extends Contabilidad_Proxy
     public static function getInstance ()
     {
         if (null === self::$_instance) {
-            self::$_instance = new self('contabilidad', 'VO_Account');
+            self::$_instance = new self('account', 'VO_Account');
         }
         return (self::$_instance);
     }    

@@ -10,7 +10,7 @@ class Proxy_Currency extends Contabilidad_Proxy
     public static function getInstance ()
     {
         if (null === self::$_instance) {
-            self::$_instance = new self('tipo_moneda', 'VO_Currency');
+            self::$_instance = new self('currency', 'VO_Currency');
         }
         return (self::$_instance);
     }
