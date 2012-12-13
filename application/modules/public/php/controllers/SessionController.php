@@ -35,10 +35,18 @@ class SessionController extends Zend_Controller_Action
     public function loginAction()  
     {
         $this->view->login="login";
-        $params = array('email' => 'andresmauriciopc@gmail.com',
-                        'password' => '123456');
-        Contabilidad_Auth::getInstance()->login($params);
-        $this->view->pablo="gay";
+        $params = $this->_request->getParams();
+//         $puser = Proxy_User::getInstance();
+        if(isset($params['email']) && isset($params['password'])){
+            $params = array('email' => $params['email'],
+                            'password' => $params['password']);
+            if(Contabilidad_Auth::getInstance()->login($params)){
+                $this->_redirect("private/index/home");
+            } else {
+                var_dump("email/pass incorrectos!");
+            }
+            $this->view->pablo="gay";
+        }
     }
 
     public function logoutAction()

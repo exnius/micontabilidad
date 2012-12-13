@@ -1,12 +1,11 @@
-<a href="#"><?= $this->login ?></a>
-
- <form action="">
-            <h1>login</h1>
-            <p>Nombre de usuario</p>
-            <input type="text" name="name">
-            <p>Contraseña</p>
-            <input type="text" name="pass">
-            <input type="checkbox" id="checklogin">Recordarme
-            <input type="button" value="Enviar">
+<?php $login = array("action" => "login", "controller" => "session", "module" => "public")?> 
+<form action="<?= $this->url($login); ?>" method="POST">
+    <h1>login</h1>
+    <p>Email</p>
+    <input type="text" name="email">
+    <p>Contraseña</p>
+    <input type="text" name="password">
+    <input type="checkbox" id="checklogin">Recordarme
+    <input type="submit" value="Login" />
             
  </form>
