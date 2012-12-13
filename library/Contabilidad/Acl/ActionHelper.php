@@ -45,26 +45,21 @@ class Contabilidad_Acl_ActionHelper extends Zend_Controller_Action_Helper_Abstra
         $viewRenderer = Zend_Controller_Action_HelperBroker::getStaticHelper('viewRenderer');
         $view = $viewRenderer->view;
         $view->isLogged = $this->auth->hasIdentity();
+        $view->action = $action;
+        $view->module = $module;
+        $view->controller = $controller;
         if($module == "private"){
             Zend_Layout::startMvc(array('layoutPath' => $this->_root . '/application/views/scripts' , 'layout' => 'private-layout'));
             
         }
         if($view->isLogged) {
-            if($module == "public" && $action != "logout" && $controller != "error"){
+            if($module == "public" && $action != "logout" && $controller != "error" && $controller != "services"){
                 $helper->direct("index", "account", "private");
             }
         } else {
-            if($module == "private" && $action != "login"){
+            if($module == "private"){
                 $helper->direct("index", "index", "public");
             }
         }
-//        
-//            if($this->_api->login()) {
-//                if ($controller == "index" || ($controller == "login" && $action != "logout") || $controller == "register") {
-//                    $helper->direct("index", "home", "default");
-//                }
-//            } else if (!($controller == "index" || $controller == "login" || $controller == "register" || $controller == "error")) {
-//                $helper->direct("index", "login", "default");
-//            }
     }
 }

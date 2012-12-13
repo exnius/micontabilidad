@@ -11,7 +11,6 @@ $frontController = Zend_Controller_Front::getInstance();
 
 // Change to 'production' parameter under production environment
 $frontController->registerPlugin(new Initializer('production'));
-//$frontController->setParam('useDefaultControllerAlways', true);
 
 // Dispatch the request using the front controller. 
 $frontController->dispatch();

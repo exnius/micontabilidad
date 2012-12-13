@@ -7,17 +7,7 @@ class SessionController extends Zend_Controller_Action
     {
          $this->view->register="register";
          $params = $this->_request->getParams();
-         $puser = Proxy_User::getInstance();
-         if(isset($params['full_name']) && isset($params['email']) && isset($params['password']) && isset($params['confirm_password'])){
-             $user = $puser->findByEmail($params['email']);
-             if($user){
-                 var_dump("ya existe " . $params['email']);
-             } else {
-                 $user = $puser->createNew($params);
-                 var_dump("creado!");
-                 var_dump($user);
-             }
-         }
+         
          var_dump($params);
 //         if()
     }
@@ -36,17 +26,16 @@ class SessionController extends Zend_Controller_Action
     {
         $this->view->login="login";
         $params = $this->_request->getParams();
-//         $puser = Proxy_User::getInstance();
-        if(isset($params['email']) && isset($params['password'])){
-            $params = array('email' => $params['email'],
-                            'password' => $params['password']);
-            if(Contabilidad_Auth::getInstance()->login($params)){
-                $this->_redirect("private/index/home");
+        $session = new Contabilidad_Services_Session();
+        if($this->getRequest()->isPost()){
+            $resp = $session->login($params);
+            if($resp['result'] == "success"){
+                $this->redirect("private/index/home");
             } else {
-                var_dump("email/pass incorrectos!");
+                var_dump($resp);
             }
-            $this->view->pablo="gay";
         }
+//         $puser = Proxy_User::getInstance();
     }
 
     public function logoutAction()
