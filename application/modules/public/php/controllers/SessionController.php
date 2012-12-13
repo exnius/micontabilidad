@@ -7,17 +7,7 @@ class SessionController extends Zend_Controller_Action
     {
          $this->view->register="register";
          $params = $this->_request->getParams();
-         $puser = Proxy_User::getInstance();
-         if(isset($params['full_name']) && isset($params['email']) && isset($params['password']) && isset($params['confirm_password'])){
-             $user = $puser->findByEmail($params['email']);
-             if($user){
-                 var_dump("ya existe " . $params['email']);
-             } else {
-                 $user = $puser->createNew($params);
-                 var_dump("creado!");
-                 var_dump($user);
-             }
-         }
+         
          var_dump($params);
 //         if()
     }
