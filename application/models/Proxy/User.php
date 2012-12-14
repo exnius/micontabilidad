@@ -19,6 +19,7 @@ class Proxy_User extends Contabilidad_Proxy
        // $row->email = $params['email'];
         $row->email = $this->checkEmail($row->email);
         $row->id_currency = 1;
+        $row->nickname = Contabilidad_Utils_String::cleanString($row->full_name);
         $row->save();
         $row->nickname = $this->createNickname($row->full_name);
         
@@ -54,4 +55,10 @@ class Proxy_User extends Contabilidad_Proxy
     public function findByEmail($email){
         return $this->getTable()->fetchRow("email = '$email'");
     }
+    
+    private function findByNickname ($nickname){
+        
+    }
+
+    
 }
