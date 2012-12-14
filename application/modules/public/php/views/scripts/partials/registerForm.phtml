@@ -2,13 +2,13 @@
 <form action="<?= $this->url($register); ?>" method="POST">
     <h1>Registro de Usuario</h1>
     <p>Nombre de usuario</p>
-    <input type="text" name="full_name">
+    <input type="text" name="full_name" class="required">
     <p>Email</p>
-    <input type="text" name="email">
+    <input type="text" name="email" class="required is_email">
     <p>Contraseña</p>
-    <input type="text" name="password">
+    <input type="password" name="password" class="required">
     <p>Confirmar contraseña</p>
-    <input type="text" name="confirm_password">
+    <input type="password" name="confirm_password" class="required" is_equal_to="password">
     <input type="submit" value="Enviar" />
 </form>
      

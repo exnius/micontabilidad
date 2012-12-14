@@ -39,7 +39,7 @@ Contabilidad.Validate =
         }
         if(!ruleValue) return false;
         var errors =  $el.data("errors");
-        var value = vega.utils.Utils.Trim($el.val());
+        var value = $.trim($el.val());
         switch(rule){
             case "required":
                 if(!value.length || value == $el.data("defaultValue")){
@@ -53,7 +53,7 @@ Contabilidad.Validate =
                 }
                 break;
             case "equalsTo":
-                var rvalue = vega.utils.Utils.Trim(ruleValue.val());
+                var rvalue = $.trim(ruleValue.val());
                 if(value != rvalue) {
                     errors.push({error: "equalsTo", message: this.getMessage($el, rule)});
                 }
