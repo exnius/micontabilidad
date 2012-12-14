@@ -20,11 +20,11 @@ class Proxy_User extends Contabilidad_Proxy
             $row->password = $params['password'];
             $row->email = $params['email'];
             $row->id_currency = 1;
-            $row->nickname = Contabilidad_Utils_String::cleanString($row->full_name);
+            $row->nickname = $this->createNickname($params['nickname']);
             $row->save();
         }
         else
-            Contabilidad_Exceptions::showException ();
+            Contabilidad_Exceptions::showException ('Este email ya existe');
         }
     
     public function checkEmail($email){
@@ -43,8 +43,13 @@ class Proxy_User extends Contabilidad_Proxy
                      }
                 }
             }
-            if ($mail_correcto )
-            return TRUE;
+            if ($mail_correcto ){
+                $is= $this->findByEmail($email);
+                if ($is==NULL)
+                return TRUE;
+                else
+                return FALSE;
+            }    
             else
             return FALSE;
             }
@@ -54,8 +59,21 @@ class Proxy_User extends Contabilidad_Proxy
     }
     
     private function findByNickname ($nickname){
-        
+        return $this->getTable()->fetchRow("nickname = '$nickname'");
     }
 
-    
+    private function createNickname ($nickname){
+        $nickname = Contabilidad_Utils_String::cleanString($nickname);
+        $suf =1;
+        $ban=0;
+        do{
+            $is = $this->findByNickname($nickname);
+            if ($is){
+                $nickname = $nickname.$suf;
+                $suf++;
+            }else
+                $ban++;
+        }while ($ban=0);
+    return $nickname;
+    }
 }
