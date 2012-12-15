@@ -20,7 +20,7 @@ class Proxy_User extends Contabilidad_Proxy
             $row->password = $params['password'];
             $row->email = $params['email'];
             $row->id_currency = 1;
-            $row->nickname = $this->createNickname($params['nickname']);
+            $row->nickname = $this->createNickname($params['full_name']);
             $row->save();
         }
         else
@@ -58,22 +58,24 @@ class Proxy_User extends Contabilidad_Proxy
         return $this->getTable()->fetchRow("email = '$email'");
     }
     
-    private function findByNickname ($nickname){
+    public function findByNickname ($nickname){
         return $this->getTable()->fetchRow("nickname = '$nickname'");
     }
 
     private function createNickname ($nickname){
-        $nickname = Contabilidad_Utils_String::cleanString($nickname);
+        $newnickname = Contabilidad_Utils_String::cleanString($nickname);
+        $nickname = $newnickname;
         $suf =1;
         $ban=0;
         do{
             $is = $this->findByNickname($nickname);
-            if ($is){
-                $nickname = $nickname.$suf;
-                $suf++;
-            }else
+            if ($is == NULL){
                 $ban++;
-        }while ($ban=0);
+            }else{
+                $nickname = $newnickname.$suf;
+                $suf++;
+            }
+        }while ($ban==0);
     return $nickname;
     }
 }
