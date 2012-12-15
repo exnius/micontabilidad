@@ -1,5 +1,8 @@
 var Contabilidad = {
-    endPoint : jQuery.Zend.jsonrpc({url: '/jsonrpc'}),
+    endPoint : function(options){
+        options = jQuery.extend({url: '/jsonrpc'}, options);
+        return jQuery.Zend.jsonrpc(options);
+    },
     private_home : BASE_URL + "/private/index/home"
 };
 
