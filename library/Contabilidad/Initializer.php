@@ -140,6 +140,13 @@ class Initializer extends Zend_Controller_Plugin_Abstract
     {
         $aclHelper = new Contabilidad_Acl_ActionHelper($this->_root);
         Zend_Controller_Action_HelperBroker::addHelper($aclHelper);
+        
+        $prefix = 'Contabilidad_Helper';
+        $dir = $this->_root . '/application/views/helpers';
+        $viewRenderer = Zend_Controller_Action_HelperBroker::getStaticHelper('viewRenderer');
+        $viewRenderer->init();
+        $view = $viewRenderer->view;
+        $view->addHelperPath($dir, $prefix);
     }
 
     /**
