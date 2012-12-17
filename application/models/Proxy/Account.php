@@ -12,6 +12,10 @@ class Proxy_Account extends Contabilidad_Proxy
             self::$_instance = new self('account', 'VO_Account');
         }
         return (self::$_instance);
-    }    
+    }
+    
+    public function retrieveAccountsByUserId($userid){
+        return $this->getTable()->fetchAll("id_user = '$userid'");
+    }
 }
 ?>
