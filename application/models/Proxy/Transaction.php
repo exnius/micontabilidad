@@ -14,4 +14,24 @@ class Proxy_Transaction extends Contabilidad_Proxy
         }
         return (self::$_instance);
     }
+    
+     public function createTransaction($account,$params){
+                $row = $this->createRow();
+                $row->name = $params['name'];
+                $row->value = $params['value'];
+                $row->date = $params['date'];
+                $row->comment = $params['comment'];
+                $row->is_frequent = $params['is_frequent'];
+                $row->frequency_days = $params['frequency_days'];
+                $row->creation_date = time();
+                $row->id_account = $account->id;
+                $row->id_category_type = $params['id_category_type'];
+                $row->id_transaction_type = $params['id_transaction_type'];
+                $row->save();
+
+    }
+    
+    public function retrieveTransactionByAccountId($accountid){
+        return $this->getTable()->fetchAll("id_account = '$accountid'");
+    }
 }
