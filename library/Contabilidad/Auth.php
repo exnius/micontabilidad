@@ -22,7 +22,8 @@ class Contabilidad_Auth {
         
             $authAdapter = Zend_Registry::get('authAdapter');
             $authAdapter->setIdentity($params['email']);
-            $authAdapter->setCredential($params['password']);
+            $encryptedPass = self::encryptPassword($params['email'], $params['password']);
+            $authAdapter->setCredential($encryptedPass);
 
             $result = $this->_auth->authenticate($authAdapter);
             $isValid = $result->isValid();
@@ -42,8 +43,7 @@ class Contabilidad_Auth {
     }
     
     public static function encryptPassword($email, $password){
-        $encryptPass=hash_hmac('md5', $email, $password);
-        return $encryptPass;
+        return hash_hmac('md5', $email, $password);
     }
 }
 
