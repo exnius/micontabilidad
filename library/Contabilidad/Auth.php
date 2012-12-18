@@ -33,5 +33,9 @@ class Contabilidad_Auth {
         $this->_user = null;
     }
     
+    public function getUser (){
+        return $this->_user;
+    }
+    
 }
 
