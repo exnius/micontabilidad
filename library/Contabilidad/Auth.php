@@ -1,6 +1,7 @@
 <?php
 class Contabilidad_Auth {
     protected static $_instance = null;
+    private $_user = null;
 
     public static function getInstance ()
     {
@@ -19,7 +20,9 @@ class Contabilidad_Auth {
             $authAdapter->setCredential($params['password']);
 
             $result = $auth->authenticate($authAdapter);
-            return $result->isValid();
+            $isValid = $result->isValid();
+            $this->_user = $isValid ? Proxy_User::getInstance()->findByEmail($params['email']) : null;
+            return ;
         }
         return true;
     }
@@ -27,6 +30,7 @@ class Contabilidad_Auth {
     public function logout(){
         $auth = Zend_Auth::getInstance();
         $auth->clearIdentity();
+        $this->_user = null;
     }
     
 }
