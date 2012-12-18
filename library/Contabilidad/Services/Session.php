@@ -38,6 +38,21 @@ class Contabilidad_Services_Session extends Contabilidad_Services_Abstract {
         return $resp;
     }
     
+    public function recoverPassword($params){
+        $resp = array("result" => "failure", "reason" => self::NOT_ALL_PARAMS);
+        if($this->reviewParam('email', $params)){
+            $user = Proxy_User::getInstance()->findByEmail($params['email']);
+            if($user){
+                $resp["result"] = "success";
+                $resp["reason"] = "OK";
+            } else {
+                $resp["result"] = "failure";
+                $resp["reason"] = self::USER_NOT_FOUND;
+            }
+        }
+        return $resp;
+    }
+    
     public function loginByGoogle($params){
         
     }
