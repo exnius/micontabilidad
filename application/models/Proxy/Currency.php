@@ -14,5 +14,13 @@ class Proxy_Currency extends Contabilidad_Proxy
         }
         return (self::$_instance);
     }
+    
+    public function findById($currencyId) {
+        return $this->getTable()->fetchRow("id = '$currencyId'");
+    }
+    
+    public function retrieveCurrencys() {
+        return $this->getTable()->fetchAll();
+    }
 }
 ?>

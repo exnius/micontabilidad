@@ -10,7 +10,9 @@ class Private_IndexController extends Zend_Controller_Action
 
     public function homeAction()
     {
-      $this->view->pru="home";
+      $user = Contabilidad_Auth::getInstance()->getUser();
+      $this->view->accounts = Proxy_Account::getInstance()->retrieveByUserId($user->id);
+      $this->view->fullname = $user->full_name;
     }
 
 

@@ -8,7 +8,7 @@ class Private_TransactionController extends Zend_Controller_Action
     
     public function addAction(){
         $this-> view->pru="add";
-        $accounts =  Proxy_Account::getInstance()->retrieveAccountsByUserId('2');
+        $accounts =  Proxy_Account::getInstance()->retrieveByUserId('2');
         foreach ($accounts as $account){
             if($account->id=='2'){
                 break;

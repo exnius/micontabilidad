@@ -1,7 +1,8 @@
 <?php
 class Contabilidad_Auth {
     protected static $_instance = null;
-    private $_user = null;
+    private static $_user = null;
+    private $_auth;
 
     public static function getInstance ()
     {
@@ -11,27 +12,38 @@ class Contabilidad_Auth {
         return (self::$_instance);
     }
     
+    public function __construct() {
+        $this->_auth = Zend_Auth::getInstance();
+    }
+
     public function login($params){
-        $auth = Zend_Auth::getInstance();
-        if(!$auth->hasIdentity()){
+        
+        if(!$this->_auth->hasIdentity()){
         
             $authAdapter = Zend_Registry::get('authAdapter');
             $authAdapter->setIdentity($params['email']);
-            $authAdapter->setCredential($params['password']);
+            $encryptedPass = self::encryptPassword($params['email'], $params['password']);
+            $authAdapter->setCredential($encryptedPass);
 
-            $result = $auth->authenticate($authAdapter);
+            $result = $this->_auth->authenticate($authAdapter);
             $isValid = $result->isValid();
-            $this->_user = $isValid ? Proxy_User::getInstance()->findByEmail($params['email']) : null;
-            return ;
+            return $isValid;
         }
         return true;
     }
     
     public function logout(){
-        $auth = Zend_Auth::getInstance();
-        $auth->clearIdentity();
-        $this->_user = null;
+        $this->_auth->clearIdentity();
+        self::$_user = null;
     }
     
+    public function getUser (){
+        self::$_user = $this->_auth->hasIdentity() ? Proxy_User::getInstance()->findByEmail($this->_auth->getIdentity()) : null;
+        return self::$_user;
+    }
+    
+    public static function encryptPassword($email, $password){
+        return hash_hmac('md5', $email, $password);
+    }
 }
 
