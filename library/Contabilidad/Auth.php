@@ -37,5 +37,9 @@ class Contabilidad_Auth {
         return $this->_user;
     }
     
+    public static function encryptPassword($email, $password){
+        $encryptPass=hash_hmac('md5', $email, $password);
+        return $encryptPass;
+    }
 }
 
