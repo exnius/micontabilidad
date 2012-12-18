@@ -24,7 +24,3 @@ var Contabilidad = {
 Contabilidad.tr = function(string){
     return string;
 }
-
-$(document).ready(function(){
-    
-});

@@ -44,13 +44,13 @@ class Contabilidad_Acl_ActionHelper extends Zend_Controller_Action_Helper_Abstra
 
         $viewRenderer = Zend_Controller_Action_HelperBroker::getStaticHelper('viewRenderer');
         $view = $viewRenderer->view;
+        $this->setViewParams($view);
         $view->isLogged = $this->auth->hasIdentity();
         $view->action = $action;
         $view->module = $module;
         $view->controller = $controller;
         if($module == "private"){
             Zend_Layout::startMvc(array('layoutPath' => $this->_root . '/application/views/scripts' , 'layout' => 'private-layout'));
-            
         }
         if($view->isLogged) {
             if($module == "public" && $action != "logout" && $controller != "error" && $controller != "services"){
@@ -61,5 +61,11 @@ class Contabilidad_Acl_ActionHelper extends Zend_Controller_Action_Helper_Abstra
                 $helper->direct("index", "index", "public");
             }
         }
+    }
+    
+    public function setViewParams($view){
+        $config = Zend_Registry::get('Config');
+        $view->gapi_id = $config->oauth->google->clientId;
+        $view->gapi_secret = $config->oauth->google->secret;
     }
 }

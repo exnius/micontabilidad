@@ -2,6 +2,7 @@ const USER_NOT_FOUND = "wrong authentication";
 const EMAIL_ALREADY_REGISTERED = "email already registered";
 
 $(document).ready(function(){
+    
     //LOGIN FANCYBOX
     $(".js-fancy-login").click(function(){
         var nAddFrag = document.createDocumentFragment();
@@ -19,12 +20,7 @@ $(document).ready(function(){
                 this.form = document.getElementById("login-form");
             },
             'onClosed' : function(){
-                Contabilidad.Validate.clean($(this.form));
-                $(this.form).find("input[type='text'], #login-form input[type='password']").val('');
-                $(this.form).find(".response").html("");
-                var nAddFrag = document.createDocumentFragment();
-                nAddFrag.appendChild(this.form);
-                $("body").append(nAddFrag);
+                onClose(this.form);
             },
             'onComplete' : function(){
                 onLoginComplete($div);
@@ -52,15 +48,7 @@ $(document).ready(function(){
                 this.form = document.getElementById("register-form");
             },
             'onClosed' : function(){
-                Contabilidad.Validate.clean($(this.form));
-                $(this.form).find("input[type='text'], input[type='password']").val('');
-                $(this.form).find(".response").html("")
-                .removeClass("*")
-                .addClass("response")
-                .html("");;
-                var nAddFrag = document.createDocumentFragment();
-                nAddFrag.appendChild(this.form);
-                $("body").append(nAddFrag);
+                onClose(this.form);
             }
         });
         
@@ -161,15 +149,7 @@ function onLoginComplete ($div){
                 this.form = document.getElementById("recover-password-form");
             },
             'onClosed' : function(){
-                Contabilidad.Validate.clean($(this.form));
-                $(this.form).find("input[type='text'], input[type='password']").val('');
-                $(this.form).find(".response").html("")
-                .removeClass("*")
-                .addClass("response")
-                .html("");;
-                var nAddFrag = document.createDocumentFragment();
-                nAddFrag.appendChild(this.form);
-                $("body").append(nAddFrag);
+                onClose(this.form);
             }
         });
     });
@@ -215,6 +195,23 @@ function onRecoverStart($div){
 }
 
 /*************************************
+ **********ALL FORMS METHODS***********
+ *************************************/
+
+function onClose(form){
+    Contabilidad.Validate.clean($(form));
+    $(form).hide();
+    $(form).find("input[type='text'], input[type='password']").val('');
+    $(form).find(".response").html("")
+    .removeClass("*")
+    .addClass("response")
+    .html("");;
+    var nAddFrag = document.createDocumentFragment();
+    nAddFrag.appendChild(form);
+    $("body").append(nAddFrag);
+}
+
+/*************************************
  **********VALIDATE METHODS***********
  *************************************/
 
@@ -240,4 +237,49 @@ function setInputRule($input){
     if($input.attr("type") == "password"){rules.password = true;}
     if($input.attr("is_equal_to")){rules.equalsTo = $input.parent().find("input[name='" + $input.attr("is_equal_to") + "']");}
     Contabilidad.Validate.setRules($input, rules);
+}
+
+/*************************************
+ **********AUTH METHODS***********
+ *************************************/
+
+function OnLoadGApiCallback(){
+    gapi.client.load('oauth2', 'v2', function() { });
+    gapi.client.setApiKey(GOOGLE_API);
+    var scopes = 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email';
+    console.info("load");
+    window.setTimeout(checkAuth,1);
+}
+
+function checkAuth() {
+    var scopes = 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email';
+    gapi.auth.authorize({client_id: GOOGLE_API, scope: scopes, immediate: true}, handleGAuthResult);
+}
+
+function handleGAuthResult(authResult){
+    if (authResult && !authResult.error) {
+        loginByGoogle(authResult);
+    } else {
+        $('.js-google-login').each(function(){
+            this.onclick = clickOnGoogleLogin;
+        });
+    }
+}
+
+function clickOnGoogleLogin(event){
+    var scopes = 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email';
+    gapi.auth.authorize({client_id: GOOGLE_API, scope: scopes, immediate: false}, function(resp){loginByGoogle(resp)});
+    return false;
+}
+
+function loginByGoogle(authResult){
+    var request = gapi.client.request({
+        'path': '/oauth2/v1/userinfo',
+        'params': {'access_token': authResult.access_token,
+                    'token_type' : 'Bearer',
+                    'expires_in' :3600}
+    });
+    request.execute(function(resp) {
+        console.info(resp);//datos de google
+    });
 }
