@@ -1,1 +1,27 @@
 <a href="#"><?= $this-> pru ?></a>
+    
+<h1>Menu Editar Perfil</h1>
+    <form action="">
+        Mi nombre...<br>
+        <input type="text" name="full_name"><br>
+        Mi contraseña...<br>
+        <input type="text" name="password"><br>
+        Mi Ubicacion...<br>
+        <input type="text" name="city"><br>
+        Pais
+        <select name="contry">
+            <option>pais...</option>
+            <option></option>
+        </select>
+        Tipo de Moneda
+        <select name="id_currency">
+            <?php foreach ($this->currencys as $currency){?>
+                <option><?= $currency->name ?></option>
+            <?php }?>
+            
+        </select>
+        <br>
+        <input type="button" value="Guardar">
+        <input type="button" value="Borrar">
+            
+    </form>
