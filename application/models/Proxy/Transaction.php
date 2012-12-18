@@ -31,7 +31,11 @@ class Proxy_Transaction extends Contabilidad_Proxy
 
     }
     
-    public function retrieveTransactionByAccountId($accountid){
+    public function findById ($transactionId){
+        return $this->getTable()->fetchRow("id = '$transactionId'");
+    }
+
+    public function retrieveByAccountId($accountid){
         return $this->getTable()->fetchAll("id_account = '$accountid'");
     }
 }
