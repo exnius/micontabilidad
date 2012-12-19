@@ -35,12 +35,33 @@ class Proxy_User extends Contabilidad_Proxy
         $row->id_currency = 1;
         $row->nickname = $this->createNickname($params['name']);
         $row->creation_date = time();
+        $row->google_id = $params['id'];
+        if(isset($params['picture'])){
+            $row->picture_url = $params['picture'];
+        }
+        if (isset($params ['gender'])){
+            $row->gender = $params['gender'];
+        }
+        if (isset($params ['locale'])){
+            $row->locale = $params['locale'];
+        }
         $row->save();
         return $row;
     }
     
     public function addGoogleData($user, $params){
-        return;
+        $user->google_id = $params ['id'];
+        if (isset($params ['picture'])){
+                $user->picture_url = $params ['picture'];
+        }
+        if (isset($params ['gender'])){
+                $user->gender = $params ['gender'];
+        }
+        if (isset($params ['locale'])){
+                $user->locale = $params ['locale'];
+        }
+        $user->save();
+        return $user;
     }
 
 
@@ -81,8 +102,8 @@ class Proxy_User extends Contabilidad_Proxy
     }
     
     public function findByGoogleId ($id){
-        return null;
-//        return $this->getTable()->fetchRow("google_id = '$id'");
+       // return null;
+        return $this->getTable()->fetchRow("google_id = '$id'");
     }
 
     public function findByEmail($email){
