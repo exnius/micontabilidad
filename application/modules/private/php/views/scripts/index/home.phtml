@@ -1,7 +1,7 @@
 </br>
 <a href="#"><?= $this-> fullname ?><br><br></a>
 <?php
-foreach ($this->accounts as $account){?>
-    <br><a href="#"><?= $account->name ?> </a> <br>Id de cuenta: <?= $account->id?> <br>Balance: <?= $account->benefit?><br><br>
+    foreach ($this->accounts as $account){?>
+        <br><a href="<?= $this->createUrl("account", $account) ?>"><?= $account->name ?> </a> <br>Id de cuenta: <?= $account->id?> <br>Balance: <?= $account->benefit?><br><br>
 <?php }?>
 
