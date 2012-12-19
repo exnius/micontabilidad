@@ -26,9 +26,25 @@ class Proxy_User extends Contabilidad_Proxy
         }
         else
             Contabilidad_Exceptions::showException ('Este email ya existe');
-        }
+    }
     
-     public function checkEmail($email){
+    public function createGoogleUser($params){
+        $row = $this->createRow();
+        $row->full_name = $params['name'];
+        $row->email = $params['email'];
+        $row->id_currency = 1;
+        $row->nickname = $this->createNickname($params['name']);
+        $row->creation_date = time();
+        $row->save();
+        return $row;
+    }
+    
+    public function addGoogleData($user, $params){
+        return;
+    }
+
+
+    public function checkEmail($email){
         $mailCorrect = false;
         if ((strlen($email) >= 6) && (substr_count($email,"@") == 1) && (substr($email,0,1) != "@") && (substr($email,strlen($email)-1,1) != "@")){
           if ((!strstr($email,"'")) && (!strstr($email,"\"")) && (!strstr($email,"\\")) && (!strstr($email,"\$")) && (!strstr($email," "))) {
@@ -60,7 +76,11 @@ class Proxy_User extends Contabilidad_Proxy
     public function findById ($id){
         return $this->getTable()->fetchRow("id = '$id'");
     }
-
+    
+    public function findByGoogleId ($id){
+        return null;
+//        return $this->getTable()->fetchRow("google_id = '$id'");
+    }
 
     public function findByEmail($email){
         return $this->getTable()->fetchRow("email = '$email'");

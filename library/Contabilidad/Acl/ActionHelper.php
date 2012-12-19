@@ -54,7 +54,7 @@ class Contabilidad_Acl_ActionHelper extends Zend_Controller_Action_Helper_Abstra
         }
         if($view->isLogged) {
             if($module == "public" && $action != "logout" && $controller != "error" && $controller != "services"){
-                $helper->direct("index", "account", "private");
+                $helper->direct("home", "index", "private");
             }
         } else {
             if($module == "private"){

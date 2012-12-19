@@ -8,6 +8,7 @@ class Contabilidad_Services_Session extends Contabilidad_Services_Abstract {
     public function login($params){
         $resp = array("result" => "failure", "reason" => self::NOT_ALL_PARAMS);
         if($this->reviewParam('email', $params) && $this->reviewParam('password', $params)){
+            $params['password'] = self::encryptPassword($params['email'], $params['password']);
             if(Contabilidad_Auth::getInstance()->login($params)){
                 $resp["result"] = "success";
                 $resp["reason"] = "OK";
@@ -53,8 +54,23 @@ class Contabilidad_Services_Session extends Contabilidad_Services_Abstract {
         return $resp;
     }
     
-    public function loginByGoogle($params){
+    public function connectByGoogle($params){
+        $puser = Proxy_User::getInstance();
         
+        //1. first find by google id
+        $user = $puser->findByGoogleId($params['id']);
+        //2. if user not found, find by email
+        if(!$user){
+            $user = $puser->findByEmail($params['email']);
+        }
+        
+        if(!$user){//2.1 register if user not found
+            $user = $puser->createGoogleUser($params);
+        } else {
+            $puser->addGoogleData($user, $params);
+        }
+        //3. login
+        Contabilidad_Auth::getInstance()->loginByUser($user);
     }
 }
 
