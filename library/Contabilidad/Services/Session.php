@@ -62,13 +62,13 @@ class Contabilidad_Services_Session extends Contabilidad_Services_Abstract {
         //2. if user not found, find by email
         if(!$user){
             $user = $puser->findByEmail($params['email']);
+            if(!$user){//2.1 register if user not found
+                $user = $puser->createGoogleUser($params);
+            } else {
+                $puser->addGoogleData($user, $params);
+            }
         }
         
-        if(!$user){//2.1 register if user not found
-            $user = $puser->createGoogleUser($params);
-        } else {
-            $puser->addGoogleData($user, $params);
-        }
         //3. login
         Contabilidad_Auth::getInstance()->loginByUser($user);
     }
