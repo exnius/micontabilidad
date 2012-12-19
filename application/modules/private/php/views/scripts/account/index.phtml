@@ -1,1 +1,19 @@
-<a href="#"><?= $this-> pru ?></a>
+<br>
+<br>
+<center><strong><?= strtoupper($this->account->name) ?></strong><br>
+<strong>$<?= $this->account->benefit ?></strong></center>
+<br>
+<br
+<br>
+<?php foreach ($this->transactions as $transaction){?>
+        <a href="#"><?= $transaction->name?>:</a>  
+        <?php if ($transaction->date > time()){?>
+            @
+        <?php }
+        if ($transaction->id_transaction_type == 1){?>
+        Fecha: <?= Contabilidad_Utils_Dates::toDate($transaction->date)?>   $ +<?= $transaction->value?><br>
+            <?php }
+            else {?>
+                Fecha: <?= Contabilidad_Utils_Dates::toDate($transaction->date)?>   $ -<?= $transaction->value?><br>
+            <?php }
+    }?>
