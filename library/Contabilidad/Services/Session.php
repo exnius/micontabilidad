@@ -31,6 +31,7 @@ class Contabilidad_Services_Session extends Contabilidad_Services_Abstract {
                 $resp["reason"] = self::EMAIL_ALREADY_REGISTERED;
             } else {
                 $user = $puser->createNew($params);
+                $params['password'] = Contabilidad_Auth::encryptPassword($params['email'], $params['password']);
                 Contabilidad_Auth::getInstance()->login($params);
                 $resp["result"] = "success";
                 $resp["reason"] = "OK";
