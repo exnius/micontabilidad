@@ -8,7 +8,7 @@ class Contabilidad_Services_Session extends Contabilidad_Services_Abstract {
     public function login($params){
         $resp = array("result" => "failure", "reason" => self::NOT_ALL_PARAMS);
         if($this->reviewParam('email', $params) && $this->reviewParam('password', $params)){
-            $params['password'] = self::encryptPassword($params['email'], $params['password']);
+            $params['password'] = Contabilidad_Auth::encryptPassword($params['email'], $params['password']);
             if(Contabilidad_Auth::getInstance()->login($params)){
                 $resp["result"] = "success";
                 $resp["reason"] = "OK";
