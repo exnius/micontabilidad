@@ -7,14 +7,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
 	<link rel="shortcut icon" href="<?=BASE_URL?>/assets/layouts/img/favicon.png" />
 	
-    <script language="javascript">
-        var BASE_URL = "<?= BASE_URL; ?>";
-    </script>
-
-	<link rel="stylesheet" type="text/css" href="<?=BASE_URL?>/services/css"/>
-
-	<script src="<?=BASE_URL?>/services/js" language="javascript" type="text/javascript"></script>
-    <?= $this->headScript();?>
+    <?php echo $this->render('headLinks.phtml'); ?>
 	
 </head>
 

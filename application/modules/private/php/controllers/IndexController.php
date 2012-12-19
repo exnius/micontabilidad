@@ -12,7 +12,8 @@ class Private_IndexController extends Zend_Controller_Action
     {
       $user = Contabilidad_Auth::getInstance()->getUser();
       $this->view->accounts = Proxy_Account::getInstance()->retrieveByUserId($user->id);
-      $this->view->fullname = $user->full_name;
+      $this->view->currencys = Proxy_Currency::getInstance()->retrieveCurrencys();
+      $this->view->user = $user;
     }
 
 
