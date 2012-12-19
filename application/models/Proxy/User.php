@@ -64,13 +64,16 @@ class Proxy_User extends Contabilidad_Proxy
 
         if ($mailCorrect){
             $isEmail= $this->findByEmail($email);
-            if (!$isEmail)
-            return true;
-            else
-            return false;
+            if (!$isEmail){
+                return true;
+            } 
+               else{
+                    return false;
+               } 
         }    
-        else
-        return false;
+        else{
+            return false;
+        }   
         }               
     
     public function findById ($id){
