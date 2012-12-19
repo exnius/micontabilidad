@@ -12,27 +12,16 @@ function OnLoadGApiCallback(){
 }
 
 function checkAuth() {
-//    var scopes = 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email';
-//    gapi.auth.authorize({client_id: GOOGLE_API, scope: scopes, immediate: true}, handleGAuthResult);
     $('.js-google-login').each(function(){
         this.onclick = clickOnGoogleLogin;
     });
 }
 
-//function handleGAuthResult(authResult){
-//    if (authResult && !authResult.error) {
-//        getGoogleUserInfo(authResult);
-//    }
-//}
-
 function clickOnGoogleLogin(event){
-//    if(!$("body").data("googleData")){
-        var scopes = 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email';
-        gapi.auth.authorize({client_id: GOOGLE_API, scope: scopes, immediate: false}, function(resp){
-            getGoogleUserInfo(resp);
-//            loginByGoogle($("body").data("googleData"));
-        });
-//    }
+    var scopes = 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email';
+    gapi.auth.authorize({client_id: GOOGLE_API, scope: scopes, immediate: false}, function(resp){
+        getGoogleUserInfo(resp);
+    });
     return false;
 }
 
@@ -45,7 +34,6 @@ function getGoogleUserInfo(authResult){
                         'expires_in' :3600}
         });
         request.execute(function(resp) {
-//            $("body").data("googleData", resp);
             loginByGoogle(resp);
         });
     }
