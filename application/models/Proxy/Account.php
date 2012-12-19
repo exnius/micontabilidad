@@ -33,5 +33,17 @@ class Proxy_Account extends Contabilidad_Proxy
     public function retrieveByUserId($userId){
         return $this->getTable()->fetchAll("id_user = '$userId'");
     }
+    
+    
+    /*
+     * Create URL from VO_Account
+     * 
+     * @return string
+     * @params VO_Account
+     */
+    public static function getUrl_ ($account){
+        $url = BASE_URL . "/private/account/index?id=" . $account->id;
+        return $url;
+    }
 }
 ?>

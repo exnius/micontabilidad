@@ -3,12 +3,10 @@
 class Private_AccountController extends Zend_Controller_Action
 {
     public function indexAction(){
-        $this->view->pru="all";
+        
     }
     
     public function findAction(){
-        
-        
         $this->view->pru="find";
     }
     
