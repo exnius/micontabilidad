@@ -1,0 +1,21 @@
+<form action="" method="POST">
+    <h1><?=$this->tr("Crear Balance")?></h1>
+    <p><?=$this->tr("Nombre del Balance")?></p>
+    <input type="text" name="name" class="">
+    <h3><?=$this->tr("Periodo del Balance")?></h3>
+    <p><?=$this->tr("Fecha de Inicio")?></p>
+    <input type="text" name="date_ini" class="date">
+    <p><?=$this->tr("Fecha de Finalizacion")?></p>
+    <input type="text" name="date_end" class="date">
+    <p><?=$this->tr("Tipo de moneda")?></p>
+    <select name="id_currency">
+        <?php foreach ($this->currencys as $currency){?>
+            <?php if($currency->id == $this->user->id_currency){?>
+                <option value="<?= $currency->id?>" selected=""><?= $currency->name ?></option>
+            <?php } else {?>
+                <option value="<?= $currency->id?>"><?= $currency->name ?></option>
+            <?php }?>
+        <?php }?>
+    </select>
+    <input type="submit" value="Login" />  
+ </form>
