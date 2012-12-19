@@ -22,14 +22,18 @@ class Contabilidad_Auth {
         
             $authAdapter = Zend_Registry::get('authAdapter');
             $authAdapter->setIdentity($params['email']);
-            $encryptedPass = self::encryptPassword($params['email'], $params['password']);
-            $authAdapter->setCredential($encryptedPass);
+            $authAdapter->setCredential($params['password']);
 
             $result = $this->_auth->authenticate($authAdapter);
             $isValid = $result->isValid();
             return $isValid;
         }
         return true;
+    }
+    
+    public function loginByUser($user){
+        $this->_auth->getStorage()->write($user->email);
+        $this->_user = $user;
     }
     
     public function logout(){

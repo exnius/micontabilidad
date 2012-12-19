@@ -2,6 +2,7 @@ const USER_NOT_FOUND = "wrong authentication";
 const EMAIL_ALREADY_REGISTERED = "email already registered";
 
 $(document).ready(function(){
+    
     //LOGIN FANCYBOX
     $(".js-fancy-login").click(function(){
         var nAddFrag = document.createDocumentFragment();
@@ -19,12 +20,7 @@ $(document).ready(function(){
                 this.form = document.getElementById("login-form");
             },
             'onClosed' : function(){
-                Contabilidad.Validate.clean($(this.form));
-                $(this.form).find("input[type='text'], #login-form input[type='password']").val('');
-                $(this.form).find(".response").html("");
-                var nAddFrag = document.createDocumentFragment();
-                nAddFrag.appendChild(this.form);
-                $("body").append(nAddFrag);
+                onClose(this.form);
             },
             'onComplete' : function(){
                 onLoginComplete($div);
@@ -52,15 +48,7 @@ $(document).ready(function(){
                 this.form = document.getElementById("register-form");
             },
             'onClosed' : function(){
-                Contabilidad.Validate.clean($(this.form));
-                $(this.form).find("input[type='text'], input[type='password']").val('');
-                $(this.form).find(".response").html("")
-                .removeClass("*")
-                .addClass("response")
-                .html("");;
-                var nAddFrag = document.createDocumentFragment();
-                nAddFrag.appendChild(this.form);
-                $("body").append(nAddFrag);
+                onClose(this.form);
             }
         });
         
@@ -161,15 +149,7 @@ function onLoginComplete ($div){
                 this.form = document.getElementById("recover-password-form");
             },
             'onClosed' : function(){
-                Contabilidad.Validate.clean($(this.form));
-                $(this.form).find("input[type='text'], input[type='password']").val('');
-                $(this.form).find(".response").html("")
-                .removeClass("*")
-                .addClass("response")
-                .html("");;
-                var nAddFrag = document.createDocumentFragment();
-                nAddFrag.appendChild(this.form);
-                $("body").append(nAddFrag);
+                onClose(this.form);
             }
         });
     });
@@ -212,6 +192,23 @@ function onRecoverStart($div){
         }
         return false;
     });
+}
+
+/*************************************
+ **********ALL FORMS METHODS***********
+ *************************************/
+
+function onClose(form){
+    Contabilidad.Validate.clean($(form));
+    $(form).hide();
+    $(form).find("input[type='text'], input[type='password']").val('');
+    $(form).find(".response").html("")
+    .removeClass("*")
+    .addClass("response")
+    .html("");;
+    var nAddFrag = document.createDocumentFragment();
+    nAddFrag.appendChild(form);
+    $("body").append(nAddFrag);
 }
 
 /*************************************

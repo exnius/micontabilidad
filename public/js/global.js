@@ -1,6 +1,4 @@
 var Contabilidad = {
-//    endAsyncPoint : function(options){
-//    },
     getEndPoint : function(options){
         if(options && options.async){
             if(!this.endAsyncPoint){
@@ -24,7 +22,3 @@ var Contabilidad = {
 Contabilidad.tr = function(string){
     return string;
 }
-
-$(document).ready(function(){
-    
-});
