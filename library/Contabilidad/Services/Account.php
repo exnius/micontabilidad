@@ -12,7 +12,9 @@ class Contabilidad_Services_Account extends Contabilidad_Services_Abstract {
            && $this->reviewParam('id_currency', $params)){
            if (Contabilidad_Auth::getInstance()->getUser()){
                $user = Contabilidad_Auth::getInstance()->getUser();
-               Proxy_Account::getInstance()->createNew($user, $params);
+               $account = Proxy_Account::getInstance()->createNew($user, $params);
+               $serialized = array('id'=>$account->id , 'name' =>$account->name , 'benefit'=>$account->benefit);
+               $resp["account"] = $serialized;
                $resp["result"] = "success";
                $resp["reason"] = "OK";
            }  else {

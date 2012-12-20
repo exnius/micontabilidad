@@ -25,6 +25,7 @@ class Proxy_Account extends Contabilidad_Proxy
         $row->id_currency = $params['id_currency'];
         $row->creation_date = time();
         $row->save();
+        return $row;
     }
 
     public function findById ($accountId){
