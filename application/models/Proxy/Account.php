@@ -22,7 +22,8 @@ class Proxy_Account extends Contabilidad_Proxy
         $row->date_end = $params['date_end'];
         $row->benefit = '0';
         $row->id_view_type = '1';
-        $row->id_currency = '1';
+        $row->id_currency = $params['id_currency'];
+        $row->creation_date = time();
         $row->save();
     }
 

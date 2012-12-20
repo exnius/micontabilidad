@@ -14,12 +14,7 @@ class Private_AccountController extends Zend_Controller_Action
     }
     
     public function removeAction(){
-        $this-> view->pru="remove";
-        $prus = Proxy_Account::getInstance()->retrieveByUserId("2");
-        foreach ($prus as $pru){
-            var_dump($pru->name);
-            var_dump($pru->id);
-        }
+        
     }
     
     public function editAction(){
