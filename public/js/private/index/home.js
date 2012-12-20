@@ -52,39 +52,48 @@ function onCreateAccountStart($div){
     
     $div.find("input[name='name']").val(accountName);
 //    console.info($div.find("input[name='name']"));
-//    $div.find("#create-account-form input").each(function(){
-//        setInputRule($(this));
-//    });
+    $div.find("#create-account-form input").each(function(){
+        setInputRule($(this));
+    });
     
     //CREATE ACCOUNT SUBMIT
     $div.find("form").submit(function(){
-//        if(Contabilidad.Validate.isValid($(this))){
+        var date_ini = $div.find("input[name='date_ini']").datepicker("getDate").getTime()/1000;
+        var date_end = $div.find("input[name='date_end']").datepicker("getDate").getTime()/1000;
+        if(Contabilidad.Validate.isValid($(this)) && date_end >= date_ini){
             var data = {};
-            $(this).find("input").each(function(){
+            $(this).find("input,select").each(function(){
                 data[$(this).attr("name")] = $(this).val();
             });
-            console.info(data);
-            $.fancybox.close();
-//            var resp = Contabilidad.getEndPoint({async : true, success: function(resp){
-//                if(resp.result == "success"){
-//                    document.location.href = Contabilidad.private_home;
-//                } else if(resp.result == "failure") {
-//                    if(resp.reason == USER_NOT_FOUND){
-//                        $div.find(".response")
-//                        .addClass("error")
-//                        .html(Contabilidad.tr("correo o contraseña incorrectos"));
-//                    }
-//                }
-//            }}).login(data);
-//        } else {
-//            findAndDisplayErrors($div.find("#create-account-form"));
-//        }
+            Contabilidad.getEndPoint({async : true, success: function(resp){
+                $.fancybox.close();
+            }}).createAccount(data);
+        } else {
+            if(date_end < date_ini) {
+                $div.find("input[name='date_end']").addClass("input-error")
+                .data("errors",[{message : Contabilidad.tr("La fecha final debe ser posterior a la fecha inicial.")}]);
+            }
+            findAndDisplayErrors($div.find("#create-account-form"));
+        }
         return false;
     });
 }
 
 function onCreateAccountComplete ($div){
-    $div.find(".date").datepicker();
+    
+    var currentDate = new Date(parseInt($div.find(".js-time").html())*1000);
+    var monthLater = new Date((parseInt($div.find(".js-time").html())  + 60*60*24*30 )*1000);
+//    currentDate.getTime()
+    //date ini
+    $div.find("input[name='date_ini']")
+    .val(currentDate.getDate() + "/" + (currentDate.getMonth() + 1) + "/" + currentDate.getFullYear())
+    .datepicker({defaultDate: currentDate});
+    //end date
+    $div.find("input[name='date_end']")
+    .val(monthLater.getDate() + "/" + (monthLater.getMonth() + 1) + "/" + monthLater.getFullYear())
+    .datepicker({defaultDate: monthLater});
+    
+    //select name
     $div.find("input[name='name']").select();
 }
 
