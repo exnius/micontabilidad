@@ -41,11 +41,11 @@ function onCreateAccountStart($div){
     if(!$("body").data("account-names")){
         var accountNames = [];
         $(".js-account-name").each(function(){
-            accountNames.push($(this).html());
+            accountNames.push($(this).html().toLowerCase());
         });
         $("body").data("account-names", accountNames);
     }
-    while($.inArray(accountName, $("body").data("account-names")) >= 0){
+    while($.inArray(accountName.toLowerCase(), $("body").data("account-names")) >= 0){
         defaultNumber++;
         accountName = defaultName + defaultNumber;
     }
@@ -65,7 +65,10 @@ function onCreateAccountStart($div){
             $(this).find("input,select").each(function(){
                 data[$(this).attr("name")] = $(this).val();
             });
+            data.date_ini = date_ini;
+            data.date_end = date_end;
             Contabilidad.getEndPoint({async : true, success: function(resp){
+                
                 $.fancybox.close();
             }}).createAccount(data);
         } else {
