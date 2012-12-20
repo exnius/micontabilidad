@@ -11,6 +11,7 @@ new Initializer('production');
 // Instantiate server, etc.
 $server = new Zend_Json_Server();
 $server->setClass('Contabilidad_Services_Session');
+$server->setClass('Contabilidad_Services_Account');
 
 if ('GET' == $_SERVER['REQUEST_METHOD']) {
     // Indicate the URL endpoint, and the JSON-RPC version used:

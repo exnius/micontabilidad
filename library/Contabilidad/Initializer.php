@@ -91,7 +91,7 @@ class Initializer extends Zend_Controller_Plugin_Abstract
     protected function _setEnv ($env)
     {
         $this->_env = $env;
-        date_default_timezone_set('Europe/Paris');
+        date_default_timezone_set('America/New_York');
     }
 
     /**
