@@ -68,7 +68,11 @@ function onCreateAccountStart($div){
             data.date_ini = date_ini;
             data.date_end = date_end;
             Contabilidad.getEndPoint({async : true, success: function(resp){
-                
+//                resp.account = {id:1, "accountUrl" : "http://www.google.com",
+//                                "name" : "buenas",
+//                                "benefit" : 123456};
+                var output = Mustache.render($("#account-row-tpl").html(), resp.account);
+                $("#accounts-container").prepend(output);
                 $.fancybox.close();
             }}).createAccount(data);
         } else {

@@ -1,10 +1,21 @@
 <a href="#"><?= $this->user->full_name ?></a></br>
 <a id="js-fancy-crear-contabilidad" href="#"><?= $this->tr("Crear contabilidad")?></a></br>
 
-<?php
-    foreach ($this->accounts as $account){?>
-<br><a href="<?= $this->createUrl("account", $account) ?>"><span class="js-account-name"><?= $account->name ?></span> </a> <br>Id de cuenta: <?= $account->id?> <br>Balance: <?= $account->benefit?><br><br>
-<?php }?>
+<div id="accounts-container">
+    <?php foreach ($this->accounts as $account){
+        $m = new Mustache_Engine;
+    ?>
+        <?= $m->render($this->render("mustache/account-row.phtml"), array(
+            "id" => $account->id,
+            "accountUrl" => $this->createUrl("account", $account),
+            "name" => $account->name,
+            "benefit" => $account->benefit
+        ));?>
+    <?php }?>
+</div>
+<div id="account-row-tpl" class="template" style="display: none;">
+    <?= $this->render("mustache/account-row.phtml") ?>
+</div>
 
 <div id="create-account-form" style="display: none;">
     <?php echo $this->render('partials/createAccountForm.phtml'); ?>
