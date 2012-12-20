@@ -12,7 +12,7 @@ class Contabilidad_Services_Account extends Contabilidad_Services_Abstract {
            if (Contabilidad_Auth::getInstance()->getUser()){
                $user = Contabilidad_Auth::getInstance()->getUser();
                Proxy_Account::getInstance()->createNew($user, $params);
-               $resp["failure"] = "success";
+               $resp["result"] = "success";
                $resp["reason"] = "OK";
            }  else {
                $resp["reason"] = self::NOT_AUTHENTICATED;
