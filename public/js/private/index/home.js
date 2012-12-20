@@ -35,7 +35,23 @@ $(document).ready(function(){
 
 function onCreateAccountStart($div){
     $div.find("#create-account-form").show();
+    var defaultName = Contabilidad.tr("Balance ");
+    var defaultNumber = 1;
+    var accountName = defaultName + defaultNumber;
+    if(!$("body").data("account-names")){
+        var accountNames = [];
+        $(".js-account-name").each(function(){
+            accountNames.push($(this).html());
+        });
+        $("body").data("account-names", accountNames);
+    }
+    while($.inArray(accountName, $("body").data("account-names")) >= 0){
+        defaultNumber++;
+        accountName = defaultName + defaultNumber;
+    }
     
+    $div.find("input[name='name']").val(accountName);
+//    console.info($div.find("input[name='name']"));
 //    $div.find("#create-account-form input").each(function(){
 //        setInputRule($(this));
 //    });
@@ -68,8 +84,8 @@ function onCreateAccountStart($div){
 }
 
 function onCreateAccountComplete ($div){
-    console.info($div.find(".date"));
     $div.find(".date").datepicker();
+    $div.find("input[name='name']").select();
 }
 
 /*************************************

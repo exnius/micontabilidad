@@ -3,7 +3,7 @@
 
 <?php
     foreach ($this->accounts as $account){?>
-        <br><a href="<?= $this->createUrl("account", $account) ?>"><?= $account->name ?> </a> <br>Id de cuenta: <?= $account->id?> <br>Balance: <?= $account->benefit?><br><br>
+<br><a href="<?= $this->createUrl("account", $account) ?>"><span class="js-account-name"><?= $account->name ?></span> </a> <br>Id de cuenta: <?= $account->id?> <br>Balance: <?= $account->benefit?><br><br>
 <?php }?>
 
 <div id="create-account-form" style="display: none;">
