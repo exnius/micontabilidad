@@ -27,6 +27,28 @@ $(document).ready(function(){
         });
         return false;
     });
+    
+    $("body").click(function(event){
+        if($(event.target).hasClass("delete-account")){
+            var output = Mustache.render($("#delete-popup-tpl").html(), 
+                        {message: Contabilidad.tr("¿Realmente quieres eliminar este balance?")});
+            $.fancybox({
+                'content' : output,
+                'onComplete' : function(){
+                    $("#delete-popup input[type='button']").click(function(){
+                        if($(this).attr("id") == "yes"){
+                            var $el = $(event.target).parent(".account-container");
+                            $el.remove();
+                            Contabilidad.getEndPoint({async : true, success: function(resp){
+                            }}).deleteAccount($el.attr("data-id"));
+                        }
+                        $.fancybox.close();
+                    });
+                }
+            });
+            return false;
+        }
+    });
 });
 
 /*************************************
@@ -35,23 +57,6 @@ $(document).ready(function(){
 
 function onCreateAccountStart($div){
     $div.find("#create-account-form").show();
-    var defaultName = Contabilidad.tr("Balance ");
-    var defaultNumber = 1;
-    var accountName = defaultName + defaultNumber;
-    if(!$("body").data("account-names")){
-        var accountNames = [];
-        $(".js-account-name").each(function(){
-            accountNames.push($(this).html().toLowerCase());
-        });
-        $("body").data("account-names", accountNames);
-    }
-    while($.inArray(accountName.toLowerCase(), $("body").data("account-names")) >= 0){
-        defaultNumber++;
-        accountName = defaultName + defaultNumber;
-    }
-    
-    $div.find("input[name='name']").val(accountName);
-//    console.info($div.find("input[name='name']"));
     $div.find("#create-account-form input").each(function(){
         setInputRule($(this));
     });
@@ -68,9 +73,7 @@ function onCreateAccountStart($div){
             data.date_ini = date_ini;
             data.date_end = date_end;
             Contabilidad.getEndPoint({async : true, success: function(resp){
-//                resp.account = {id:1, "accountUrl" : "http://www.google.com",
-//                                "name" : "buenas",
-//                                "benefit" : 123456};
+                $("body").data("account-names").push(resp.account.name.toLowerCase());
                 var output = Mustache.render($("#account-row-tpl").html(), resp.account);
                 $("#accounts-container").prepend(output);
                 $.fancybox.close();
@@ -88,9 +91,24 @@ function onCreateAccountStart($div){
 
 function onCreateAccountComplete ($div){
     
+    var defaultName = Contabilidad.tr("Balance ");
+    var defaultNumber = 1;
+    var accountName = defaultName + defaultNumber;
+    if(!$("body").data("account-names")){
+        var accountNames = [];
+        $(".js-account-name").each(function(){
+            accountNames.push($(this).html().toLowerCase());
+        });
+        $("body").data("account-names", accountNames);
+    }
+    while($.inArray(accountName.toLowerCase(), $("body").data("account-names")) >= 0){
+        defaultNumber++;
+        accountName = defaultName + defaultNumber;
+    }
+    $div.find("input[name='name']").val(accountName);
+    
     var currentDate = new Date(parseInt($div.find(".js-time").html())*1000);
     var monthLater = new Date((parseInt($div.find(".js-time").html())  + 60*60*24*30 )*1000);
-//    currentDate.getTime()
     //date ini
     $div.find("input[name='date_ini']")
     .val(currentDate.getDate() + "/" + (currentDate.getMonth() + 1) + "/" + currentDate.getFullYear())

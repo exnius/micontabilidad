@@ -1,7 +1,5 @@
 <div id="account-{{ id }}" class="account-container" data-id="{{ id }}">
     <a href="{{ accountUrl }}">
         <span class="js-account-name">{{ name }}</span>
-    </a>
-    </br>
-    {{ benefit }}
+    </a> - {{ benefit }} - <a href="#" class="delete-account"><?= $this->tr("eliminar")?></a>
 </div>
