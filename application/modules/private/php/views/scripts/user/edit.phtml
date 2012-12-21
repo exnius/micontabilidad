@@ -2,7 +2,15 @@
     
 <h1>Menu Editar Perfil</h1>
     
+
+<form action="http://micontabilidad.com/private/user/uploadpicture" method="post" enctype="multipart/form-data"> 
+    Archivo: <input name="fichero" type="file"> 
+    <input name="submit" type="submit" value="Upload!">  
+</form>
     <form action="  ">
+       
+        <br>
+        
         Mi nombre...<br>
         <input value="<?= $this->user->full_name?>" type="text" name="full_name"><br>
         Mi Ubicacion...<br>
