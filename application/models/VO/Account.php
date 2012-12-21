@@ -17,7 +17,7 @@ class VO_Account extends Zend_Db_Table_Row {
     }
     
     public function delete() {
-        $transactions = Proxy_Transaction::getInstance()->retrieveByAccountId($this->id, '');
+        $transactions = Proxy_Transaction::getInstance()->retrieveByAccountId($this->id);
         foreach ($transactions as $transaction){
             $transaction->delete();
         }

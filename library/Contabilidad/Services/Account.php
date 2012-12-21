@@ -14,6 +14,7 @@ class Contabilidad_Services_Account extends Contabilidad_Services_Abstract {
                $user = Contabilidad_Auth::getInstance()->getUser();
                $account = Proxy_Account::getInstance()->createNew($user, $params);
                $serialized = array('id'=>$account->id , 'name' =>$account->name , 'benefit'=>$account->benefit);
+               $resp["url"] = Proxy_Account::getUrl_($account);
                $resp["account"] = $serialized;
                $resp["result"] = "success";
                $resp["reason"] = "OK";
@@ -27,8 +28,8 @@ class Contabilidad_Services_Account extends Contabilidad_Services_Abstract {
     public function deleteAccount ($id){
         
         $resp = array("result" => "failure", "reason" => self::UNSELECTED_ACCOUNT);
-        $account = Proxy_Account::getInstance()->findById($id);
         if ($id){
+        $account = Proxy_Account::getInstance()->findById($id);
             if ($account->id_user == Contabilidad_Auth::getInstance()->getUser()->id){
                 $account->delete();
                 $resp["result"] = "success";

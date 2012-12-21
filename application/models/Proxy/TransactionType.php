@@ -14,5 +14,9 @@ class Proxy_TransactionType extends Contabilidad_Proxy
         }
         return (self::$_instance);
     }
+    
+    public function findById ($id){
+        return $this->getTable()->fetchRow("id = '$id'");
+    }
 }
 ?>

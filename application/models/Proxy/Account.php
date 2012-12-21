@@ -32,8 +32,8 @@ class Proxy_Account extends Contabilidad_Proxy
         return $this->getTable()->fetchRow("id = '$accountId'");
     }
 
-    public function retrieveByUserId($userId){
-        return $this->getTable()->fetchAll("id_user = '$userId'");
+    public function retrieveByUserId($userId , $order="id DESC"){
+        return $this->getTable()->fetchAll("id_user = '$userId'", $order);
     }
     
     
