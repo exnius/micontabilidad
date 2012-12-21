@@ -13,8 +13,7 @@ class Contabilidad_Services_Account extends Contabilidad_Services_Abstract {
            if (Contabilidad_Auth::getInstance()->getUser()){
                $user = Contabilidad_Auth::getInstance()->getUser();
                $account = Proxy_Account::getInstance()->createNew($user, $params);
-               $serialized = array('id'=>$account->id , 'name' =>$account->name , 'benefit'=>$account->benefit);
-               $resp["url"] = Proxy_Account::getUrl_($account);
+               $serialized = Proxy_Account::getInstance()->serializer($account);
                $resp["account"] = $serialized;
                $resp["result"] = "success";
                $resp["reason"] = "OK";

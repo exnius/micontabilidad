@@ -47,5 +47,9 @@ class Proxy_Account extends Contabilidad_Proxy
         $url = BASE_URL . "/private/account/index?id=" . $account->id;
         return $url;
     }
+    
+    public function serializer ($account){
+        return $serialized = array('id'=>$account->id , 'name' =>$account->name , 'benefit'=>$account->benefit , 'accountUrl' => Proxy_Account::getUrl_($account));
+    }
 }
 ?>

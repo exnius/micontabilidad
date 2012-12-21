@@ -38,4 +38,13 @@ class Proxy_Transaction extends Contabilidad_Proxy
     public function retrieveByAccountId($accountid, $order = "date DESC"){
         return $this->getTable()->fetchAll("id_account = '$accountid'", $order);
     }
+    
+    public function serializer ($transaction){
+        return $serialized = array("id" => $transaction->id, 
+            "transactionUrl" => $this->createUrl("transaction", $transaction),
+            "name" => $transaction->name,"timestampDate" => $transaction->date,
+            "date" => Contabilidad_Utils_Dates::toDate($transaction->date),"value" => $transaction->value,
+            "dateClass" => $transaction->date > time() ? "@" : "",
+            "transactionType" => $transaction->id_transaction_type == 1 ? "income" : "expense");
+    }
 }
