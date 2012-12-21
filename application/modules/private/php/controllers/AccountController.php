@@ -6,7 +6,7 @@ class Private_AccountController extends Zend_Controller_Action
         $request = $this->getRequest();
         $accountId = $request->getParam('id');
         $this->view->account = Proxy_Account::getInstance()->findById($accountId);
-        $transactions = Proxy_Transaction::getInstance()->retrieveByAccountId($accountId,'date DESC');
+        $transactions = Proxy_Transaction::getInstance()->retrieveByAccountId($accountId);
         $this->view->transactions = $transactions;
         $this->view->count = count($transactions);
     }
@@ -16,7 +16,8 @@ class Private_AccountController extends Zend_Controller_Action
     }
     
     public function removeAction(){
-        
+        $resp = (Contabilidad_Services_Transaction::deleteTransaction('9'));
+        var_dump($resp);
     }
     
     public function editAction(){
@@ -27,8 +28,7 @@ class Private_AccountController extends Zend_Controller_Action
     }
     
     public function addAction(){
-        $account = Proxy_Account::getInstance()->findById('1');
-        $this->view->pru=$account->calculateBenefit();    
+        
     }
 }
 

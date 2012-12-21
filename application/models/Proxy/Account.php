@@ -32,8 +32,8 @@ class Proxy_Account extends Contabilidad_Proxy
         return $this->getTable()->fetchRow("id = '$accountId'");
     }
 
-    public function retrieveByUserId($userId){
-        return $this->getTable()->fetchAll("id_user = '$userId'");
+    public function retrieveByUserId($userId , $order="id DESC"){
+        return $this->getTable()->fetchAll("id_user = '$userId'", $order);
     }
     
     
@@ -46,6 +46,10 @@ class Proxy_Account extends Contabilidad_Proxy
     public static function getUrl_ ($account){
         $url = BASE_URL . "/private/account/index?id=" . $account->id;
         return $url;
+    }
+    
+    public function serializer ($account){
+        return $serialized = array('id'=>$account->id , 'name' =>$account->name , 'benefit'=>$account->benefit , 'accountUrl' => Proxy_Account::getUrl_($account));
     }
 }
 ?>
