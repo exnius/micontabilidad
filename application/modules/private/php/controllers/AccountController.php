@@ -6,7 +6,9 @@ class Private_AccountController extends Zend_Controller_Action
         $request = $this->getRequest();
         $accountId = $request->getParam('id');
         $this->view->account = Proxy_Account::getInstance()->findById($accountId);
-        $this->view->transactions = Proxy_Transaction::getInstance()->retrieveByAccountId($accountId,'date DESC');
+        $transactions = Proxy_Transaction::getInstance()->retrieveByAccountId($accountId,'date DESC');
+        $this->view->transactions = $transactions;
+        $this->view->count = count($transactions);
     }
     
     public function findAction(){
@@ -14,12 +16,7 @@ class Private_AccountController extends Zend_Controller_Action
     }
     
     public function removeAction(){
-        $this-> view->pru="remove";
-        $prus = Proxy_Account::getInstance()->retrieveByUserId("2");
-        foreach ($prus as $pru){
-            var_dump($pru->name);
-            var_dump($pru->id);
-        }
+        
     }
     
     public function editAction(){

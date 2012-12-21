@@ -1,7 +1,8 @@
 <br>
 <br>
 <center><strong><?= strtoupper($this->account->name) ?></strong><br>
-<strong>$<?= $this->account->benefit ?></strong></center>
+<strong>$<?= $this->account->benefit ?></strong><br>
+<?=$this->count?> transacciones</center>
 <br>
 <br
 <br>
@@ -16,4 +17,4 @@
             else {?>
                 Fecha: <?= Contabilidad_Utils_Dates::toDate($transaction->date)?>   $ -<?= $transaction->value?><br>
             <?php }
-    }?>
+}?>

@@ -15,5 +15,13 @@ class VO_Account extends Zend_Db_Table_Row {
         $benefit = $entry - $egress;
         return $benefit;
     }
+    
+    public function delete() {
+        $transactions = Proxy_Transaction::getInstance()->retrieveByAccountId($this->id, '');
+        foreach ($transactions as $transaction){
+            $transaction->delete();
+        }
+        return parent::delete();
+    }
 }
 ?>
