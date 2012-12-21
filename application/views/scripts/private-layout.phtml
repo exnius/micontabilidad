@@ -16,6 +16,10 @@
     <?php $logout = array("action" => "logout", "controller" => "session", "module" => "public"); ?>
     <a href="<?= $this->url($logout)?>">Logout</a>
     <?= $this->layout()->content; ?>
+    
+    <div id="delete-popup-tpl" class="template" style="display: none;">
+        <?= $this->render("mustache/delete.phtml") ?>
+    </div>
 
 </body>
 </html>
