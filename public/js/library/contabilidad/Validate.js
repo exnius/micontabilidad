@@ -69,6 +69,12 @@ Contabilidad.Validate =
                     errors.push({error: "accept", message: this.getMessage($el, rule)});
                 };
                 break;
+            case "money":
+                var regex = /^(\d+[.,\d+]*)$/;
+                if(!regex.test(value)) {
+                    errors.push({error: "money", message: this.getMessage($el, rule)});
+                };
+                break;
         }
         $el.data("errors", errors);
         return false;
@@ -83,7 +89,8 @@ Contabilidad.Validate =
             "email" : Contabilidad.tr('Escribe un email valido.'),
             "equalsTo" : Contabilidad.tr('Digita el mismo valor.'),
             "password" : Contabilidad.tr('Digita al menos 6 caracteres.'),
-            "accept" : Contabilidad.tr('Please enter a value with a valid extension.')
+            "accept" : Contabilidad.tr('Please enter a value with a valid extension.'),
+            "money" : Contabilidad.tr('Digita solo valores.')
         }
         if(messages[rule]){
             msg = messages[rule];

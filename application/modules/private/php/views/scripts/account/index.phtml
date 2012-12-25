@@ -6,15 +6,32 @@
 <br>
 <br
 <br>
-<?php foreach ($this->transactions as $transaction){?>
-        <a href="#"><?= $transaction->name?>:</a>  
-        <?php if ($transaction->date > time()){?>
-            @
-        <?php }
-        if ($transaction->id_transaction_type == 1){?>
-        Fecha: <?= Contabilidad_Utils_Dates::toDate($transaction->date)?>   $ +<?= $transaction->value?><br>
-            <?php }
-            else {?>
-                Fecha: <?= Contabilidad_Utils_Dates::toDate($transaction->date)?>   $ -<?= $transaction->value?><br>
-            <?php }
-}?>
+<a href="#" id="add-incomes">Adicionar ingresos</a>
+<br>
+<a href="#" id="add-expenses">Adicionar egresos</a>
+<div id="transactions-container">
+    <?php foreach ($this->transactions as $transaction){
+        $m = new Mustache_Engine;
+    ?>
+        <?= $m->render($this->render("mustache/transaction-row.phtml"), array(
+            "id" => $transaction->id,
+            "transactionUrl" => $this->createUrl("transaction", $transaction),
+            "name" => $transaction->name,
+            "timestampDate" => $transaction->date,
+            "date" => Contabilidad_Utils_Dates::toDate($transaction->date),
+            "value" => $transaction->value,
+            "dateClass" => $transaction->date > time() ? "@" : "",
+            "transactionType" => $transaction->id_transaction_type == 1 ? "income" : "expense"
+        ));?>
+    <?php }?>
+</div>
+
+<div id="transaction-row-tpl" class="template" style="display: none;">
+    <?= $this->render("mustache/transaction-row.phtml") ?>
+</div>
+
+<div id="create-transaction-form" style="display: none;">
+    <?php echo $this->render('partials/createMiniTransactionForm.phtml'); ?>
+    <span class="js-time" style="display: none;"><?= time() ?></span>
+    <div class="response"></div>
+</div>
