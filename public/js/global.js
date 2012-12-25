@@ -15,6 +15,9 @@ var Contabilidad = {
             return this.endPoint;
         }
     },
+    getURLParameter : function (name) {
+        return decodeURI((RegExp("[\\?&#]" + name + '=' + '(.+?)(&|$)').exec(window.location)||[,null])[1]);
+    },
     private_home : BASE_URL + "/private/index/home"
 };
 

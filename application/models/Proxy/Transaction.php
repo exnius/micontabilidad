@@ -19,7 +19,7 @@ class Proxy_Transaction extends Contabilidad_Proxy
         $row = $this->createRow();
         $row->name = $params['name'];
         $row->value = $params['value'];
-        $row->date = $params['date'];
+        $row->date = isset($params['date']) ? $params['date'] : time();
         $row->comment = isset($params['comment']) ? $params['comment'] : "";
         $row->is_frequent = isset($params['is_frequent']) ? $params['is_frequent'] : 0;
         $row->frequency_days = isset($params['frequency_days']) ? $params['frequency_days'] : 0;
@@ -41,7 +41,7 @@ class Proxy_Transaction extends Contabilidad_Proxy
     
     public function serializer ($transaction){
         return $serialized = array("id" => $transaction->id, 
-            "transactionUrl" => $this->createUrl("transaction", $transaction),
+            "transactionUrl" => "http://www.google.com",//$this->createUrl("transaction", $transaction),
             "name" => $transaction->name,"timestampDate" => $transaction->date,
             "date" => Contabilidad_Utils_Dates::toDate($transaction->date),"value" => $transaction->value,
             "dateClass" => $transaction->date > time() ? "@" : "",

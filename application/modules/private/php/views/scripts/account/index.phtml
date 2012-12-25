@@ -6,9 +6,9 @@
 <br>
 <br
 <br>
-<a href="#" id="add-incomes">Adicionar ingresos</a>
+<a href="#" id="add-income" class="add-transaction" onclick="return false;">Adicionar ingresos</a>
 <br>
-<a href="#" id="add-expenses">Adicionar egresos</a>
+<a href="#" id="add-expense" class="add-transaction" onclick="return false;">Adicionar egresos</a>
 <div id="transactions-container">
     <?php foreach ($this->transactions as $transaction){
         $m = new Mustache_Engine;
