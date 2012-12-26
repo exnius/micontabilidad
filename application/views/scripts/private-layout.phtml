@@ -12,7 +12,8 @@
 </head>
 
 <body class="wv-blank-layout">
-    <h1>Private</h1>
+    <?php if ($this->action != "home"){?><h1><a href="<?=BASE_URL?>">Private</a></h1> <?php }else{ ?>
+    <h1>Private</h1> <?php } ?>
     <?php $logout = array("action" => "logout", "controller" => "session", "module" => "public"); ?>
     <a href="<?= $this->url($logout)?>">Logout</a>
     <?= $this->layout()->content; ?>
