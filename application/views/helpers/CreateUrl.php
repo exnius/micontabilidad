@@ -9,6 +9,9 @@ class Contabilidad_Helper_CreateUrl {
             case 'account':
                 $url = Proxy_Account::getUrl_($args[1]);
                 break;
+            case 'transaction':
+                $url = Proxy_Transaction::getUrl_($args[1]);
+                break;
         }
         return $url;
     }

@@ -28,6 +28,9 @@ class Proxy_Transaction extends Contabilidad_Proxy
         $row->id_category_type = isset($params['id_category_type']) ? $params['id_category_type'] : 9; // default id 9 = other
         $row->id_transaction_type = $params['id_transaction_type'];
         $row->save();
+        $benefit = $account->calculateBenefit();
+        $account->benefit = $benefit;
+        $account->save();
         return $row;
     }
     
@@ -39,9 +42,20 @@ class Proxy_Transaction extends Contabilidad_Proxy
         return $this->getTable()->fetchAll("id_account = '$accountid'", $order);
     }
     
+     /*
+     * Create URL from VO_Account
+     * 
+     * @return string
+     * @params VO_Account
+     */
+    public static function getUrl_ ($transaction){
+        $url = BASE_URL . "/private/transaction/index?id=" . $transaction->id;
+        return $url;
+    }
+    
     public function serializer ($transaction){
         return $serialized = array("id" => $transaction->id, 
-            "transactionUrl" => "http://www.google.com",//$this->createUrl("transaction", $transaction),
+            "transactionUrl" => $this->getUrl_($transaction),
             "name" => $transaction->name,"timestampDate" => $transaction->date,
             "date" => Contabilidad_Utils_Dates::toDate($transaction->date),"value" => $transaction->value,
             "dateClass" => $transaction->date > time() ? "@" : "",

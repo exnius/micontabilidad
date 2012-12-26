@@ -65,7 +65,7 @@ class Initializer extends Zend_Controller_Plugin_Abstract
         $this->_root = $root;
         
         Zend_Registry::set("Root", $root);
-        
+        defined('ROOT') or define('ROOT', $root);
         // load environment
         $this->_setEnv($env);
         $this->initPhpConfig($env);
