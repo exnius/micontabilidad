@@ -15,8 +15,10 @@ class Contabilidad_Services_Transaction extends Contabilidad_Services_Abstract {
             if ($user->id){
                 $account = Proxy_Account::getInstance()->findById($params['id_account']);
                 $transaction = Proxy_Transaction::getInstance()->createNew($account,$params);
-                $serialized = Proxy_Transaction::getInstance()->serializer($transaction);
-                $resp["transaction"] = $serialized;
+                $serializedTransaction = Proxy_Transaction::getInstance()->serializer($transaction);
+                $serializedAccount = Proxy_Account::getInstance()->serializer($account);
+                $resp["account"] = $serializedAccount;
+                $resp["transaction"] = $serializedTransaction;
                 $resp["result"] = "success";
                 $resp["reason"] = "OK";
             } else {
@@ -33,6 +35,11 @@ class Contabilidad_Services_Transaction extends Contabilidad_Services_Abstract {
         $account = Proxy_Account::getInstance()->findById($transaction->id_account);
             if ($account->id_user == Contabilidad_Auth::getInstance()->getUser()->id){
                 $transaction->delete();
+                $benefit = $account->calculateBenefit();
+                $account->benefit = $benefit;
+                $account->save();
+                $serializedAccount = Proxy_Account::getInstance()->serializer($account);
+                $resp["account"] = $serializedAccount;
                 $resp["result"] = "success";
                 $resp["reason"] = "OK";
             } else {
