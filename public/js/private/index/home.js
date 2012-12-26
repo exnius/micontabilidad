@@ -1,7 +1,7 @@
 $(document).ready(function(){
     
     //CREATE ACCOUNT FANCYBOX
-    $("#js-fancy-crear-contabilidad").click(function(){
+    $("#js-fancy-create-account").click(function(){
         var nAddFrag = document.createDocumentFragment();
         if(!$(this).data("el")){
             var el = document.getElementById("create-account-form");

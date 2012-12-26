@@ -7,8 +7,10 @@ class Contabilidad_Services_Transaction extends Contabilidad_Services_Abstract {
     
     public function createTransaction($params){
         $resp = array("result" => "failure", "reason" => self::NOT_ALL_PARAMS);
-        if($this->reviewParam('name', $params) && $this->reviewParam('value', $params)
-        && $this->reviewParam('date', $params) && $this->reviewParam('id_account', $params)){
+        if($this->reviewParam('name', $params) 
+           && $this->reviewParam('value', $params)
+           && $this->reviewParam('id_transaction_type', $params)
+           && $this->reviewParam('id_account', $params)){
             $user = Contabilidad_Auth::getInstance()->getUser();
             if ($user->id){
                 $account = Proxy_Account::getInstance()->findById($params['id_account']);
@@ -17,8 +19,11 @@ class Contabilidad_Services_Transaction extends Contabilidad_Services_Abstract {
                 $resp["transaction"] = $serialized;
                 $resp["result"] = "success";
                 $resp["reason"] = "OK";
-            } $resp["reason"] = self::NOT_AUTHENTICATED;
-        } return $resp;
+            } else {
+                $resp["reason"] = self::NOT_AUTHENTICATED;
+            }
+        }
+        return $resp;
     }
     
     public function deleteTransaction ($id){

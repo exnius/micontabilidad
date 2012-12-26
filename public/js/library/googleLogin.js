@@ -40,7 +40,6 @@ function getGoogleUserInfo(authResult){
 }
 
 function loginByGoogle(authResult){
-    console.info(authResult);
     if(authResult){
         Contabilidad.getEndPoint({async : true, success: function(resp){
             document.location.href = Contabilidad.private_home;
