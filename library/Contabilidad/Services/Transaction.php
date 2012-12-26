@@ -36,7 +36,7 @@ class Contabilidad_Services_Transaction extends Contabilidad_Services_Abstract {
                 $resp["result"] = "success";
                 $resp["reason"] = "OK";
             } else {
-                $resp["reason"] = "not authorized usser";
+                $resp["reason"] = "not authorized user";
             }
         }
         return $resp;
