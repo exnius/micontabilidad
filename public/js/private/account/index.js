@@ -56,6 +56,25 @@ $(document).ready(function(){
  **********TRANSACTION METHODS***********
  *************************************/
 function onVisibleTransaction($el){
+    //transaction name
+    var defaultNumber = 1;
+    var defaultName = $el.attr("id") == "add-income" ? Contabilidad.tr("Ingreso ") :  Contabilidad.tr("Egreso ");
+    var transactionName = defaultName + defaultNumber;
+    if(!$("body").data("transaction-names")){
+        var transactionNames = [];
+        $(".js-transaction-name").each(function(){
+            transactionNames.push($(this).html().toLowerCase());
+        });
+        $("body").data("transaction-names", transactionNames);
+    }
+    while($.inArray(transactionName.toLowerCase(), $("body").data("transaction-names")) >= 0){
+        defaultNumber++;
+        transactionName = defaultName + defaultNumber;
+    }
+    $("#create-transaction-form input[name='name']").val(transactionName).select();
+    $("#create-transaction-form input[name='value']").focus();
+    
+    //rules
     $("#create-transaction-form input[type='text']").each(function(){
         setInputRule($(this));
     });
