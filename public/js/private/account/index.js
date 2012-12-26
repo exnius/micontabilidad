@@ -77,6 +77,9 @@ function onVisibleTransaction($el){
 }
 
 function onHiddenTransaction(){
+    $("#create-transaction-form input[name='value']")
+    .unbind("keypress").unbind("keyup");
+    $('#create-transaction-form form').unbind("submit");
     $('#create-transaction-form .response')
     .html("").removeClass("*").addClass("response");
     $("#create-transaction-form input[type='text']").each(function(){
