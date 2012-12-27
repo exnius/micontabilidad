@@ -49,7 +49,12 @@ class Proxy_Account extends Contabilidad_Proxy
     }
     
     public function serializer ($account){
-        return $serialized = array('id'=>$account->id , 'name' =>$account->name , 'benefit'=>$account->benefit , 'accountUrl' => Proxy_Account::getUrl_($account));
+        return $serialized = array('id' => $account->id, 
+                                   'name' => $account->name, 
+                                   'benefit' => $account->benefit, 
+                                   'date_ini' => $account->date_ini, 
+                                   'date_end' => $account->date_end, 
+                                   'accountUrl' => Proxy_Account::getUrl_($account));
     }
 }
 ?>
