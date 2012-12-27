@@ -38,3 +38,7 @@
     <span class="js-time" style="display: none;"><?= time() ?></span>
     <div class="response"></div>
 </div>
+
+<script language="javascript">
+    window.Contabilidad.account = <?= Zend_Json::encode($this->serializedAccount); ?>
+</script>

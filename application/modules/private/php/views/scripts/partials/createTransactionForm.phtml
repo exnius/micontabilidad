@@ -17,18 +17,20 @@
     <p><?=$this->tr("Fecha")?></p>
     <input type="text" name="date" class="date" readonly="true">
     <p>
-        <input type="checkbox" name="is_frequent"/> <span><?=$this->tr("recurrente")?></span>
+        <input id="is_frequent" type="checkbox" name="is_frequent"/>
+        <span><label for="is_frequent"><?=$this->tr("recurrente")?></label></span>
     </p>
     <p><?=$this->tr("Frecuencia")?></p>
-    <select name="frequency_days">
+    <select name="frequency_days" disabled="true" class="select-disabled">
         <option value="1"><?= $this->tr("diario");?></option>
         <option value="7"><?= $this->tr("semanal");?></option>
         <option value="15"><?= $this->tr("quincenal");?></option>
         <option value="30"><?= $this->tr("mensual");?></option>
+        <option value="0"><?= $this->tr("otro");?></option>
     </select>
-    <input type="text" name="frequency_days_precise">
+    <input type="text" name="precise_frequency_days" disabled="true" class="input-disabled">
     <p><?=$this->tr("Numero de repeticiones")?></p>
-    <select name="frequency_time">
+    <select name="frequency_time" disabled="true" class="select-disabled">
         <option value="0"><?= $this->tr("infinito");?></option>
         <?php for($i=1;$i<=30;$i++){ ?>
             <option value="<?= $i ?>"><?= $i?></option>
