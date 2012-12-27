@@ -1,11 +1,8 @@
-<br>
-<br>
-<center><strong><?= strtoupper($this->account->name) ?></strong><br>
-<strong>$<?= $this->account->benefit ?></strong><br>
-<?=$this->count?> transacciones</center>
-<br>
-<br
-<br>
+<div>
+    <span class="account-name"><?= strtoupper($this->account->name) ?></span>
+    <span>$<?= $this->account->benefit ?></span>
+    <?=$this->count?> transacciones
+</div>
 <a href="#" id="add-income" class="add-transaction" onclick="return false;">Adicionar ingresos</a>
 <br>
 <a href="#" id="add-expense" class="add-transaction" onclick="return false;">Adicionar egresos</a>
@@ -30,8 +27,14 @@
     <?= $this->render("mustache/transaction-row.phtml") ?>
 </div>
 
-<div id="create-transaction-form" style="display: none;">
+<div id="create-mini-transaction-form" style="display: none;">
     <?php echo $this->render('partials/createMiniTransactionForm.phtml'); ?>
+    <span class="js-time" style="display: none;"><?= time() ?></span>
+    <div class="response"></div>
+</div>
+
+<div id="create-transaction-form" style="display: none;">
+    <?php echo $this->render('partials/createTransactionForm.phtml'); ?>
     <span class="js-time" style="display: none;"><?= time() ?></span>
     <div class="response"></div>
 </div>

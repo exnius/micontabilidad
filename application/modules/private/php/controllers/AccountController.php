@@ -9,6 +9,7 @@ class Private_AccountController extends Zend_Controller_Action
         $transactions = Proxy_Transaction::getInstance()->retrieveByAccountId($accountId);
         $this->view->transactions = $transactions;
         $this->view->count = count($transactions);
+        $this->view->categories = Proxy_CategoryType::getInstance()->fetchAll();
     }
     
     public function findAction(){
