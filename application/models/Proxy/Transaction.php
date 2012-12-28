@@ -20,9 +20,10 @@ class Proxy_Transaction extends Contabilidad_Proxy
         $row->name = $params['name'];
         $row->value = $params['value'];
         $row->date = isset($params['date']) ? $params['date'] : time();
-        $row->comment = isset($params['comment']) ? $params['comment'] : "";
-        $row->is_frequent = isset($params['is_frequent']) ? $params['is_frequent'] : 0;
-        $row->frequency_days = isset($params['frequency_days']) ? $params['frequency_days'] : 0;
+        $row->comment = isset($params['comment']) ? $params['comment'] : null;
+        $row->is_frequent = isset($params['is_frequent']) ? $params['is_frequent'] : null;
+        $row->frequency_days = isset($params['frequency_days']) ? $params['frequency_days'] : null;
+        $row->frequency_time = isset($params['frequency_time']) ? $params['frequency_time'] : null;
         $row->creation_date = time();
         $row->id_account = $account->id;
         $row->id_category_type = isset($params['id_category_type']) ? $params['id_category_type'] : 9; // default id 9 = other

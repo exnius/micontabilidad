@@ -3,7 +3,7 @@
     <p><?=$this->tr("Nombre")?></p>
     <input type="text" name="name" class="required">
     <p><?=$this->tr("Categoria")?></p>
-    <select name="categoria">
+    <select name="id_category_type">
         <?php foreach($this->categories as $category){ ?>
             <?php if($category->id == 9) {?>
                 <option value="<?= $category->id ?>" selected=""><?= $category->name?></option>
