@@ -66,6 +66,7 @@ function onVisibleMiniTransaction($el){
     $("#create-mini-transaction-form input[type='text']").each(function(){
         setInputRule($(this));
     });
+    
     $('#create-mini-transaction-form form').submit(function(){
         Contabilidad.Validate.clean($('#create-mini-transaction-form'));
         $('#create-mini-transaction-form .response')
@@ -89,23 +90,7 @@ function onVisibleMiniTransaction($el){
         return false;
     });
 
-    $("#create-mini-transaction-form input[name='value']").keypress(function(evt){
-        var charCode = (evt.which) ? evt.which : evt.keyCode
-        if ((charCode > 31 && (charCode < 48 || charCode > 57)) &&
-        (charCode != 44 && charCode != 46)){
-            return false;
-        }
-        return true;
-    }).keyup(function(evt){
-        var charCode = (evt.which) ? evt.which : evt.keyCode
-        if ((charCode > 36 && charCode < 40) || charCode==16){
-            return true;
-        } else {
-            var value = this.value.replace(/\./g, '');
-            value = value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.");
-            $(this).val(value);
-        }
-    });
+    addMoneyBehavior($("#create-mini-transaction-form input[name='value']"));
     
     //more options->open big transaction form
     $(".more-options").click(function(){
@@ -122,6 +107,9 @@ function onVisibleMiniTransaction($el){
             'onStart' : onCreateTransactionStart($div),
             'onCleanup' : function(){
                 this.form = document.getElementById("create-transaction-form");
+                if($div.find("input[name='is_frequent']").is(":checked")){
+                    $div.find("input[name='is_frequent']").attr('checked', false).trigger("change");
+                }
             },
             'onClosed' : function(){
                 onClose(this.form);
@@ -139,6 +127,7 @@ function onVisibleMiniTransaction($el){
 function onHiddenMiniTransaction(){
     $("#create-mini-transaction-form input[name='value']")
     .unbind("keypress").unbind("keyup");
+    $(".more-options").unbind("click");
     $('#create-mini-transaction-form form').unbind("submit");
     $('#create-mini-transaction-form .response')
     .html("").removeClass("*").addClass("response");
@@ -180,11 +169,98 @@ function onCreateTransactionComplete($div, $el){
     $div.find("#create-transaction-form input[name='name']").val(transactionName).select();
     $div.find("#create-transaction-form input[name='value']").focus();
     
+     //rules
+    $div.find("#create-transaction-form input[type='text']").each(function(){
+        setInputRule($(this));
+    });
+    
+    addMoneyBehavior($div.find("#create-transaction-form input[name='value']"));
+    
+    //less options link
     $div.find(".less-options").click(function(){
         $.fancybox.close();
         $el.qtip('show');
         return false;
-    })
+    });
+    
+    var date = $div.find(".js-time").html();
+    
+    //if currentdate is not inside account period
+    if(date < Contabilidad.account.date_ini || Contabilidad.account.date_end < date){
+        date = Contabilidad.account.date_ini;
+    }
+    var currentDate = new Date(parseInt(date)*1000);
+    $div.find("input[name='date']")
+    .val(currentDate.getDate() + "/" + (currentDate.getMonth() + 1) + "/" + currentDate.getFullYear())
+    .datepicker({defaultDate: currentDate,
+                 minDate: new Date(parseInt(Contabilidad.account.date_ini)*1000),
+                 maxDate: new Date(parseInt(Contabilidad.account.date_end)*1000),
+                 dateFormat: "dd/mm/yy"
+             });
+    
+    //frecuency days select
+    $div.find("select[name='frequency_days']").change(function(){
+        if(this.value == 0){
+            $div.find("input[name='precise_frequency_days']").removeAttr("disabled");
+        } else {
+            $div.find("input[name='precise_frequency_days']").attr("disabled", true);
+        }
+    });
+    
+    //frequent checkbox
+    $div.find("input[name='is_frequent']").change(function(){
+        if($(this).is(":checked")){
+            $div.find("select[name='frequency_days']").removeAttr("disabled");
+            $div.find("select[name='frequency_time']").removeAttr("disabled");
+            if($div.find("select[name='frequency_days']").val() == 0){
+                $div.find("input[name='precise_frequency_days']").removeAttr("disabled");
+            }
+        } else {
+            $div.find("select[name='frequency_days']").attr("disabled", true);
+            $div.find("select[name='frequency_time']").attr("disabled", true);
+            $div.find("input[name='precise_frequency_days']").attr("disabled", true);
+        }
+    });
+    
+    $div.find("#create-transaction-form form").submit(function(){
+        Contabilidad.Validate.clean($('#create-mini-transaction-form'));
+        $('#create-mini-transaction-form .response')
+        .html("").removeClass("*").addClass("response");
+        var data = {};
+        data["date"] = $(this).find("input[name='date']").datepicker("getDate").getTime()/1000;
+        if(Contabilidad.Validate.isValid($(this))
+           && data["date"] >= Contabilidad.account.date_ini
+           && data["date"] <= Contabilidad.account.date_end){
+           
+            $(this).find("input[type='text'],select").each(function(){
+                if($(this).attr("name") == "date") return;
+                data[$(this).attr("name")] = this.value;
+            });
+            data["is_frequent"] = $(this).find("input[name='is_frequent']").is(":checked");
+            if(!data["is_frequent"]){
+                data = { "date" : data["date"], "name" : data["name"],
+                         "value" : data["value"], "id_category_type" : data["id_category_type"]};
+            } else {
+                if(data.frequency_days == 0) data.frequency_days = data.precise_frequency_days;
+            }
+            data.id_account = Contabilidad.account.id;
+            data.id_transaction_type = $el.attr("id") == "add-income" ? 1 : 2;
+            Contabilidad.getEndPoint({async : true, success: function(resp){
+                var output = Mustache.render($("#transaction-row-tpl").html(), resp.transaction);
+                $("#transactions-container").prepend(output);
+                $("body").data("transaction-names").push(resp.transaction.name.toLowerCase());
+            }}).createTransaction(data);
+            $.fancybox.close();
+        } else {
+            if(data["date"] < Contabilidad.account.date_ini
+               || data["date"] > Contabilidad.account.date_end){
+               $(this).find("input[name='date']").addClass("input-error")
+                .data("errors",[{message : Contabilidad.tr("La fecha de la transaccion debe estar dentro del periodo del balance.")}]);
+            }
+            findAndDisplayErrors($div);
+        }
+        return false;
+    });
 }
 
 /*************************************
@@ -202,6 +278,26 @@ function onClose(form){
     var nAddFrag = document.createDocumentFragment();
     nAddFrag.appendChild(form);
     $("body").append(nAddFrag);
+}
+
+function addMoneyBehavior($el){
+    $el.keypress(function(evt){
+        var charCode = (evt.which) ? evt.which : evt.keyCode
+        if ((charCode > 31 && (charCode < 48 || charCode > 57)) &&
+        (charCode != 44 && charCode != 46)){
+            return false;
+        }
+        return true;
+    }).keyup(function(evt){
+        var charCode = (evt.which) ? evt.which : evt.keyCode
+        if ((charCode > 36 && charCode < 40) || charCode==16){
+            return true;
+        } else {
+            var value = this.value.replace(/\./g, '');
+            value = value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.");
+            $(this).val(value);
+        }
+    });
 }
 
 /*************************************
@@ -232,4 +328,3 @@ function setInputRule($input){
     if($input.attr("is_equal_to")){rules.equalsTo = $input.parent().find("input[name='" + $input.attr("is_equal_to") + "']");}
     Contabilidad.Validate.setRules($input, rules);
 }
-
