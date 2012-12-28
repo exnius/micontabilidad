@@ -47,15 +47,42 @@ $(document).ready(function(){
                 }
             });
             return false;
+        } else if ($(event.target).hasClass("edit-account")){
+            var id = $(event.target).parent().attr("data-id");
+            var nAddFrag = document.createDocumentFragment();
+            if(!$(this).data("el")){
+                var el = document.getElementById("create-account-form");
+                $(this).data("el", el);
+            }
+        nAddFrag.appendChild($(this).data("el"));
+        var $div = $("<div>").append(nAddFrag);
+            Contabilidad.getEndPoint({async : true, success: function(account){
+                if (account){
+                    $.fancybox({
+                        'content' : $div,
+                        'onStart' : onEditAccountStart($div , account),
+                        'onCleanup' : function(){
+                            this.form = document.getElementById("create-account-form");
+                        },
+                        'onClosed' : function(){
+                            onClose(this.form);
+                            $(this.form).find(".hasDatepicker").removeClass("hasDatepicker");
+                        }
+                    });
+                }
+            }}).getAccountById(id);
         }
     });
 });
+
 
 /*************************************
  *******CREATE ACCOUNT METHODS********
  *************************************/
 
 function onCreateAccountStart($div){
+    $div.find("#create-account-form .title").html(Contabilidad.tr("Crear balance"));
+    $div.find("#create-account-form input[type='submit']").val(Contabilidad.tr("Crear"));
     $div.find("#create-account-form").show();
     $div.find("#create-account-form input").each(function(){
         setInputRule($(this));
@@ -112,15 +139,70 @@ function onCreateAccountComplete ($div){
     //date ini
     $div.find("input[name='date_ini']")
     .val(currentDate.getDate() + "/" + (currentDate.getMonth() + 1) + "/" + currentDate.getFullYear())
-    .datepicker({defaultDate: currentDate});
+    .datepicker({defaultDate: currentDate , dateFormat :"dd/mm/yy"});
     //end date
     $div.find("input[name='date_end']")
     .val(monthLater.getDate() + "/" + (monthLater.getMonth() + 1) + "/" + monthLater.getFullYear())
-    .datepicker({defaultDate: monthLater});
+    .datepicker({defaultDate: monthLater  , dateFormat :"dd/mm/yy"});
     
     //select name
     $div.find("input[name='name']").select();
 }
+
+
+/*************************************
+ *******EDIT ACCOUNT METHODS********
+ *************************************/
+
+function onEditAccountStart($div , account){
+    $div.find("#create-account-form .title").html(Contabilidad.tr("Editar balance"));
+    $div.find("#create-account-form input[type='submit']").val(Contabilidad.tr("Guardar"));
+    $div.find("#create-account-form input[name='name']").val(account.name);
+    var dateIni = new Date(parseInt(account.date_ini)*1000);
+    $div.find("#create-account-form input[name='date_ini']")
+    .val(dateIni.getDate() + "/" + (dateIni.getMonth() + 1) + "/" + dateIni.getFullYear())
+    .datepicker({defaultDate: dateIni , dateFormat: "dd/mm/yy"});
+    var dateEnd = new Date(parseInt(account.date_end)*1000);
+    $div.find("#create-account-form input[name='date_end']")
+    .val(dateEnd.getDate() + "/" + (dateEnd.getMonth() + 1) + "/" + dateEnd.getFullYear())
+    .datepicker({defaultDate: dateEnd , dateFormat: "dd/mm/yy"});
+    $div.find("#create-account-form").show();
+    $div.find("#create-account-form input").each(function(){
+        setInputRule($(this));
+    });
+    
+    
+    //EDIT ACCOUNT SUBMIT
+    $div.find("form").submit(function(){
+        var date_ini = $div.find("input[name='date_ini']").datepicker("getDate").getTime()/1000;
+        var date_end = $div.find("input[name='date_end']").datepicker("getDate").getTime()/1000;
+        if(Contabilidad.Validate.isValid($(this)) && date_end >= date_ini){
+            var data = {};
+            $(this).find("input,select").each(function(){
+                data[$(this).attr("name")] = $(this).val();
+            });
+            data.date_ini = date_ini;
+            data.date_end = date_end;
+            data.id = account.id;
+            Contabilidad.getEndPoint({async : true, success: function(resp){
+                $("#account-"+resp.account.id).find(".js-account-name").html(resp.account.name);
+                var dateIni = new Date((resp.account.date_ini)*1000);
+                var dateEnd = new Date((resp.account.date_end)*1000);
+                $("#account-"+resp.account.id).find(".js-account-date_ini").html(dateIni.getDate() + "/" + (dateIni.getMonth() + 1) + "/" + dateIni.getFullYear());
+                $("#account-"+resp.account.id).find(".js-account-date_end").html(dateEnd.getDate() + "/" + (dateEnd.getMonth() + 1) + "/" + dateEnd.getFullYear());
+            }}).editAccount(data);
+            $.fancybox.close();
+        } else {
+            if(date_end < date_ini) {
+                $div.find("input[name='date_end']").addClass("input-error")
+                .data("errors",[{message : Contabilidad.tr("La fecha final debe ser posterior a la fecha inicial.")}]);
+            }
+            findAndDisplayErrors($div.find("#create-account-form"));
+        }
+        return false;
+    });
+}
+
 
 /*************************************
  **********ALL FORMS METHODS***********

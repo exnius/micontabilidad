@@ -2,14 +2,16 @@
 <a id="js-fancy-create-account" href="#"><?= $this->tr("Crear contabilidad")?></a></br>
 
 <div id="accounts-container">
-    <?php foreach ($this->accounts as $account){
-        $m = new Mustache_Engine;
+    <?php $m = new Mustache_Engine;
+    foreach ($this->accounts as $account){
     ?>
         <?= $m->render($this->render("mustache/account-row.phtml"), array(
             "id" => $account->id,
             "accountUrl" => $this->createUrl("account", $account),
             "name" => $account->name,
-            "benefit" => $account->benefit
+            "benefit" => $account->benefit,
+            "date_ini" => Contabilidad_Utils_Dates::toDate($account->date_ini),
+            "date_end" => Contabilidad_Utils_Dates::toDate($account->date_end)
         ));?>
     <?php }?>
 </div>
