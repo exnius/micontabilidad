@@ -83,6 +83,26 @@ $(document).ready(function(){
                 }
             });
             return false;
+        } else if($(event.target).attr("id") == "delete-outside-transactions"){
+            var output = Mustache.render($("#delete-popup-tpl").html(), 
+                        {message: Contabilidad.tr("¿Realmente quieres eliminar las transacciones?")});
+            var $parent = $(event.target).parents(".account-container");
+            $.fancybox({
+                'content' : output,
+                'onComplete' : function(){
+                    $("#delete-popup input[type='button']").click(function(){
+                        if($(this).attr("id") == "yes"){
+//                            var id = $parent.attr("data-id");
+//                            $parent.remove();
+//                            Contabilidad.getEndPoint({async : true, success: function(resp){
+//                                document.location.href = Contabilidad.private_home;
+//                            }}).deleteAccount(id);
+                        }
+                        $.fancybox.close();
+                    });
+                }
+            });
+            return false;
         }
     });
 });

@@ -16,6 +16,7 @@
 <?php if(count($this->outsideTrans)){?>
     <h3> transacciones por fuera del periodo</h3>
     <div id="outside-transactions-container">
+        <a href="#" id="delete-outside-transactions"><?= $this->tr("Eliminar todas las transacciones") ?></a>
         <?php
         $m = new Mustache_Engine;
         foreach ($this->outsideTrans as $transaction){ 
