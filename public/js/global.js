@@ -45,3 +45,18 @@ Contabilidad.tr = function(string){
     }
     return args[0];
 };
+
+Contabilidad.currencyValue = function(){
+    var args = [].slice.call(arguments);
+    if(!args.length) return "";
+    var value = args[0];
+    switch (args[1]){
+        case '1':
+            value = "$ " + value;
+            break;
+        default :
+            value = "USD " + value;
+            break;
+    }
+    return value;
+}

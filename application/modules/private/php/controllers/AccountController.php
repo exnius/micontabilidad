@@ -7,7 +7,8 @@ class Private_AccountController extends Zend_Controller_Action
         $accountId = $request->getParam('id');
         $this->view->account = Proxy_Account::getInstance()->findById($accountId);
         $this->view->serializedAccount = Proxy_Account::getInstance()->serializer($this->view->account);
-        $transactions = Proxy_Transaction::getInstance()->retrieveByAccountId($accountId);
+        $transactions = Proxy_Transaction::getInstance()->retrieveBetweenByAccount($this->view->account);
+        $this->view->outsideTrans = Proxy_Transaction::getInstance()->retrieveOutsideByAccount($this->view->account);
         $this->view->transactions = $transactions;
         $this->view->count = count($transactions);
         $this->view->categories = Proxy_CategoryType::getInstance()->fetchAll();

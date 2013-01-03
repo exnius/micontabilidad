@@ -1,11 +1,39 @@
 <div>
-    <span class="account-name"><?= strtoupper($this->account->name) ?></span>
-    <span>$<?= $this->account->benefit ?></span>
+    <?php $m = new Mustache_Engine; ?>
+    <?= $m->render($this->render("mustache/account-row.phtml"), array(
+            "id" => $this->account->id,
+            "accountUrl" => $this->createUrl("account", $this->account),
+            "name" => strtoupper($this->account->name),
+            "benefit" => $this->currencyValue($this->account->benefit, $this->account->id_currency),
+            "date_ini" => Contabilidad_Utils_Dates::toDate($this->account->date_ini),
+            "date_end" => Contabilidad_Utils_Dates::toDate($this->account->date_end)
+        ));?>
     <?=$this->count?> transacciones
 </div>
 <a href="#" id="add-income" class="add-transaction" onclick="return false;">Adicionar ingresos</a>
 <br>
 <a href="#" id="add-expense" class="add-transaction" onclick="return false;">Adicionar egresos</a>
+<?php if(count($this->outsideTrans)){?>
+    <h3> transacciones por fuera del periodo</h3>
+    <div id="outside-transactions-container">
+        <?php
+        $m = new Mustache_Engine;
+        foreach ($this->outsideTrans as $transaction){ 
+        ?>
+            <?= $m->render($this->render("mustache/transaction-row.phtml"), array(
+                "id" => $transaction->id,
+                "transactionUrl" => $this->createUrl("transaction", $transaction),
+                "name" => $transaction->name,
+                "timestampDate" => $transaction->date,
+                "date" => Contabilidad_Utils_Dates::toDate($transaction->date),
+                "value" => $this->currencyValue($transaction->value, $this->account->id_currency),
+                "dateClass" => $transaction->date > time() ? "@" : "",
+                "transactionType" => $transaction->id_transaction_type == 1 ? "income" : "expense"
+            ));?>
+        <?php }?>
+    </div>
+<?php }?>
+<h3> transacciones</h3>
 <div id="transactions-container">
     <?php
     $m = new Mustache_Engine;
@@ -17,7 +45,7 @@
             "name" => $transaction->name,
             "timestampDate" => $transaction->date,
             "date" => Contabilidad_Utils_Dates::toDate($transaction->date),
-            "value" => $transaction->value,
+            "value" => $this->currencyValue($transaction->value, $this->account->id_currency),
             "dateClass" => $transaction->date > time() ? "@" : "",
             "transactionType" => $transaction->id_transaction_type == 1 ? "income" : "expense"
         ));?>

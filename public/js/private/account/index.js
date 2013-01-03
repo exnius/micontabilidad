@@ -41,7 +41,42 @@ $(document).ready(function(){
                             var id = $parent.attr("data-id");
                             $parent.remove();
                             Contabilidad.getEndPoint({async : true, success: function(resp){
+                                $(".account-benefit").html(Contabilidad.currencyValue(resp.account.benefit, resp.account.id_currency));
                             }}).deleteTransaction(id);
+                        }
+                        $.fancybox.close();
+                    });
+                }
+            });
+            return false;
+        } else if($(event.target).hasClass("edit-transaction")){
+            $.fancybox({
+                'content' : "editar transaccion",
+                'onComplete' : function(){
+                }
+            });
+            return false;
+        } else if($(event.target).hasClass("edit-account")){
+            $.fancybox({
+                'content' : "editar contabilidad",
+                'onComplete' : function(){
+                }
+            });
+            return false;
+        } else if($(event.target).hasClass("delete-account")){
+            var output = Mustache.render($("#delete-popup-tpl").html(), 
+                        {message: Contabilidad.tr("¿Realmente quieres eliminar este Balance?")});
+            var $parent = $(event.target).parents(".account-container");
+            $.fancybox({
+                'content' : output,
+                'onComplete' : function(){
+                    $("#delete-popup input[type='button']").click(function(){
+                        if($(this).attr("id") == "yes"){
+                            var id = $parent.attr("data-id");
+                            $parent.remove();
+                            Contabilidad.getEndPoint({async : true, success: function(resp){
+                                document.location.href = Contabilidad.private_home;
+                            }}).deleteAccount(id);
                         }
                         $.fancybox.close();
                     });
@@ -82,6 +117,7 @@ function onVisibleMiniTransaction($el){
                 var output = Mustache.render($("#transaction-row-tpl").html(), resp.transaction);
                 $("#transactions-container").prepend(output);
                 $("body").data("transaction-names").push(resp.transaction.name.toLowerCase());
+                $(".account-benefit").html(Contabilidad.currencyValue(resp.account.benefit, resp.account.id_currency));
                 $el.qtip('hide');
             }}).createTransaction(data);
         } else {
@@ -110,6 +146,9 @@ function onVisibleMiniTransaction($el){
                 if($div.find("input[name='is_frequent']").is(":checked")){
                     $div.find("input[name='is_frequent']").attr('checked', false).trigger("change");
                 }
+                $div.find("select[name='is_frequent']").val("1");
+                $div.find("input[name='precise_frequency_days']").val("");
+                $div.find("select[name='frequency_time']").val("0");
             },
             'onClosed' : function(){
                 onClose(this.form);
@@ -186,8 +225,10 @@ function onCreateTransactionComplete($div, $el){
     var date = $div.find(".js-time").html();
     
     //if currentdate is not inside account period
-    if(date < Contabilidad.account.date_ini || Contabilidad.account.date_end < date){
+    if(date < Contabilidad.account.date_ini){
         date = Contabilidad.account.date_ini;
+    } else if(date > Contabilidad.account.date_end){
+        date = Contabilidad.account.date_end;
     }
     var currentDate = new Date(parseInt(date)*1000);
     $div.find("input[name='date']")
@@ -238,17 +279,19 @@ function onCreateTransactionComplete($div, $el){
             });
             data["is_frequent"] = $(this).find("input[name='is_frequent']").is(":checked");
             if(!data["is_frequent"]){
-                data = { "date" : data["date"], "name" : data["name"],
+                data = {"date" : data["date"], "name" : data["name"],
                          "value" : data["value"], "id_category_type" : data["id_category_type"]};
             } else {
                 if(data.frequency_days == 0) data.frequency_days = data.precise_frequency_days;
             }
             data.id_account = Contabilidad.account.id;
             data.id_transaction_type = $el.attr("id") == "add-income" ? 1 : 2;
+            data.value = data.value.replace(/\./g, '').replace(/,/g, '.');
             Contabilidad.getEndPoint({async : true, success: function(resp){
                 var output = Mustache.render($("#transaction-row-tpl").html(), resp.transaction);
                 $("#transactions-container").prepend(output);
                 $("body").data("transaction-names").push(resp.transaction.name.toLowerCase());
+                $(".account-benefit").html(Contabilidad.currencyValue(resp.account.benefit, resp.account.id_currency));
             }}).createTransaction(data);
             $.fancybox.close();
         } else {
