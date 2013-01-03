@@ -7,8 +7,9 @@
 <br>
 <a href="#" id="add-expense" class="add-transaction" onclick="return false;">Adicionar egresos</a>
 <div id="transactions-container">
-    <?php foreach ($this->transactions as $transaction){
-        $m = new Mustache_Engine;
+    <?php
+    $m = new Mustache_Engine;
+    foreach ($this->transactions as $transaction){ 
     ?>
         <?= $m->render($this->render("mustache/transaction-row.phtml"), array(
             "id" => $transaction->id,

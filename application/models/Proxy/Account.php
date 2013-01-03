@@ -28,6 +28,18 @@ class Proxy_Account extends Contabilidad_Proxy
         return $row;
     }
 
+    public function editAccount ($params){
+       $account = $this->findById($params['id']);
+       $account->name = $params['name'];
+       $account->date_ini = $params['date_ini'];
+       $account->date_end = $params['date_end'];
+       $account->id_currency = $params['id_currency'];
+       $benefit = $account->calculateBenefit();
+       $account->benefit = $benefit;
+       $account->save();
+       return $account;
+    }
+
     public function findById ($accountId){
         return $this->getTable()->fetchRow("id = '$accountId'");
     }

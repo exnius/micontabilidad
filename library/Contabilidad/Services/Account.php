@@ -7,9 +7,9 @@ class Contabilidad_Services_Account extends Contabilidad_Services_Abstract {
     public function createAccount($params){
         $resp = array("result" => "failure", "reason" => self::NOT_ALL_PARAMS);
         if($this->reviewParam('date_end', $params) 
-           && $this->reviewParam('date_ini', $params)
-           && $this->reviewParam('name', $params)
-           && $this->reviewParam('id_currency', $params)){
+        && $this->reviewParam('date_ini', $params)
+        && $this->reviewParam('name', $params)
+        && $this->reviewParam('id_currency', $params)){
            if (Contabilidad_Auth::getInstance()->getUser()){
                $user = Contabilidad_Auth::getInstance()->getUser();
                $account = Proxy_Account::getInstance()->createNew($user, $params);
@@ -20,6 +20,27 @@ class Contabilidad_Services_Account extends Contabilidad_Services_Abstract {
            }  else {
                $resp["reason"] = self::NOT_AUTHENTICATED;
            }
+        }
+        return $resp;
+    }
+    
+    
+    
+    public function editAccount ($params){
+        $resp = array("result" => "failure", "reason" => self::NOT_ALL_PARAMS);
+        if($this->reviewParam('date_end', $params) 
+        && $this->reviewParam('date_ini', $params)
+        && $this->reviewParam('name', $params)
+        && $this->reviewParam('id_currency', $params)){
+            if (Contabilidad_Auth::getInstance()->getUser()){
+                $account = Proxy_Account::getInstance()->editAccount($params);
+                $serialized = Proxy_Account::getInstance()->serializer($account);
+                $resp["account"] = $serialized;
+                $resp["result"] = "success";
+                $resp["reason"] = "OK";
+            } else {
+                $resp["reason"] = self::NOT_AUTHENTICATED;
+            }
         }
         return $resp;
     }
@@ -38,6 +59,11 @@ class Contabilidad_Services_Account extends Contabilidad_Services_Abstract {
             }
         }
         return $resp;
+    }
+    
+    public function getAccountById ($id){
+        $account = Proxy_Account::getInstance()->findById($id);
+        return Proxy_Account::getInstance()->serializer($account);
     }
 }
 
