@@ -16,6 +16,11 @@ class Private_AccountController extends Zend_Controller_Action
     
     public function findAction(){
         $this->view->pru="find";
+        $transactions = Proxy_Transaction::getInstance()->retrieveFrequentsByUserId(27);
+        foreach($transactions as $transaction){
+            var_dump($transaction->name);
+        }
+        exit();
     }
     
     public function removeAction(){

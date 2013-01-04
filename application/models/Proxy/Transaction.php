@@ -26,17 +26,20 @@ class Proxy_Transaction extends Contabilidad_Proxy
             $date = $account->date_end;
         }
         $row->date = $date;
+        $row->id_user = Contabilidad_Auth::getInstance()->getUser()->id;
         $row->comment = isset($params['comment']) ? $params['comment'] : null;
         $row->is_frequent = isset($params['is_frequent']) ? $params['is_frequent'] : null;
         $row->frequency_days = isset($params['frequency_days']) ? $params['frequency_days'] : null;
         $row->frequency_time = isset($params['frequency_time']) ? $params['frequency_time'] : null;
         $row->creation_date = time();
-        $row->id_account = $account->id;
+//        $row->id_account = $account->id;
         $row->id_category_type = isset($params['id_category_type']) ? $params['id_category_type'] : 9; // default id 9 = other
         $row->id_transaction_type = $params['id_transaction_type'];
         $row->save();
-        $benefit = $account->calculateBenefit();
-        $account->benefit = $benefit;
+        
+        $acctra = Proxy_AccTra::getInstance()->createNew($account->id, $row->id);
+        
+        $account->benefit = $account->calculateBenefit();
         $account->save();
         return $row;
     }
@@ -47,28 +50,57 @@ class Proxy_Transaction extends Contabilidad_Proxy
 
     public function retrieveAllByAccount($account, $order = "date DESC"){
         $select = $this->getTable()->select()
-                       ->where("id_account = '$account->id'")
+                       ->join(array('rel' => 'acc_tra'),
+                                    "rel.id_transaction = id")
+                       ->where("rel.id_account = '$account->id'")
                        ->order($order);
         return $this->getTable()->fetchAll($select);
     }
     
     public function retrieveBetweenByAccount($account, $order = "date DESC"){
-        $select = $this->getTable()->select()
-                       ->where("id_account = '$account->id'")
+        $select = $this->getTable()->select(Zend_Db_Table::SELECT_WITH_FROM_PART)->setIntegrityCheck(false)
+                       ->join(array('rel' => 'acc_tra'),
+                                    "rel.id_transaction = transaction.id", "id_account")
+                       ->where("rel.id_account = '$account->id'")
                        ->where("date >= '$account->date_ini'")
                        ->where("date <= '$account->date_end'")
                        ->order($order);
+//        var_dump($select->__toString());exit();
         return $this->getTable()->fetchAll($select);
     }
     
     public function retrieveOutsideByAccount($account, $order = "date DESC"){
-        $select = $this->getTable()->select()
-                       ->where("id_account = '$account->id'")
+        $select = $this->getTable()->select(Zend_Db_Table::SELECT_WITH_FROM_PART)->setIntegrityCheck(false)
+                       ->join(array('rel' => 'acc_tra'),
+                                    "rel.id_transaction = transaction.id", "id_account")
+                       ->where("rel.id_account = '$account->id'")
                        ->where("date < '$account->date_ini'")
                        ->orWhere("date > '$account->date_end'")
                        ->order($order);
         return $this->getTable()->fetchAll($select);
     }
+    
+    public function retrieveAllByUserId($id, $order = "date DESC"){
+        
+    }
+    
+    public function retrieveFrequentsByUserId($id, $order = "date DESC"){
+        $select = $this->getTable()->select()
+                       ->where("id_user = '$id'")
+                       ->where("is_frequent = '1'")
+                       ->order($order);
+        return $this->getTable()->fetchAll($select);
+    }
+    
+//    public function retrieveFrequentsByAccount($account, $order = "date DESC"){
+//        $select = $this->getTable()->select()
+//                       ->where("id_user = '$id'")
+//                       ->where("is_frequent = '1'")
+//                       ->where("date < '$account->date_ini'")
+//                       ->orWhere("date > '$account->date_end'")
+//                       ->order($order);
+//        return $this->getTable()->fetchAll($select);
+//    }
     
      /*
      * Create URL from VO_Account
