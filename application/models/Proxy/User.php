@@ -37,7 +37,7 @@ class Proxy_User extends Contabilidad_Proxy
         $row->creation_date = time();
         $row->google_id = $params['id'];
         if(isset($params['picture'])){
-            $row->picture_url = $params['picture'];
+            $row->google_picture_url = $params['picture'];
         }
         if (isset($params ['gender'])){
             $row->gender = $params['gender'];
@@ -52,7 +52,7 @@ class Proxy_User extends Contabilidad_Proxy
     public function addGoogleData($user, $params){
         $user->google_id = $params ['id'];
         if (isset($params ['picture'])){
-                $user->picture_url = $params ['picture'];
+                $user->google_picture_url = $params ['picture'];
         }
         if (isset($params ['gender'])){
                 $user->gender = $params ['gender'];

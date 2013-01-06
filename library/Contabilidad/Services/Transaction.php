@@ -14,7 +14,7 @@ class Contabilidad_Services_Transaction extends Contabilidad_Services_Abstract {
             $user = Contabilidad_Auth::getInstance()->getUser();
             if ($user->id){
                 $account = Proxy_Account::getInstance()->findById($params['id_account']);
-                $transaction = Proxy_Transaction::getInstance()->createNew($account,$params);
+                $transaction = Proxy_Transaction::getInstance()->createNew($account, $params);
                 $serializedTransaction = Proxy_Transaction::getInstance()->serializer($transaction);
                 $serializedAccount = Proxy_Account::getInstance()->serializer($account);
                 $resp["account"] = $serializedAccount;

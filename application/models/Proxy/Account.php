@@ -66,6 +66,7 @@ class Proxy_Account extends Contabilidad_Proxy
                                    'benefit' => $account->benefit, 
                                    'date_ini' => $account->date_ini, 
                                    'date_end' => $account->date_end, 
+                                   'id_currency' => $account->id_currency, 
                                    'accountUrl' => Proxy_Account::getUrl_($account));
     }
 }
