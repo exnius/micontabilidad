@@ -134,10 +134,13 @@ function onVisibleMiniTransaction($el){
             data.id_account = parseInt(Contabilidad.getURLParameter("id"));
             data.id_transaction_type = $el.attr("id") == "add-income" ? 1 : 2;
             Contabilidad.getEndPoint({async : true, success: function(resp){
-                var output = Mustache.render($("#transaction-row-tpl").html(), resp.transaction);
-                $("#transactions-container").prepend(output);
-                $("body").data("transaction-names").push(resp.transaction.name.toLowerCase());
-                $(".account-benefit").html(Contabilidad.currencyValue(resp.account.benefit, resp.account.id_currency));
+                $(resp.transactions).each(function(i){
+                    var tran = resp.transactions[i];
+                    var output = Mustache.render($("#transaction-row-tpl").html(), tran);
+                    $("#transactions-container").prepend(output);
+                    $("body").data("transaction-names").push(tran.name.toLowerCase());
+                    $(".account-benefit").html(Contabilidad.currencyValue(resp.account.benefit, resp.account.id_currency));
+                })
                 $el.qtip('hide');
             }}).createTransaction(data);
         } else {
@@ -308,10 +311,13 @@ function onCreateTransactionComplete($div, $el){
             data.id_transaction_type = $el.attr("id") == "add-income" ? 1 : 2;
             data.value = data.value.replace(/\./g, '').replace(/,/g, '.');
             Contabilidad.getEndPoint({async : true, success: function(resp){
-                var output = Mustache.render($("#transaction-row-tpl").html(), resp.transaction);
-                $("#transactions-container").prepend(output);
-                $("body").data("transaction-names").push(resp.transaction.name.toLowerCase());
-                $(".account-benefit").html(Contabilidad.currencyValue(resp.account.benefit, resp.account.id_currency));
+                $(resp.transactions).each(function(i){
+                    var tran = resp.transactions[i];
+                    var output = Mustache.render($("#transaction-row-tpl").html(), tran);
+                    $("#transactions-container").prepend(output);
+                    $("body").data("transaction-names").push(tran.name.toLowerCase());
+                    $(".account-benefit").html(Contabilidad.currencyValue(resp.account.benefit, resp.account.id_currency));
+                })
             }}).createTransaction(data);
             $.fancybox.close();
         } else {

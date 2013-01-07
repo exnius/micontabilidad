@@ -7,10 +7,7 @@ class VO_Transaction extends Zend_Db_Table_Row {
             try{
                 $value = parent::__get($columnName);
             } catch (Zend_Db_Table_Row_Exception $e){
-                if(!$this->_acctra){
-                    $this->_acctra = Proxy_AccTra::getInstance()->findByTransaction($this);
-                }
-                $value = $this->_acctra->__get($columnName);
+                $value = $this->getAccTra()->__get($columnName);
             }
         } else {
             $value = parent::__get($columnName);
@@ -19,10 +16,15 @@ class VO_Transaction extends Zend_Db_Table_Row {
     }
     
     public function delete() {
+        
+        $this->getAccTra()->delete();
+        parent::delete();
+    }
+    
+    public function getAccTra(){
         if(!$this->_acctra){
             $this->_acctra = Proxy_AccTra::getInstance()->findByTransaction($this);
         }
-        $this->_acctra->delete();
-        parent::delete();
+        return $this->_acctra;
     }
 }
