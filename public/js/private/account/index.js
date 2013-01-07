@@ -42,7 +42,7 @@ $(document).ready(function(){
                             $parent.remove();
                             Contabilidad.getEndPoint({async : true, success: function(resp){
                                 $(".account-benefit").html(Contabilidad.currencyValue(resp.account.benefit, resp.account.id_currency));
-                            }}).deleteTransaction(id);
+                            }}).deleteTransaction(id, Contabilidad.account.id);
                         }
                         $.fancybox.close();
                     });

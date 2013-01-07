@@ -27,9 +27,21 @@ class Proxy_AccTra extends Contabilidad_Proxy
      
      public function findByTransaction($transaction){
          $select = $this->getTable()->select()
-                   ->where("id_transaction = '$transaction->id'")
-                   ->where("id_account = '$transaction->id_account'");
+                   ->where("id_transaction = '$transaction->id'");
          return $this->getTable()->fetchRow($select);
+     }
+     
+     public function findByTransactionIdAndAccountId($tid, $aid){
+         $select = $this->getTable()->select()
+                   ->where("id_transaction = '$tid'")
+                   ->where("id_account = '$aid'");
+         return $this->getTable()->fetchRow($select);
+     }
+     
+     public function retrieveAllByAccountId($aid){
+         $select = $this->getTable()->select()
+                   ->where("id_account = '$aid'");
+         return $this->getTable()->fetchAll($select);
      }
     
 }

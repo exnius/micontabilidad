@@ -37,6 +37,7 @@ class Proxy_Transaction extends Contabilidad_Proxy
         $row->id_category_type = isset($params['id_category_type']) ? $params['id_category_type'] : 9; // default id 9 = other
         $row->id_transaction_type = $params['id_transaction_type'];
         $row->save();
+        $row->date_ = $date;
         $transactions[] = $row;
         $acctra = Proxy_AccTra::getInstance()->createNew($account->id, $row->id, $date);
         
@@ -73,6 +74,8 @@ class Proxy_Transaction extends Contabilidad_Proxy
             $row->id_transaction_type = $tran->id_transaction_type;
             $row->save();
             
+            $row->date_ = $date;
+            
             $transactions[] = $row;
             $acctra = Proxy_AccTra::getInstance()->createNew($row->id_account, $row->id, $date);
             $date = $row->date + $tran->frequency_days*$day;
@@ -80,8 +83,8 @@ class Proxy_Transaction extends Contabilidad_Proxy
         return $transactions;
     }
     
-    public function findById ($transactionId){
-        return $this->getTable()->fetchRow("id = '$transactionId'");
+    public function findById($id){
+        return $this->getTable()->fetchRow("id='$id'");
     }
 
     public function retrieveAllByAccount($account){
@@ -93,8 +96,7 @@ class Proxy_Transaction extends Contabilidad_Proxy
     public function retrieveBetweenByAccount($account, $order = "date DESC"){
         $select = $this->getTable()->select(Zend_Db_Table::SELECT_WITH_FROM_PART)->setIntegrityCheck(false)
                        ->join(array('rel' => 'acc_tra'),
-                                    "rel.id_transaction = transaction.id", array("id_account", "date", "id_transaction"))
-                       ->where("rel.id_account = '$account->id'")
+                                    "rel.id_transaction = transaction.id AND rel.id_account = '$account->id'", array("id_account", "date", "id_transaction"))
                        ->where("date >= '$account->date_ini'")
                        ->where("date <= '$account->date_end'")
                        ->order($order);
@@ -104,8 +106,7 @@ class Proxy_Transaction extends Contabilidad_Proxy
     public function retrieveOutsideByAccount($account, $order = "date DESC"){
         $select = $this->getTable()->select(Zend_Db_Table::SELECT_WITH_FROM_PART)->setIntegrityCheck(false)
                        ->join(array('rel' => 'acc_tra'),
-                                    "rel.id_transaction = transaction.id", array("id_account", "date", "id_transaction"))
-                       ->where("rel.id_account = '$account->id'")
+                                    "rel.id_transaction = transaction.id AND rel.id_account = '$account->id'", array("id_account", "date", "id_transaction"))
                        ->where("date < '$account->date_ini'")
                        ->orWhere("date > '$account->date_end'")
                        ->order($order);
