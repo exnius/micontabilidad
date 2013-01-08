@@ -60,3 +60,18 @@ Contabilidad.currencyValue = function(){
     }
     return value;
 }
+
+Contabilidad.toDate = function(timestamp){
+    var date = new Date((timestamp) * 1000);
+    if (date.getDate()<10){
+        fday = "0" + date.getDate();
+    } else {
+        fday = date.getDate();
+    }
+    if ((date.getMonth() + 1 )<10){
+        fmonth = "0" + (date.getMonth() + 1 );
+    } else {
+        fmonth = (date.getMonth() + 1 );
+    }
+    return  fday + "/" + fmonth + "/" + date.getFullYear();
+}

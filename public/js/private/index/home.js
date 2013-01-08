@@ -100,6 +100,8 @@ function onCreateAccountStart($div){
             data.date_ini = date_ini;
             data.date_end = date_end;
             Contabilidad.getEndPoint({async : true, success: function(resp){
+                resp.account.date_ini = Contabilidad.toDate(resp.account.date_ini);
+                resp.account.date_end = Contabilidad.toDate(resp.account.date_end);
                 $("body").data("account-names").push(resp.account.name.toLowerCase());
                 var output = Mustache.render($("#account-row-tpl").html(), resp.account);
                 $("#accounts-container").prepend(output);
@@ -188,8 +190,9 @@ function onEditAccountStart($div , account){
                 $("#account-"+resp.account.id).find(".js-account-name").html(resp.account.name);
                 var dateIni = new Date((resp.account.date_ini)*1000);
                 var dateEnd = new Date((resp.account.date_end)*1000);
-                $("#account-"+resp.account.id).find(".js-account-date_ini").html(dateIni.getDate() + "/" + (dateIni.getMonth() + 1) + "/" + dateIni.getFullYear());
-                $("#account-"+resp.account.id).find(".js-account-date_end").html(dateEnd.getDate() + "/" + (dateEnd.getMonth() + 1) + "/" + dateEnd.getFullYear());
+                $("#account-"+resp.account.id).find(".js-account-date_ini").html(Contabilidad.toDate(dateIni));
+                $("#account-"+resp.account.id).find(".js-account-date_end").html(Contabilidad.toDate(dateEnd));
+                $("#account-"+resp.account.id).find(".js-account-benefit").html(resp.account.benefit)
             }}).editAccount(data);
             $.fancybox.close();
         } else {
