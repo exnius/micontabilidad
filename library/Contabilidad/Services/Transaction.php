@@ -14,11 +14,14 @@ class Contabilidad_Services_Transaction extends Contabilidad_Services_Abstract {
             $user = Contabilidad_Auth::getInstance()->getUser();
             if ($user->id){
                 $account = Proxy_Account::getInstance()->findById($params['id_account']);
-                $transaction = Proxy_Transaction::getInstance()->createNew($account, $params);
-                $serializedTransaction = Proxy_Transaction::getInstance()->serializer($transaction);
+                $transactions = Proxy_Transaction::getInstance()->createNew($account, $params);
+                $serializedTransactions = array();
+                foreach($transactions as $transaction){
+                    $serializedTransactions[] = Proxy_Transaction::getInstance()->serializer($transaction);
+                }
                 $serializedAccount = Proxy_Account::getInstance()->serializer($account);
                 $resp["account"] = $serializedAccount;
-                $resp["transaction"] = $serializedTransaction;
+                $resp["transactions"] = $serializedTransactions;
                 $resp["result"] = "success";
                 $resp["reason"] = "OK";
             } else {
@@ -28,11 +31,11 @@ class Contabilidad_Services_Transaction extends Contabilidad_Services_Abstract {
         return $resp;
     }
     
-    public function deleteTransaction ($id){
+    public function deleteTransaction ($id, $accountId){
         $resp = array("result" => "failure", "reason" => self::UNSELECTED_TRANSACTION);
         if ($id){
-        $transaction = Proxy_Transaction::getInstance()->findById($id);
-        $account = Proxy_Account::getInstance()->findById($transaction->id_account);
+            $transaction = Proxy_Transaction::getInstance()->findById($id);
+            $account = Proxy_Account::getInstance()->findById($transaction->id_account);
             if ($account->id_user == Contabilidad_Auth::getInstance()->getUser()->id){
                 $transaction->delete();
                 $benefit = $account->calculateBenefit();
