@@ -34,10 +34,10 @@ class Contabilidad_Services_Transaction extends Contabilidad_Services_Abstract {
     public function deleteTransaction ($id, $accountId){
         $resp = array("result" => "failure", "reason" => self::UNSELECTED_TRANSACTION);
         if ($id){
-        $acctra = Proxy_AccTra::getInstance()->findByTransactionIdAndAccountId($id, $accountId);
-        $account = Proxy_Account::getInstance()->findById($acctra->id_account);
+            $transaction = Proxy_Transaction::getInstance()->findById($id);
+            $account = Proxy_Account::getInstance()->findById($transaction->id_account);
             if ($account->id_user == Contabilidad_Auth::getInstance()->getUser()->id){
-                $acctra->delete();
+                $transaction->delete();
                 $benefit = $account->calculateBenefit();
                 $account->benefit = $benefit;
                 $account->save();

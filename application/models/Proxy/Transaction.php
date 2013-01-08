@@ -17,37 +17,42 @@ class Proxy_Transaction extends Contabilidad_Proxy
     
      public function createNew($account, $params){
         $transactions = array();
-         
-        $row = $this->createRow();
-        $row->name = $params['name'];
-        $row->value = $params['value'];
+        
         $date = isset($params['date']) ? $params['date'] : time();
         if($date < $account->date_ini){
             $date = $account->date_ini;
         } elseif($date > $account->date_end){
             $date = $account->date_end;
         }
+        $params['date'] = $date;
+        if(isset($params['is_frequent']) && $params['is_frequent']){
+            $transactions = Proxy_FreqTran::getInstance()->createNew($params, $account);
+        } else {
+            $row = $this->createRow();
+            $row = $this->setParams($row, $params);
+            $row->id_account = $account->id;
+            $row->save();
+            $transactions[] = $row;
+        }
+        $account->benefit = $account->calculateBenefit();
+        $account->save();
+        return $transactions;
+    }
+    
+    public function setParams($row, $params){
+        $row->name = $params['name'];
+        $row->value = $params['value'];
+        $date = isset($params['date']) ? $params['date'] : time();
+        $row->date = $date;
         $row->id_user = Contabilidad_Auth::getInstance()->getUser()->id;
         $row->comment = isset($params['comment']) ? $params['comment'] : null;
         $row->is_frequent = isset($params['is_frequent']) ? $params['is_frequent'] : null;
         $row->frequency_days = isset($params['frequency_days']) ? $params['frequency_days'] : null;
         $row->frequency_time = isset($params['frequency_time']) ? $params['frequency_time'] : null;
         $row->creation_date = time();
-        $row->id_account = $account->id;
         $row->id_category_type = isset($params['id_category_type']) ? $params['id_category_type'] : 9; // default id 9 = other
         $row->id_transaction_type = $params['id_transaction_type'];
-        $row->save();
-        $row->date_ = $date;
-        $transactions[] = $row;
-        $acctra = Proxy_AccTra::getInstance()->createNew($account->id, $row->id, $date);
-        
-        if($row->is_frequent){
-            $transactions = array_merge($this->createCopies($row, $account), $transactions);
-        }
-        
-        $account->benefit = $account->calculateBenefit();
-        $account->save();
-        return $transactions;
+        return $row;
     }
     
     public function createCopies($tran, $account){
@@ -61,12 +66,12 @@ class Proxy_Transaction extends Contabilidad_Proxy
         while($date >= $account->date_ini && $date <= $account->date_end && $date < $max){
             $row = $this->createRow();
             $row->name = $tran->name;
-            $row->value = $tran->name;
+            $row->value = $tran->value;
             $row->id_user = $tran->id_user;
             $row->comment = $tran->comment;
-            $row->is_frequent = null;
-            $row->frequency_days = null;
-            $row->frequency_time = null;
+            $row->is_frequent = $tran->is_frequent;
+            $row->frequency_days = $tran->frequency_days;
+            $row->frequency_time = $tran->frequency_time;
             $row->creation_date = time();
             $row->id_account = $account->id;
             $row->value = $tran->value;
@@ -74,10 +79,7 @@ class Proxy_Transaction extends Contabilidad_Proxy
             $row->id_transaction_type = $tran->id_transaction_type;
             $row->save();
             
-            $row->date_ = $date;
-            
             $transactions[] = $row;
-            $acctra = Proxy_AccTra::getInstance()->createNew($row->id_account, $row->id, $date);
             $date = $row->date + $tran->frequency_days*$day;
         }
         return $transactions;
@@ -94,9 +96,8 @@ class Proxy_Transaction extends Contabilidad_Proxy
     }
     
     public function retrieveBetweenByAccount($account, $order = "date DESC"){
-        $select = $this->getTable()->select(Zend_Db_Table::SELECT_WITH_FROM_PART)->setIntegrityCheck(false)
-                       ->join(array('rel' => 'acc_tra'),
-                                    "rel.id_transaction = transaction.id AND rel.id_account = '$account->id'", array("id_account", "date", "id_transaction"))
+        $select = $this->getTable()->select()
+                       ->where("id_account = '$account->id'")
                        ->where("date >= '$account->date_ini'")
                        ->where("date <= '$account->date_end'")
                        ->order($order);
@@ -104,9 +105,8 @@ class Proxy_Transaction extends Contabilidad_Proxy
     }
     
     public function retrieveOutsideByAccount($account, $order = "date DESC"){
-        $select = $this->getTable()->select(Zend_Db_Table::SELECT_WITH_FROM_PART)->setIntegrityCheck(false)
-                       ->join(array('rel' => 'acc_tra'),
-                                    "rel.id_transaction = transaction.id AND rel.id_account = '$account->id'", array("id_account", "date", "id_transaction"))
+        $select = $this->getTable()->select()
+                       ->where("id_account = '$account->id'")
                        ->where("date < '$account->date_ini'")
                        ->orWhere("date > '$account->date_end'")
                        ->order($order);
@@ -116,26 +116,6 @@ class Proxy_Transaction extends Contabilidad_Proxy
     public function retrieveAllByUserId($id, $order = "date DESC"){
         
     }
-    
-    public function retrieveFrequentsByUserId($id, $order = "date DESC"){
-        $select = $this->getTable()->select(Zend_Db_Table::SELECT_WITH_FROM_PART)->setIntegrityCheck(false)
-                        ->join(array('rel' => 'acc_tra'),
-                                "rel.id_transaction = transaction.id", array("id_account", "date", "id_transaction"))
-                       ->where("id_user = '$id'")
-                       ->where("is_frequent = '1'")
-                       ->order($order);
-        return $this->getTable()->fetchAll($select);
-    }
-    
-//    public function retrieveFrequentsByAccount($account, $order = "date DESC"){
-//        $select = $this->getTable()->select()
-//                       ->where("id_user = '$id'")
-//                       ->where("is_frequent = '1'")
-//                       ->where("date < '$account->date_ini'")
-//                       ->orWhere("date > '$account->date_end'")
-//                       ->order($order);
-//        return $this->getTable()->fetchAll($select);
-//    }
     
      /*
      * Create URL from VO_Account

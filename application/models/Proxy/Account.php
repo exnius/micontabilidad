@@ -26,7 +26,7 @@ class Proxy_Account extends Contabilidad_Proxy
         $row->creation_date = time();
         $row->save();
         
-        $transactions = Proxy_Transaction::getInstance()->retrieveFrequentsByUserId($user->id);
+        $transactions = Proxy_FreqTran::getInstance()->retrieveAllByUserId($user->id);
         $day = 60*60*24;
         foreach($transactions as $tran){
             //if frequency time is infinite, it will be a tran of current account
@@ -34,7 +34,7 @@ class Proxy_Account extends Contabilidad_Proxy
                 $diff = $row->date_ini - $tran->date;
                 $newDate = $tran->date + $diff + $tran->frequency_days*$day;
                 if($newDate <= $row->date_end){//if new date is between period, create tran
-                    $acctra = Proxy_AccTra::getInstance()->createNew($row->id, $tran->id, $newDate);
+                    $acctra = Proxy_Transaction::getInstance()->createCopies($tran, $account);
                 }
             }
         }
