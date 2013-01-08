@@ -34,7 +34,7 @@ class Proxy_Account extends Contabilidad_Proxy
                 $diff = $row->date_ini - $tran->date;
                 $newDate = $tran->date + $diff + $tran->frequency_days*$day;
                 if($newDate <= $row->date_end){//if new date is between period, create tran
-                    $acctra = Proxy_Transaction::getInstance()->createCopies($tran, $account);
+                    $acctra = Proxy_Transaction::getInstance()->createCopies($tran, $row);
                 }
             }
         }

@@ -58,10 +58,14 @@ class Proxy_Transaction extends Contabilidad_Proxy
     public function createCopies($tran, $account){
         $transactions = array();
         $day = 60*60*24;
-        $date = $tran->date + $tran->frequency_days*$day;
+        $date = $tran->date;
         $max = 1388448000;// => 31/12/2013
         if($tran->frequency_time){
             $max = $tran->frequency_time*$day + $tran->date;
+        }
+        if($max > $account->date_ini && $date < $account->date_ini){//if date < date_ini and max is bigger than date_ini
+            $diff = $tran->date - $account->date_ini;
+            $date = $tran->date + $diff + $tran->frequency_days*$day;
         }
         while($date >= $account->date_ini && $date <= $account->date_end && $date < $max){
             $row = $this->createRow();
@@ -77,6 +81,8 @@ class Proxy_Transaction extends Contabilidad_Proxy
             $row->value = $tran->value;
             $row->id_category_type = $tran->id_category_type;
             $row->id_transaction_type = $tran->id_transaction_type;
+            $row->date = $date;
+            $row->id_freq_tran = $tran->id;
             $row->save();
             
             $transactions[] = $row;
