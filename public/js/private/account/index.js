@@ -57,12 +57,7 @@ $(document).ready(function(){
             });
             return false;
         } else if($(event.target).hasClass("edit-account")){
-            $.fancybox({
-                'content' : "editar contabilidad",
-                'onComplete' : function(){
-                }
-            });
-            return false;
+            Contabilidad.showBalancePopup($(event.target) , Contabilidad.account);
         } else if($(event.target).hasClass("delete-account")){
             var output = Mustache.render($("#delete-popup-tpl").html(), 
                         {message: Contabilidad.tr("¿Realmente quieres eliminar este Balance?")});

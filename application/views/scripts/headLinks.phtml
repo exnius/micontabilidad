@@ -2,6 +2,11 @@
     var BASE_URL = "<?= BASE_URL; ?>";
     var GOOGLE_API = "<?= $this->gapi_id; ?>";
     var GOOGLE_SECRET = "<?= $this->gapi_secret; ?>";
+    
+    window.Contabilidad = window.Contabilidad || {};
+    window.Contabilidad.controller = "<?= $this->controller; ?>";
+    window.Contabilidad.module = "<?= $this->module; ?>";
+    window.Contabilidad.action = "<?= $this->action; ?>";
 </script>
 <link rel="stylesheet" type="text/css" href="<?=BASE_URL?>/css/jquery-ui-1.9.2.custom.css"/>
 <link rel="stylesheet" type="text/css" href="<?=BASE_URL?>/css/jquery.qtip.css"/>
