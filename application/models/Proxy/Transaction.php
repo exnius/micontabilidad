@@ -27,6 +27,16 @@ class Proxy_Transaction extends Contabilidad_Proxy
         $params['date'] = $date;
         if(isset($params['is_frequent']) && $params['is_frequent']){
             $transactions = Proxy_FreqTran::getInstance()->createNew($params, $account);
+            //create frequent transactions to old accounts
+            $accounts = Proxy_Account::getInstance()->retrieveNoIndependentByUserIdAndMajorThanDate(Contabilidad_Auth::getInstance()->getUser()->id, $date);
+            foreach($accounts as $acc){
+                if($acc->id != $account->id){
+                    $freqTran = Proxy_FreqTran::getInstance()->findById($transactions[0]->id_freq_tran);
+                    $this->createFrequencyTransactions($acc, $freqTran);
+                    $acc->benefit = $acc->calculateBenefit();
+                    $acc->save();
+                }
+            }
         } else {
             $row = $this->createRow();
             $row = $this->setParams($row, $params);
@@ -36,6 +46,7 @@ class Proxy_Transaction extends Contabilidad_Proxy
         }
         $account->benefit = $account->calculateBenefit();
         $account->save();
+        
         return $transactions;
     }
     
@@ -91,6 +102,27 @@ class Proxy_Transaction extends Contabilidad_Proxy
         return $transactions;
     }
     
+    public function createAllFrequencyTransactions($account){
+        $transactions = Proxy_FreqTran::getInstance()->retrieveAllByUserId($account->id_user);
+        foreach($transactions as $tran){
+            $this->createFrequencyTransactions($account, $tran);
+        }
+    }
+    
+    public function createFrequencyTransactions($account, $tran){
+        $day = 60*60*24;
+        //if frequency time is infinite, it will be a tran of current account
+        $times = ceil(($account->date_ini - $tran->date)/($tran->frequency_days*$day));
+        if(($tran->frequency_time == 0 || $times <= $tran->frequency_time) && $tran->date <= $account->date_ini){
+            $newDate = $tran->date + ($tran->frequency_days*$day*$times);
+            if($newDate <= $account->date_end){//if new date is between period, create tran
+                $tran->date = $newDate;
+                $transactions = Proxy_Transaction::getInstance()->createCopies($tran, $account);
+            }
+        }
+        
+    }
+    
     public function findById($id){
         return $this->getTable()->fetchRow("id='$id'");
     }
@@ -111,12 +143,20 @@ class Proxy_Transaction extends Contabilidad_Proxy
     }
     
     public function retrieveOutsideByAccount($account, $order = "date DESC"){
-        $select = $this->getTable()->select()
+        $firstCondition = $this->getTable()->select()
+                          ->where("date < '$account->date_ini'")
+                          ->orWhere("date > '$account->date_end'")
+                          ->getPart(Zend_Db_Select::WHERE);
+        $select = $this->getTable()->select(Zend_Db_Select::WHERE)
                        ->where("id_account = '$account->id'")
-                       ->where("date < '$account->date_ini'")
-                       ->orWhere("date > '$account->date_end'")
+                       ->where(implode(" ", $firstCondition))
                        ->order($order);
+        
         return $this->getTable()->fetchAll($select);
+    }
+    
+    public function retrieveByFreqTranId($id){
+        return $this->getTable()->fetchRow("id_freq_tran='$id'");
     }
     
     public function retrieveAllByUserId($id, $order = "date DESC"){

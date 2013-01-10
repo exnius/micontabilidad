@@ -26,18 +26,8 @@ class Proxy_Account extends Contabilidad_Proxy
         $row->creation_date = time();
         $row->save();
         
-        $transactions = Proxy_FreqTran::getInstance()->retrieveAllByUserId($user->id);
-        $day = 60*60*24;
-        foreach($transactions as $tran){
-            //if frequency time is infinite, it will be a tran of current account
-            if($tran->frequency_time == 0 && $tran->date <= $row->date_ini){
-                $diff = $row->date_ini - $tran->date;
-                $newDate = $tran->date + $diff + $tran->frequency_days*$day;
-                if($newDate <= $row->date_end){//if new date is between period, create tran
-                    $acctra = Proxy_Transaction::getInstance()->createCopies($tran, $row);
-                }
-            }
-        }
+        Proxy_Transaction::getInstance()->createAllFrequencyTransactions($row);
+        
         $row->calculateBenefit();
         $row->save();
         return $row;
@@ -53,6 +43,14 @@ class Proxy_Account extends Contabilidad_Proxy
        $account->benefit = $benefit;
        $account->save();
        return $account;
+    }
+    
+    public function retrieveNoIndependentByUserIdAndMajorThanDate($userId, $date){
+        $select = $this->getTable()->select()
+                       ->where("id_user = '$userId'")
+                       ->where("is_independent = '0'")
+                       ->where("date_ini >= '$date'");
+        return $this->getTable()->fetchAll($select);
     }
 
     public function findById ($accountId){
