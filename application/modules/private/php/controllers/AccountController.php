@@ -12,6 +12,7 @@ class Private_AccountController extends Zend_Controller_Action
         $this->view->transactions = $transactions;
         $this->view->count = count($transactions);
         $this->view->categories = Proxy_CategoryType::getInstance()->fetchAll();
+        $this->view->currencys = Proxy_Currency::getInstance()->retrieveCurrencys();
     }
     
     public function findAction(){
@@ -29,10 +30,7 @@ class Private_AccountController extends Zend_Controller_Action
     }
     
     public function editAction(){
-        $this-> view->pru="edit";
-        $user =  Proxy_User::getInstance()->findById('1');
-        $array = array('name'=>'Febrero' , 'date_ini'=>'5888123456' , 'date_end'=>'58894567890' , 'benefit'=>'3000000');
-        Proxy_Account::getInstance()->createNew($user,$array);
+        
     }
     
     public function addAction(){
