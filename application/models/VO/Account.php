@@ -5,14 +5,14 @@ class VO_Account extends Zend_Db_Table_Row {
         $transactions = Proxy_Transaction::getInstance()->retrieveBetweenByAccount($this);
         $income = $expense = 0;
         foreach ($transactions as $transaction){
-            if ($transaction->date >= $this->date_ini && $transaction->date <= $this->date_end){
-                if ($transaction->id_transaction_type == '1'){
+//            if ($transaction->date >= $this->date_ini && $transaction->date <= $this->date_end){
+                if ($transaction->id_transaction_type == '1'){//income
                     $income = $income + $transaction->value;
                 }
                 else{
-                    $expense = $expense + $transaction->value;
+                    $expense = $expense + $transaction->value;//expense
                 }
-            }
+//            }
         }
         $benefit = $income - $expense;
         return $benefit;
