@@ -3,6 +3,7 @@
     <p><?=$this->tr("Nombre")?></p>
     <input type="text" name="name" class="required">
     <input type="hidden" name="id" value="0">
+    <input type="hidden" name="id_transaction_type" value="0">
     <p><?=$this->tr("Categoria")?></p>
     <select name="id_category_type">
         <?php foreach($this->categories as $category){ ?>

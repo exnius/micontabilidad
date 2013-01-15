@@ -50,6 +50,36 @@ class Proxy_Transaction extends Contabilidad_Proxy
         return $transactions;
     }
     
+    public function edit($tran, $params){
+        $transactions = array();
+        $isFrequent = $tran->is_frequent;
+        $freqDays = $tran->frequency_days;
+        $freqTime = $tran->frequency_time;
+        foreach ($params as $prp => $val){
+            $tran->__set($prp, $val);
+        }
+        $tran->save();
+        $transactions[] = $tran;
+        if($isFrequent != $tran->is_frequent){
+            if($tran->is_frequent){
+                $transactions = Proxy_FreqTran::getInstance()->createNew($params, $account);
+            } else {
+                $freqTran = Proxy_FreqTran::getInstance()->findById($tran->id_freq_tran);
+                $freqTran->delete();
+            }
+        } elseif($tran->is_frequent){
+            $freqTran = Proxy_FreqTran::getInstance()->findById($tran->id_freq_tran);
+            $freqTran->frequency_days = $tran->frequency_days;
+            $freqTran->frequency_time = $tran->frequency_time;
+            $freqTran->id_category_type = $tran->id_category_type;
+            $freqTran->save();
+        }
+        $account = Proxy_Account::getInstance()->findById($tran->id_account);
+        $account->benefit = $account->calculateBenefit();
+        $account->save();
+        return $transactions;
+    }
+    
     public function setParams($row, $params){
         $row->name = $params['name'];
         $row->value = $params['value'];
