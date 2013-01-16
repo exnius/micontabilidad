@@ -56,7 +56,8 @@ class Proxy_Transaction extends Contabilidad_Proxy
         $freqDays = $tran->frequency_days;
         $freqTime = $tran->frequency_time;
         foreach ($params as $prp => $val){
-            $tran->__set($prp, $val);
+            if($prp == "precise_frequency_days") continue;
+            $tran->$prp = $val;
         }
         $tran->save();
         $transactions[] = $tran;

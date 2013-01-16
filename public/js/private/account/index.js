@@ -199,6 +199,7 @@ function showTransactionPopup($div, $el){
             if($div.find("input[name='is_frequent']").is(":checked")){
                 $div.find("input[name='is_frequent']").attr('checked', false).trigger("change");
             }
+            $(this.form).find("#remove-frequency-warning").hide().css({opacity: 1}).stop().fadeOut();
             $div.find("select[name='frequency_days']").val("1");
             $div.find("input[name='precise_frequency_days']").val("");
             $div.find("select[name='frequency_time']").val("0");
@@ -270,7 +271,6 @@ function getNewTransactionName($el){
 
 function onCreateTransactionStart($div){
     $div.find("#create-transaction-form").show();
-    $div.find("#remove-frequency-warning").hide();
     if(parseInt($div.find("input[name='id']").val())){
         $div.find("input[type='submit']").val(Contabilidad.tr("Editar"));
         $div.find(".less-options").hide();
@@ -408,9 +408,16 @@ function transactionPoppupCommonEvents($div, date){
             if($div.find("select[name='frequency_days']").val() == 0){
                 $div.find("input[name='precise_frequency_days']").removeAttr("disabled");
             }
+            $div.find("#remove-frequency-warning").css({opacity: 1}).hide().stop().fadeOut();
         } else {
-            if(parseInt($div.find("input[name='id']").val())){
-                $div.find("#remove-frequency-warning").show().fadeOut(5000);
+            var id = parseInt($div.find("input[name='id']").val());
+            if(id){
+                var curTran = Contabilidad.transactions[id];
+                if(curTran.is_frequent){
+                    $div.find("#remove-frequency-warning").show().fadeOut(5000, function(){
+                        $(this).css({opacity: 1});
+                    });
+                }
             }
             $div.find("select[name='frequency_days']").attr("disabled", true);
             $div.find("select[name='frequency_time']").attr("disabled", true);
