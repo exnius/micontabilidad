@@ -59,6 +59,11 @@ class Proxy_Transaction extends Contabilidad_Proxy
             if($prp == "precise_frequency_days") continue;
             $tran->$prp = $val;
         }
+        if(!isset($params["is_frequent"]) || !$params["is_frequent"]){
+            $tran->is_frequent = null;
+            $tran->frequency_days = null;
+            $tran->frequency_time = null;
+        }
         $tran->save();
         $transactions[] = $tran;
         if($isFrequent != $tran->is_frequent){
@@ -67,6 +72,8 @@ class Proxy_Transaction extends Contabilidad_Proxy
             } else {
                 $freqTran = Proxy_FreqTran::getInstance()->findById($tran->id_freq_tran);
                 $freqTran->delete();
+                $transactions = $freqTran->getChildren();
+                
             }
         } elseif($tran->is_frequent){
             $freqTran = Proxy_FreqTran::getInstance()->findById($tran->id_freq_tran);
