@@ -8,7 +8,7 @@ $(document).ready(function(){
     
     $("body").click(function(event){
         if($(event.target).hasClass("delete-account")){
-            var output = Mustache.render($("#delete-popup-tpl").html(), 
+            var output = Mustache.render($("#delete-popup-tpl").html(),
                         {message: Contabilidad.tr("¿Realmente quieres eliminar este balance?")});
             $.fancybox({
                 'content' : output,
@@ -43,11 +43,6 @@ $(document).ready(function(){
     });
 });
 
-
-/*************************************
- **********ALL FORMS METHODS***********
- *************************************/
-
 function onClose(form){
     Contabilidad.Validate.clean($(form));
     $(form).hide();
@@ -62,14 +57,14 @@ function onClose(form){
 }
 
 /*************************************
- **********VALIDATE METHODS***********
- *************************************/
+**********VALIDATE METHODS***********
+*************************************/
 
 function findAndDisplayErrors($form)
 {
     var errors;
     $form.find(".input-error").each(function(){
-        errors =  $(this).data("errors");
+        errors = $(this).data("errors");
         if(errors.length){
             return;
         }
