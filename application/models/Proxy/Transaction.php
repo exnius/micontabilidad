@@ -55,6 +55,7 @@ class Proxy_Transaction extends Contabilidad_Proxy
         $isFrequent = $tran->is_frequent;
         $freqDays = $tran->frequency_days;
         $freqTime = $tran->frequency_time;
+        $idCategoryType = $tran->id_category_type;
         $value = $tran->value;
         $name = $tran->name;
         foreach ($params as $prp => $val){
@@ -80,25 +81,67 @@ class Proxy_Transaction extends Contabilidad_Proxy
             } else {
                 $freqTran = Proxy_FreqTran::getInstance()->findById($tran->id_freq_tran);
                 $freqTran->delete();
-                $transactions = $freqTran->getChildren();
-                
+                $children = $freqTran->getChildren();//it can retrieve transactions from another account
+                foreach($children as $childTran){
+                    if($childTran->id_account == $account->id){
+                        $transactions[] = $childTran;
+                    }
+                }
             }
         } elseif($tran->is_frequent){
-            //create copies + delete younger children tran
             $freqTran = Proxy_FreqTran::getInstance()->findById($tran->id_freq_tran);
-            $freqTran->frequency_days = $tran->frequency_days;
-            $freqTran->frequency_time = $tran->frequency_time;
+            
             $freqTran->id_category_type = $tran->id_category_type;
             $freqTran->name = $tran->name;
+            $freqTran->frequency_days = $tran->frequency_days;
+            $freqTran->frequency_time = $tran->frequency_time;
             $freqTran->value = $tran->value;
+            $freqTran->date= $tran->date;
             $freqTran->save();
             
-            if($name != $tran->name || $value != $tran->value){
-                $youngerChildren = $this->retrieveYoungerByFreqTranIdAndTransaction($id, $tran);
+            if($freqTime != $tran->frequency_time || $freqDays != $tran->frequency_days){
+                //create copies + delete younger children tran
+                //1. delete youngers
+                $youngerChildren = $this->retrieveYoungerByFreqTranIdAndTransaction($tran->id_freq_tran, $tran);
+                $updatedAccounts = array();
+                foreach($youngerChildren as $ytran){
+                    $updatedAccounts[$ytran->id_account] = $ytran->id_account;
+                    $ytran->delete();
+                }
+                
+                //2. create copies
+                //2.1 create copies of current account
+                $transactions = array_merge($this->createCopies($freqTran, $account, $tran->date), $transactions);
+                //2.2 younger accounts
+                $accounts = Proxy_Account::getInstance()->retrieveNoIndependentByUserIdAndMajorThanDate(Contabilidad_Auth::getInstance()->getUser()->id, $tran->date);
+                foreach($accounts as $acc){
+                    if($acc->id != $account->id){
+                        $this->createFrequencyTransactions($acc, $freqTran);
+                        $acc->benefit = $acc->calculateBenefit();
+                        $acc->save();
+                    }
+                }
+                
+            } elseif($name != $tran->name || $value != $tran->value || $idCategoryType != $tran->id_category_type){//update younger transactions
+                $youngerChildren = $this->retrieveYoungerByFreqTranIdAndTransaction($tran->id_freq_tran, $tran);
+                $updatedAccounts = array();
                 foreach($youngerChildren as $ytran){
                     $ytran->name = $tran->name;
                     $ytran->value = $tran->value;
+                    $ytran->id_category_type = $tran->id_category_type;
                     $ytran->save();
+                    if($ytran->id_account == $account->id){
+                        $transactions[] = $ytran;
+                    }
+                    $updatedAccounts[$ytran->id_account] = $ytran->id_account;
+                }
+                if($name != $tran->name || $value != $tran->value){
+                    //update accounts
+                    foreach($updatedAccounts as $idAccount){
+                        $yaccount = Proxy_Account::getInstance()->findById($ytran->id_account);
+                        $yaccount->benefit = $yaccount->calculateBenefit();
+                        $yaccount->save();
+                    }
                 }
             }
         }
@@ -123,7 +166,7 @@ class Proxy_Transaction extends Contabilidad_Proxy
         return $row;
     }
     
-    public function createCopies($tran, $account, $omiteDate){
+    public function createCopies($tran, $account, $omiteDate = null){
         $transactions = array();
         $day = 60*60*24;
         $date = $tran->date;
