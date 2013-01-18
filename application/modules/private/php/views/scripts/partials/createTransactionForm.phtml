@@ -2,6 +2,8 @@
     <h1><?=$this->tr("Adicionar")?></h1>
     <p><?=$this->tr("Nombre")?></p>
     <input type="text" name="name" class="required">
+    <input type="hidden" name="id" value="0">
+    <input type="hidden" name="id_transaction_type" value="0">
     <p><?=$this->tr("Categoria")?></p>
     <select name="id_category_type">
         <?php foreach($this->categories as $category){ ?>
@@ -20,6 +22,9 @@
         <input id="is_frequent" type="checkbox" name="is_frequent"/>
         <span><label for="is_frequent"><?=$this->tr("recurrente")?></label></span>
     </p>
+    <div id="remove-frequency-warning" style="display: none;">
+        <?=$this->tr("Si cancelas la recurrencia de esta transaccion ya no se volvera a repetir en tus proximos presupuestos.")?>
+    </div>
     <p><?=$this->tr("Frecuencia")?></p>
     <select name="frequency_days" disabled="true" class="select-disabled">
         <option value="1"><?= $this->tr("diario");?></option>
@@ -31,7 +36,7 @@
     <input type="text" name="precise_frequency_days" disabled="true" class="input-disabled">
     <p><?=$this->tr("Numero de repeticiones")?></p>
     <select name="frequency_time" disabled="true" class="select-disabled">
-        <option value="0"><?= $this->tr("infinito");?></option>
+        <option value="0"><?= $this->tr("indefinido");?></option>
         <?php for($i=1;$i<=30;$i++){ ?>
             <option value="<?= $i ?>"><?= $i?></option>
         <?php }?>

@@ -50,6 +50,44 @@ class Proxy_Transaction extends Contabilidad_Proxy
         return $transactions;
     }
     
+    public function edit($tran, $params){
+        $transactions = array();
+        $isFrequent = $tran->is_frequent;
+        $freqDays = $tran->frequency_days;
+        $freqTime = $tran->frequency_time;
+        foreach ($params as $prp => $val){
+            if($prp == "precise_frequency_days") continue;
+            $tran->$prp = $val;
+        }
+        if(!isset($params["is_frequent"]) || !$params["is_frequent"]){
+            $tran->is_frequent = null;
+            $tran->frequency_days = null;
+            $tran->frequency_time = null;
+        }
+        $tran->save();
+        $transactions[] = $tran;
+        if($isFrequent != $tran->is_frequent){
+            if($tran->is_frequent){
+                $transactions = Proxy_FreqTran::getInstance()->createNew($params, $account);
+            } else {
+                $freqTran = Proxy_FreqTran::getInstance()->findById($tran->id_freq_tran);
+                $freqTran->delete();
+                $transactions = $freqTran->getChildren();
+                
+            }
+        } elseif($tran->is_frequent){
+            $freqTran = Proxy_FreqTran::getInstance()->findById($tran->id_freq_tran);
+            $freqTran->frequency_days = $tran->frequency_days;
+            $freqTran->frequency_time = $tran->frequency_time;
+            $freqTran->id_category_type = $tran->id_category_type;
+            $freqTran->save();
+        }
+        $account = Proxy_Account::getInstance()->findById($tran->id_account);
+        $account->benefit = $account->calculateBenefit();
+        $account->save();
+        return $transactions;
+    }
+    
     public function setParams($row, $params){
         $row->name = $params['name'];
         $row->value = $params['value'];
@@ -72,7 +110,7 @@ class Proxy_Transaction extends Contabilidad_Proxy
         $date = $tran->date;
         $max = 1388448000;// => 31/12/2013
         if($tran->frequency_time){
-            $max = $tran->frequency_time*$day + $tran->date;
+            $max = $tran->frequency_time*$tran->frequency_days*$day + $tran->date;
         }
         if($max > $account->date_ini && $date < $account->date_ini){//if date < date_ini and max is bigger than date_ini
             $diff = $tran->date - $account->date_ini;
@@ -155,8 +193,8 @@ class Proxy_Transaction extends Contabilidad_Proxy
         return $this->getTable()->fetchAll($select);
     }
     
-    public function retrieveByFreqTranId($id){
-        return $this->getTable()->fetchRow("id_freq_tran='$id'");
+    public function retrieveAllByFreqTranId($id){
+        return $this->getTable()->fetchAll("id_freq_tran='$id'");
     }
     
     public function retrieveAllByUserId($id, $order = "date DESC"){
@@ -175,12 +213,19 @@ class Proxy_Transaction extends Contabilidad_Proxy
     }
     
     public function serializer ($transaction){
-        return $serialized = array("id" => $transaction->id, 
+        return $serialized = array(
+            "id" => $transaction->id, 
             "transactionUrl" => $this->getUrl_($transaction),
             "name" => $transaction->name,
             "timestampDate" => $transaction->date,
             "date" => Contabilidad_Utils_Dates::toDate($transaction->date),
             "value" => $transaction->value,
+            "id_category_type" => $transaction->id_category_type,
+            "id_transaction_type" => $transaction->id_transaction_type,
+            "is_frequent" => $transaction->is_frequent,
+            "frequency_days" => $transaction->frequency_days,
+            "frequency_time" => $transaction->frequency_time,
+            "id_user" => $transaction->id_user,
             "dateClass" => $transaction->date > time() ? "@" : "",
             "transactionType" => $transaction->id_transaction_type == 1 ? "income" : "expense");
     }

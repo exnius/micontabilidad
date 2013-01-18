@@ -76,5 +76,6 @@
 </div>
 
 <script language="javascript">
-    window.Contabilidad.account = <?= Zend_Json::encode($this->serializedAccount); ?>
+    window.Contabilidad.account = <?= Zend_Json::encode($this->serializedAccount); ?>;
+    window.Contabilidad.transactions = <?= Zend_Json::encode($this->serializedTransactions); ?>;
 </script>
