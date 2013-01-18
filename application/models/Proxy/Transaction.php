@@ -55,6 +55,8 @@ class Proxy_Transaction extends Contabilidad_Proxy
         $isFrequent = $tran->is_frequent;
         $freqDays = $tran->frequency_days;
         $freqTime = $tran->frequency_time;
+        $value = $tran->value;
+        $name = $tran->name;
         foreach ($params as $prp => $val){
             if($prp == "precise_frequency_days") continue;
             $tran->$prp = $val;
@@ -66,9 +68,15 @@ class Proxy_Transaction extends Contabilidad_Proxy
         }
         $tran->save();
         $transactions[] = $tran;
+        $account = Proxy_Account::getInstance()->findById($tran->id_account);
         if($isFrequent != $tran->is_frequent){
             if($tran->is_frequent){
+                $params["omite_date"] = $tran->date;
                 $transactions = Proxy_FreqTran::getInstance()->createNew($params, $account);
+                $freqTran = Proxy_FreqTran::getInstance()->lastInsertByUserId(Contabilidad_Auth::getInstance()->getUser()->id);
+                $tran->id_freq_tran = $freqTran->id;
+                $tran->save();
+                $transactions[] = $tran;
             } else {
                 $freqTran = Proxy_FreqTran::getInstance()->findById($tran->id_freq_tran);
                 $freqTran->delete();
@@ -76,13 +84,24 @@ class Proxy_Transaction extends Contabilidad_Proxy
                 
             }
         } elseif($tran->is_frequent){
+            //create copies + delete younger children tran
             $freqTran = Proxy_FreqTran::getInstance()->findById($tran->id_freq_tran);
             $freqTran->frequency_days = $tran->frequency_days;
             $freqTran->frequency_time = $tran->frequency_time;
             $freqTran->id_category_type = $tran->id_category_type;
+            $freqTran->name = $tran->name;
+            $freqTran->value = $tran->value;
             $freqTran->save();
+            
+            if($name != $tran->name || $value != $tran->value){
+                $youngerChildren = $this->retrieveYoungerByFreqTranIdAndTransaction($id, $tran);
+                foreach($youngerChildren as $ytran){
+                    $ytran->name = $tran->name;
+                    $ytran->value = $tran->value;
+                    $ytran->save();
+                }
+            }
         }
-        $account = Proxy_Account::getInstance()->findById($tran->id_account);
         $account->benefit = $account->calculateBenefit();
         $account->save();
         return $transactions;
@@ -104,7 +123,7 @@ class Proxy_Transaction extends Contabilidad_Proxy
         return $row;
     }
     
-    public function createCopies($tran, $account){
+    public function createCopies($tran, $account, $omiteDate){
         $transactions = array();
         $day = 60*60*24;
         $date = $tran->date;
@@ -117,25 +136,27 @@ class Proxy_Transaction extends Contabilidad_Proxy
             $date = $tran->date + $diff + $tran->frequency_days*$day;
         }
         while($date >= $account->date_ini && $date <= $account->date_end && $date < $max){
-            $row = $this->createRow();
-            $row->name = $tran->name;
-            $row->value = $tran->value;
-            $row->id_user = $tran->id_user;
-            $row->comment = $tran->comment;
-            $row->is_frequent = $tran->is_frequent;
-            $row->frequency_days = $tran->frequency_days;
-            $row->frequency_time = $tran->frequency_time;
-            $row->creation_date = time();
-            $row->id_account = $account->id;
-            $row->value = $tran->value;
-            $row->id_category_type = $tran->id_category_type;
-            $row->id_transaction_type = $tran->id_transaction_type;
-            $row->date = $date;
-            $row->id_freq_tran = $tran->id;
-            $row->save();
-            
-            $transactions[] = $row;
-            $date = $row->date + $tran->frequency_days*$day;
+            if($date != $omiteDate){
+                $row = $this->createRow();
+                $row->name = $tran->name;
+                $row->value = $tran->value;
+                $row->id_user = $tran->id_user;
+                $row->comment = $tran->comment;
+                $row->is_frequent = $tran->is_frequent;
+                $row->frequency_days = $tran->frequency_days;
+                $row->frequency_time = $tran->frequency_time;
+                $row->creation_date = time();
+                $row->id_account = $account->id;
+                $row->value = $tran->value;
+                $row->id_category_type = $tran->id_category_type;
+                $row->id_transaction_type = $tran->id_transaction_type;
+                $row->date = $date;
+                $row->id_freq_tran = $tran->id;
+                $row->save();
+
+                $transactions[] = $row;
+            }
+            $date = $date + $tran->frequency_days*$day;
         }
         return $transactions;
     }
@@ -195,6 +216,13 @@ class Proxy_Transaction extends Contabilidad_Proxy
     
     public function retrieveAllByFreqTranId($id){
         return $this->getTable()->fetchAll("id_freq_tran='$id'");
+    }
+    
+    public function retrieveYoungerByFreqTranIdAndTransaction($id, $tran){
+        $select = $this->getTable()->select()
+                       ->where("id_freq_tran = '$id'")
+                       ->where("date > '$tran->date'");
+        return $this->getTable()->fetchAll($select);
     }
     
     public function retrieveAllByUserId($id, $order = "date DESC"){

@@ -19,7 +19,8 @@ class Proxy_FreqTran extends Contabilidad_Proxy
         $row = $this->createRow();
         $row = Proxy_Transaction::getInstance()->setParams($row, $params);
         $row->save();
-        $transactions= Proxy_Transaction::getInstance()->createCopies($row, $account);
+        $omiteDate = isset($params['omite_date']) ? $params['omite_date'] : null;
+        $transactions= Proxy_Transaction::getInstance()->createCopies($row, $account, $omiteDate);
         
         return $transactions;
     }
@@ -33,6 +34,13 @@ class Proxy_FreqTran extends Contabilidad_Proxy
                        ->where("id_user = '$id'")
                        ->order($order);
         return $this->getTable()->fetchAll($select);
+    }
+    
+    public function lastInsertByUserId($id){
+        $select = $this->getTable()->select()
+                       ->where("id_user = '$id'")
+                       ->order("id DESC");
+        return $this->getTable()->fetchRow($select);
     }
     
     
