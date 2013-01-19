@@ -16,9 +16,10 @@ class Contabilidad_Services_Transaction extends Contabilidad_Services_Abstract {
             if ($user->id){
                 if($this->reviewParam('id', $params) && $params['id'] != 0){
                     $transaction = $ptran->findById($params['id']);
-                    $transactions = $ptran->edit($transaction, $params);
+                    list($transactions, $deletedTransactions) = $ptran->edit($transaction, $params);
                     $account = Proxy_Account::getInstance()->findById($params['id_account']);
                     $resp["reason"] = "EDITED";
+                    $resp["deleted_transactions"] = $deletedTransactions;
                 } else {
                     $account = Proxy_Account::getInstance()->findById($params['id_account']);
                     $transactions = $ptran->createNew($account, $params);

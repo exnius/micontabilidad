@@ -483,4 +483,13 @@ function displaySavedTransactions(resp)
         //update temporal variable
         Contabilidad.transactions[tran.id] = tran;
     });
+    
+    //remove transactions
+    if(resp.deleted_transactions){
+        $(resp.deleted_transactions).each(function(i){
+            var id = resp.deleted_transactions[i];
+            $("#transaction-" + id).remove();
+            delete Contabilidad.transactions[id];
+        });
+    }
 }

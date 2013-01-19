@@ -50,8 +50,10 @@ class Proxy_Transaction extends Contabilidad_Proxy
         return $transactions;
     }
     
+    //Return transactions and deleted transactions (if there are)
     public function edit($tran, $params){
         $transactions = array();
+        $deletedTransactions = array();
         $isFrequent = $tran->is_frequent;
         $freqDays = $tran->frequency_days;
         $freqTime = $tran->frequency_time;
@@ -70,15 +72,17 @@ class Proxy_Transaction extends Contabilidad_Proxy
         $tran->save();
         $transactions[] = $tran;
         $account = Proxy_Account::getInstance()->findById($tran->id_account);
-        if($isFrequent != $tran->is_frequent){
-            if($tran->is_frequent){
+        if($isFrequent != $tran->is_frequent){//if the user changed "is_frequent"
+            if($tran->is_frequent){//if it is frequent now
+                //create freq tran and copies
                 $params["omite_date"] = $tran->date;
                 $transactions = Proxy_FreqTran::getInstance()->createNew($params, $account);
                 $freqTran = Proxy_FreqTran::getInstance()->lastInsertByUserId(Contabilidad_Auth::getInstance()->getUser()->id);
                 $tran->id_freq_tran = $freqTran->id;
                 $tran->save();
                 $transactions[] = $tran;
-            } else {
+            } else {//if it is not frequent anymore
+                //delete freqtran and its children
                 $freqTran = Proxy_FreqTran::getInstance()->findById($tran->id_freq_tran);
                 $freqTran->delete();
                 $children = $freqTran->getChildren();//it can retrieve transactions from another account
@@ -88,7 +92,7 @@ class Proxy_Transaction extends Contabilidad_Proxy
                     }
                 }
             }
-        } elseif($tran->is_frequent){
+        } elseif($tran->is_frequent){//anotherwise the user changed value or frequency prps
             $freqTran = Proxy_FreqTran::getInstance()->findById($tran->id_freq_tran);
             
             $freqTran->id_category_type = $tran->id_category_type;
@@ -99,6 +103,7 @@ class Proxy_Transaction extends Contabilidad_Proxy
             $freqTran->date= $tran->date;
             $freqTran->save();
             
+            //if user changed frequency_time or frequency_days
             if($freqTime != $tran->frequency_time || $freqDays != $tran->frequency_days){
                 //create copies + delete younger children tran
                 //1. delete youngers
@@ -106,6 +111,7 @@ class Proxy_Transaction extends Contabilidad_Proxy
                 $updatedAccounts = array();
                 foreach($youngerChildren as $ytran){
                     $updatedAccounts[$ytran->id_account] = $ytran->id_account;
+                    if($ytran->id_account == $account->id) $deletedTransactions[] = $ytran->id;
                     $ytran->delete();
                 }
                 
@@ -147,7 +153,7 @@ class Proxy_Transaction extends Contabilidad_Proxy
         }
         $account->benefit = $account->calculateBenefit();
         $account->save();
-        return $transactions;
+        return array($transactions, $deletedTransactions);
     }
     
     public function setParams($row, $params){
