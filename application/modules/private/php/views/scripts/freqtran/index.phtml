@@ -1,0 +1,35 @@
+<div>
+    <?php
+        $m = new Mustache_Engine;
+        foreach ($this->transactions as $transaction){
+            if ($transaction->frequency_time == 0){
+                $freqTime = $this->tr("Indefinido");
+            } else {
+                $freqTime = $transaction->frequency_time;
+            }
+            
+            if ($transaction->frequency_days == -1){
+                $freqDays = $this->tr("Mensual");
+            } elseif ($transaction->frequency_days == -2) {
+                $freqDays = $this->tr("Quincenal");
+            } elseif ($transaction->frequency_days == 7) {
+                $freqDays = $this->tr("Semanal");
+            } elseif ($transaction->frequency_days == 1) {
+                $freqDays = $this->tr("Diario");
+            } else {
+                $freqDays = $transaction->frequency_days;
+            }
+        ?>
+            <?= $m->render($this->render("mustache/freqtran-row.phtml"), array(
+                "id" => $transaction->id,
+                "transactionUrl" => $this->createUrl("transaction", $transaction),
+                "name" => $transaction->name,
+                "timestampDate" => $transaction->date,
+                "value" => $this->currencyValue($transaction->value, Contabilidad_Auth::getInstance()->getUser()->id_currency),
+                "date" => Contabilidad_Utils_Dates::toDate($transaction->date),
+                "transactionType" => $transaction->id_transaction_type == 1 ? "income" : "expense",
+                "frequency_days" => $freqDays,
+                "frequency_time" => $freqTime
+            ));?>
+        <?php }?>
+</div>
