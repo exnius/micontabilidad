@@ -28,7 +28,7 @@ class Proxy_Account extends Contabilidad_Proxy
         
         Proxy_Transaction::getInstance()->createAllFrequencyTransactions($row);
         
-        $row->calculateBenefit();
+        $row->benefit = $row->calculateBenefit();
         $row->save();
         return $row;
     }

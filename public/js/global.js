@@ -176,10 +176,10 @@ Contabilidad.onAccountPopupStart = function ($div, account){
                     location.reload(true);
                 }
                 Contabilidad.account = resp.account;
-                $("#account-"+resp.account.id).find(".js-account-benefit").html(resp.account.benefit)
-                
+                $("#account-" + resp.account.id + " .account-benefit").html(Contabilidad.currencyValue(resp.account.benefit, resp.account.id_currency));
+                $("#account-"+resp.account.id).find(".js-account-benefit").html(Contabilidad.currencyValue(resp.account.benefit, resp.account.id_currency))
+                $.fancybox.close();
             }}).editAccount(data);
-            $.fancybox.close();
         } else {
             if(date_end < date_ini) {
                 $div.find("input[name='date_end']").addClass("input-error")
@@ -192,31 +192,31 @@ Contabilidad.onAccountPopupStart = function ($div, account){
 
     } else {
         $div.find("form").submit(function(){
-        var date_ini = $div.find("input[name='date_ini']").datepicker("getDate").getTime()/1000;
-        var date_end = $div.find("input[name='date_end']").datepicker("getDate").getTime()/1000;
-        if(Contabilidad.Validate.isValid($(this)) && date_end >= date_ini){
-            var data = {};
-            $(this).find("input,select").each(function(){
-                data[$(this).attr("name")] = $(this).val();
-            });
-            data.date_ini = date_ini;
-            data.date_end = date_end;
-            Contabilidad.getEndPoint({async : true, success: function(resp){
-                resp.account.date_ini = Contabilidad.toDate(resp.account.date_ini);
-                resp.account.date_end = Contabilidad.toDate(resp.account.date_end);
-                $("body").data("account-names").push(resp.account.name.toLowerCase());
-                var output = Mustache.render($("#account-row-tpl").html(), resp.account);
-                $("#accounts-container").prepend(output);
-                $.fancybox.close();
-            }}).createAccount(data);
-        } else {
-            if(date_end < date_ini) {
-                $div.find("input[name='date_end']").addClass("input-error")
-                .data("errors",[{message : Contabilidad.tr("La fecha final debe ser posterior a la fecha inicial.")}]);
+            var date_ini = $div.find("input[name='date_ini']").datepicker("getDate").getTime()/1000;
+            var date_end = $div.find("input[name='date_end']").datepicker("getDate").getTime()/1000;
+            if(Contabilidad.Validate.isValid($(this)) && date_end >= date_ini){
+                var data = {};
+                $(this).find("input,select").each(function(){
+                    data[$(this).attr("name")] = $(this).val();
+                });
+                data.date_ini = date_ini;
+                data.date_end = date_end;
+                Contabilidad.getEndPoint({async : true, success: function(resp){
+                    resp.account.date_ini = Contabilidad.toDate(resp.account.date_ini);
+                    resp.account.date_end = Contabilidad.toDate(resp.account.date_end);
+                    $("body").data("account-names").push(resp.account.name.toLowerCase());
+                    var output = Mustache.render($("#account-row-tpl").html(), resp.account);
+                    $("#accounts-container").prepend(output);
+                    $.fancybox.close();
+                }}).createAccount(data);
+            } else {
+                if(date_end < date_ini) {
+                    $div.find("input[name='date_end']").addClass("input-error")
+                    .data("errors",[{message : Contabilidad.tr("La fecha final debe ser posterior a la fecha inicial.")}]);
+                }
+                findAndDisplayErrors($div.find("#create-account-form"));
             }
-            findAndDisplayErrors($div.find("#create-account-form"));
-        }
-        return false;
+            return false;
         });
     }
 
