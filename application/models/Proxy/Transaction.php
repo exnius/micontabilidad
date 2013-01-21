@@ -177,12 +177,22 @@ class Proxy_Transaction extends Contabilidad_Proxy
         $day = 60*60*24;
         $date = $tran->date;
         $max = 1388448000;// => 31/12/2013
-        if($tran->frequency_time){
+        if($tran->frequency_time > 0 && $tran->frequency_days>0){
             $max = $tran->frequency_time*$tran->frequency_days*$day + $tran->date;
+        }elseif($tran->frequency_days == -1 && $tran->frequency_time > 0){
+            $max = strtotime($tran->date, "+" . $tran->frequency_time . " month");
         }
         if($max > $account->date_ini && $date < $account->date_ini){//if date < date_ini and max is bigger than date_ini
-            $diff = $tran->date - $account->date_ini;
-            $date = $tran->date + $diff + $tran->frequency_days*$day;
+            if($tran->frequency_days>0){
+                $diff = $tran->date - $account->date_ini;
+                $date = $tran->date + $diff + $tran->frequency_days*$day;
+            } elseif($tran->frequency_days == -1) {//monthly
+                $tranDay = date("d", $tran->date);
+                $accDay = date("d", $account->date_ini);
+                $accMonth = date("m", $account->date_ini);
+                $accYear = date("Y", $account->date_ini);
+                $date = strtotime($tranDay . "-" . $accMonth . "-" . $accYear);
+            }
         }
         while($date >= $account->date_ini && $date <= $account->date_end && $date < $max){
             if($date != $omiteDate){
@@ -205,7 +215,19 @@ class Proxy_Transaction extends Contabilidad_Proxy
 
                 $transactions[] = $row;
             }
-            $date = $date + $tran->frequency_days*$day;
+            if($tran->frequency_days == -1){
+                $dateDay = date("d", $date);
+                $dateMonth = date("m", $date);
+                $dateYear = date("Y", $date);
+                $dateMonth++;
+                if($dateMonth > 12){
+                    $dateMonth = 1;
+                    $dateYear++;
+                }
+                $date = strtotime($dateDay . "-" . $dateMonth . "-" . $dateYear);
+            } else {
+                $date = $date + $tran->frequency_days*$day;
+            }
         }
         return $transactions;
     }
@@ -218,17 +240,31 @@ class Proxy_Transaction extends Contabilidad_Proxy
     }
     
     public function createFrequencyTransactions($account, $tran){
-        $day = 60*60*24;
-        //if frequency time is infinite, it will be a tran of current account
-        $times = ceil(($account->date_ini - $tran->date)/($tran->frequency_days*$day));
-        if(($tran->frequency_time == 0 || $times <= $tran->frequency_time) && $tran->date <= $account->date_ini){
-            $newDate = $tran->date + ($tran->frequency_days*$day*$times);
-            if($newDate <= $account->date_end){//if new date is between period, create tran
-                $tran->date = $newDate;
-                $transactions = Proxy_Transaction::getInstance()->createCopies($tran, $account);
+        if($tran->date <= $account->date_ini){
+            $day = 60*60*24;
+            $times = 0;
+            if($tran->frequency_days > 0){
+                $times = ceil(($account->date_ini - $tran->date)/($tran->frequency_days*$day));
+                $newDate = $tran->date + ($tran->frequency_days*$day*$times);
+            } elseif($tran->frequency_days == -1){
+                $accD = date("d", $account->date_ini);
+                $accM = date("m", $account->date_ini);
+                $accY = date("Y", $account->date_ini);
+                $tranD = date("d", $tran->date);
+
+                $accDate = new DateTime($tranD . "-" . $accM . "-" . $accY);
+                $tranDate = new DateTime(date("d-m-Y", $tran->date));
+                $interval = $accDate->diff($tranDate);
+                $times = $interval->y*12 + $interval->m;
+                $newDate = strtotime($tranD . "-" . $accM . "-" . $accY);
+            }         
+            if(($tran->frequency_time == 0 || $times <= $tran->frequency_time)){
+                if($newDate <= $account->date_end){//if new date is between period, create tran
+                    $tran->date = $newDate;
+                    $transactions = Proxy_Transaction::getInstance()->createCopies($tran, $account);
+                }
             }
         }
-        
     }
     
     public function findById($id){
