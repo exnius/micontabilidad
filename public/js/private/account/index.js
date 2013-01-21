@@ -77,7 +77,7 @@ $(document).ready(function(){
             if(curTran.is_frequent){
                 $div.find("input[name='is_frequent']").attr('checked', true).trigger("change");
                 if(!(curTran.frequency_days == 1 || curTran.frequency_days == 7 
-                     || curTran.frequency_days == 15 || curTran.frequency_days == 30)){
+                     || curTran.frequency_days == 15 || curTran.frequency_days == -1)){
                     $div.find("input[name='precise_frequency_days']").val(curTran.frequency_days).attr("disabled", false);
                     $div.find("select[name='frequency_days']").val(0).attr("disabled", false);
                 } else {
