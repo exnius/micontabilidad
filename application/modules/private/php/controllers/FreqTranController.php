@@ -1,6 +1,6 @@
 <?php
 
-class Private_FreqtranController extends Zend_Controller_Action
+class Private_FreqTranController extends Zend_Controller_Action
 {
     public function indexAction(){
         $userId = Contabilidad_Auth::getInstance()->getUser()->id;
