@@ -88,7 +88,7 @@ $(document).ready(function(){
             showTransactionPopup($div, $(event.target));
             return false;
         } else if($(event.target).hasClass("edit-account")){
-            Contabilidad.showBalancePopup($(event.target) , Contabilidad.account);
+            QHelpers.account.showBalancePopup($(event.target) , Contabilidad.account);
         } else if($(event.target).hasClass("delete-account")){
             var output = Mustache.render($("#delete-popup-tpl").html(), 
                         {message: Contabilidad.tr("¿Realmente quieres eliminar este Balance?")});

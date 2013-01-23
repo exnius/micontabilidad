@@ -2,7 +2,7 @@ $(document).ready(function(){
     
     //CREATE ACCOUNT FANCYBOX
     $("#js-fancy-create-account").click(function(){
-        Contabilidad.showBalancePopup($(this));
+        QHelpers.account.showBalancePopup($(this));
         return false;
     });
     
@@ -36,7 +36,7 @@ $(document).ready(function(){
             var $div = $("<div>").append(nAddFrag);
             Contabilidad.getEndPoint({async : true, success: function(account){
                 if (account){
-                    Contabilidad.showBalancePopup($(event.target), account)
+                    QHelpers.account.showBalancePopup($(event.target), account)
                 }
             }}).getAccountById(id);
         }
