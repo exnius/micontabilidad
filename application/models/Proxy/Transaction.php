@@ -240,7 +240,7 @@ class Proxy_Transaction extends Contabilidad_Proxy
     }
     
     public function createFrequencyTransactions($account, $tran){
-        if($tran->date <= $account->date_ini){
+        if($tran->date <= $account->date_end){
             $day = 60*60*24;
             $times = 0;
             if($tran->frequency_days > 0){

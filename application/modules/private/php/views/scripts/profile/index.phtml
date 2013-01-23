@@ -1,0 +1,40 @@
+<h1>Editar Perfil</h1>
+    
+
+<form action="http://micontabilidad.com/private/user/uploadpicture" method="post" enctype="multipart/form-data"> 
+    Archivo: <input name="fichero" type="file"> 
+    <input name="submit" type="submit" value="Upload!">  
+</form>
+
+<div id="profile-form">
+    <form action="" method="POST">
+        <p><?=$this->tr("Mi Nombre")?></p>
+        <input value="<?= $this->user->full_name?>" type="text" name="full_name" class="required">
+        <p><?=$this->tr("Mi Correo")?></p>
+        <input type="text" value="<?= $this->user->email?>" name="email" readonly='true'>
+        <p><?=$this->tr("Mi Pais")?></p>
+        <select name="contry">
+            <?php foreach($this->countries as $countryId => $countryName){?>
+                <?php if($countryId == $this->user->country){?>
+                    <option selected="selected" value="<?= $countryId?>"><?= $countryName?></option>
+                <?php } else {?>
+                    <option value="<?= $countryId?>"><?= $countryName?></option>
+                <?php } ?>
+            <?php }?>
+        </select>
+        <p><?=$this->tr("Mi Ciudad")?></p>
+        <input type="text" value="<?= $this->user->city?>" name="city">
+        <p><?=$this->tr("Tipo de moneda")?></p>
+        <select name="id_currency">
+            <?php foreach ($this->currencys as $currency){?>
+                <?php if($currency->id == $this->user->id_currency){?>
+                    <option value="<?= $currency->id?>" selected=""><?= $currency->name ?></option>
+                <?php } else {?>
+                    <option value="<?= $currency->id?>"><?= $currency->name ?></option>
+                <?php }?>
+            <?php }?>
+        </select>
+        <input type="submit" value="<?=$this->tr("Guardar")?>">
+    </form>
+    <div class="response"></div>
+</div>

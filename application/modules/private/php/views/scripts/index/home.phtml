@@ -21,6 +21,10 @@
 
 <div id="create-account-form" style="display: none;">
     <?php echo $this->render('partials/createAccountForm.phtml'); ?>
-    <span class="js-time" style="display: none;"><?= time() ?></span>
+    <span class="js-time" style="display: none;"><?= time();?></span>
     <div class="response"></div>
 </div>
+
+<script language="javascript">
+    window.Contabilidad.accounts = <?= Zend_Json::encode($this->serializedAccounts); ?>;
+</script>

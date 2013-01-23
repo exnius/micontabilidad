@@ -33,12 +33,9 @@ $(document).ready(function(){
                 $(event.target).data("el", el);
             }
             nAddFrag.appendChild($(event.target).data("el"));
-            var $div = $("<div>").append(nAddFrag);
-            Contabilidad.getEndPoint({async : true, success: function(account){
-                if (account){
-                    QHelpers.account.showBalancePopup($(event.target), account)
-                }
-            }}).getAccountById(id);
+            var account = Contabilidad.accounts[id];
+            QHelpers.account.showBalancePopup($(event.target), account)
+            return false;
         }
     });
 });

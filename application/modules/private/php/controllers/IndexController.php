@@ -15,9 +15,13 @@ class Private_IndexController extends Zend_Controller_Action
       $this->view->currencys = Proxy_Currency::getInstance()->retrieveCurrencys();
       $this->view->user = $user;
       
-//      $accounts = Proxy_Account::getInstance()->retrieveNoIndependentByUserIdAndMajorThanDate($user->id, "1357016301");
-//      var_dump("1357016401");
-//      var_dump($accounts);
+      $pacc = Proxy_Account::getInstance();
+      $accounts = $pacc->retrieveByUserId($user->id);
+      $serializedAccounts = array();
+      foreach($accounts as $acc){
+          $serializedAccounts[$acc->id] = $pacc->serializer($acc);
+      }
+      $this->view->serializedAccounts = $serializedAccounts;
     }
 
 

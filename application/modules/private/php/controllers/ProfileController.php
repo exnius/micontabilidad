@@ -1,16 +1,13 @@
 <?php
 
-class Private_UserController extends Zend_Controller_Action
+class Private_ProfileController extends Zend_Controller_Action
 {
-    public function findAction(){
-        $this->view->pru="find";
-    }
-    
-    public function editAction(){
+    public function indexAction(){
         $user = Contabilidad_Auth::getInstance()->getUser();
         $this->view->user = $user;
         $currencys = Proxy_Currency::getInstance()->retrieveCurrencys();
         $this->view->currencys = $currencys;
+        $this->view->countries = Contabilidad_Utils_Countries::getAll();
     }
     
     public function uploadpictureAction(){

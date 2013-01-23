@@ -3,79 +3,79 @@ window.QHelpers = window.QHelpers || {};
 window.QHelpers.account = {};
 
 QHelpers.account.showBalancePopup = function ($el, account){
-   var nAddFrag = document.createDocumentFragment();
-        if(!$el.data("el")){
-            var el = document.getElementById("create-account-form");
-            $el.data("el", el);
-        }
-        nAddFrag.appendChild($el.data("el"));
-        var $div = $("<div>").append(nAddFrag);
-        if (account){
-            $div.find("#create-account-form .title").html(Contabilidad.tr("Editar balance"));
-            $div.find("#create-account-form input[type='submit']").val(Contabilidad.tr("Guardar"));
-            $div.find("#create-account-form input[name='name']").val(account.name);
-            var dateIni = new Date(parseInt(account.date_ini)*1000);
-            $div.find("#create-account-form input[name='date_ini']")
-            .val(dateIni.getDate() + "/" + (dateIni.getMonth() + 1) + "/" + dateIni.getFullYear())
-            .datepicker({defaultDate: dateIni , dateFormat: "dd/mm/yy"});
-            var dateEnd = new Date(parseInt(account.date_end)*1000);
-            $div.find("#create-account-form input[name='date_end']")
-            .val(dateEnd.getDate() + "/" + (dateEnd.getMonth() + 1) + "/" + dateEnd.getFullYear())
-            .datepicker({defaultDate: dateEnd , dateFormat: "dd/mm/yy"});
-            $div.find("#create-account-form").show();
-            $div.find("#create-account-form input").each(function(){
-                setInputRule($(this));
-            });
-            $.fancybox({
-                'content' : $div,
-                'onStart' : QHelpers.account.onAccountPopupStart($div, account),
-                'onCleanup' : function(){
-                    this.form = document.getElementById("create-account-form");
-                },
-                'onClosed' : function(){
-                    onClose(this.form);
-                    $(this.form).find(".hasDatepicker").removeClass("hasDatepicker");
-                }
-            });
-            $div.find("#create-account-form").show();
-            $div.find("#create-account-form input").each(function(){
-                setInputRule($(this));
-            });
-        } else {
-            var dateIni = new Date(parseInt($div.find(".js-time").html()));
-            var dateEnd = new Date(parseInt($div.find(".js-time").html()) + (60*60*24*30));
-            $div.find("#create-account-form .title").html(Contabilidad.tr("Crear balance"));
-            $div.find("#create-account-form input[type='submit']").val(Contabilidad.tr("Crear"));
-            $div.find("#create-account-form input[name='date_ini']")
-            .val(Contabilidad.toDate(dateIni))
-            .datepicker({defaultDate: dateIni , dateFormat: "dd/mm/yy"});
-            $div.find("#create-account-form input[name='date_end']")
-            .val(Contabilidad.toDate(dateEnd))
-            .datepicker({defaultDate: dateEnd , dateFormat: "dd/mm/yy"});
-            $div.find("#create-account-form").show();
-            $div.find("#create-account-form input").each(function(){
-                setInputRule($(this));
-            });
-            $.fancybox({
-                'content' : $div,
-                'onStart' : QHelpers.account.onAccountPopupStart($div, account),
-                'onCleanup' : function(){
-                    this.form = document.getElementById("create-account-form");
-                },
-                'onClosed' : function(){
-                    onClose(this.form);
-                    $(this.form).find(".hasDatepicker").removeClass("hasDatepicker");
-                },
-                'onComplete' : function(){
-                    $div = this.form ? this.form : $div;
-                    QHelpers.account.onCreateAccountComplete($div);
-                }
-            });
-        }
-            $div.find("#create-account-form").show();
-            $div.find("#create-account-form input").each(function(){
+    var nAddFrag = document.createDocumentFragment();
+    if(!$el.data("el")){
+        var el = document.getElementById("create-account-form");
+        $el.data("el", el);
+    }
+    nAddFrag.appendChild($el.data("el"));
+    var $div = $("<div>").append(nAddFrag);
+    if (account){//edit
+        $div.find("#create-account-form .title").html(Contabilidad.tr("Editar balance"));
+        $div.find("#create-account-form input[type='submit']").val(Contabilidad.tr("Guardar"));
+        $div.find("#create-account-form input[name='name']").val(account.name);
+        var dateIni = new Date(parseInt(account.date_ini)*1000);
+        $div.find("#create-account-form input[name='date_ini']")
+        .val(dateIni.getDate() + "/" + (dateIni.getMonth() + 1) + "/" + dateIni.getFullYear())
+        .datepicker({defaultDate: dateIni , dateFormat: "dd/mm/yy"});
+        var dateEnd = new Date(parseInt(account.date_end)*1000);
+        $div.find("#create-account-form input[name='date_end']")
+        .val(dateEnd.getDate() + "/" + (dateEnd.getMonth() + 1) + "/" + dateEnd.getFullYear())
+        .datepicker({defaultDate: dateEnd , dateFormat: "dd/mm/yy"});
+        $div.find("#create-account-form").show();
+        $div.find("#create-account-form input").each(function(){
             setInputRule($(this));
         });
+        $.fancybox({
+            'content' : $div,
+            'onStart' : QHelpers.account.onAccountPopupStart($div, account),
+            'onCleanup' : function(){
+                this.form = document.getElementById("create-account-form");
+            },
+            'onClosed' : function(){
+                onClose(this.form);
+                $(this.form).find(".hasDatepicker").removeClass("hasDatepicker");
+            }
+        });
+        $div.find("#create-account-form").show();
+        $div.find("#create-account-form input").each(function(){
+            setInputRule($(this));
+        });
+    } else {//create
+        var dateIni = new Date(parseInt($div.find(".js-time").html()));
+        var dateEnd = new Date(parseInt($div.find(".js-time").html()) + (60*60*24*30));
+        $div.find("#create-account-form .title").html(Contabilidad.tr("Crear balance"));
+        $div.find("#create-account-form input[type='submit']").val(Contabilidad.tr("Crear"));
+        $div.find("#create-account-form input[name='date_ini']")
+        .val(Contabilidad.toDate(dateIni))
+        .datepicker({defaultDate: dateIni , dateFormat: "dd/mm/yy"});
+        $div.find("#create-account-form input[name='date_end']")
+        .val(Contabilidad.toDate(dateEnd))
+        .datepicker({defaultDate: dateEnd , dateFormat: "dd/mm/yy"});
+        $div.find("#create-account-form").show();
+        $div.find("#create-account-form input").each(function(){
+            setInputRule($(this));
+        });
+        $.fancybox({
+            'content' : $div,
+            'onStart' : QHelpers.account.onAccountPopupStart($div, account),
+            'onCleanup' : function(){
+                this.form = document.getElementById("create-account-form");
+            },
+            'onClosed' : function(){
+                onClose(this.form);
+                $(this.form).find(".hasDatepicker").removeClass("hasDatepicker");
+            },
+            'onComplete' : function(){
+                $div = this.form ? this.form : $div;
+                QHelpers.account.onCreateAccountComplete($div);
+            }
+        });
+    }
+    $div.find("#create-account-form").show();
+    $div.find("#create-account-form input").each(function(){
+        setInputRule($(this));
+    });
     return false;
 }
 
@@ -121,18 +121,21 @@ QHelpers.account.onAccountPopupStart = function ($div, account){
         var currentDate = new Date(parseInt($div.find(".js-time").html())*1000);
         var thisMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
         var monthLater = new Date((thisMonth.getTime()/1000 + 60*60*24*30 )*1000);
+        
+        var monthInfo = Contabilidad.getMonthInfo(thisMonth);
         //date ini
         $div.find("input[name='date_ini']")
         .val(Contabilidad.toDate(thisMonth.getTime()/1000))
         .datepicker({defaultDate: thisMonth , dateFormat :"dd/mm/yy"});
         //end date
         $div.find("input[name='date_end']")
-        .val(Contabilidad.toDate(monthLater.getTime()/1000))
-        .datepicker({defaultDate: monthLater  , dateFormat :"dd/mm/yy"});
+        .val(Contabilidad.toDate(monthInfo.date.getTime()/1000))
+        .datepicker({defaultDate: monthInfo.date  , dateFormat :"dd/mm/yy"});
         
-        var defaultName = Contabilidad.tr("Balance ");
+        
+        var defaultName = monthInfo.name.capitalize();
         var defaultNumber = 1;
-        var accountName = defaultName + defaultNumber;
+        var accountName = defaultName;
         if(!$("body").data("account-names")){
             var accountNames = [];
             $(".js-account-name").each(function(){
@@ -142,7 +145,7 @@ QHelpers.account.onAccountPopupStart = function ($div, account){
         }
         while($.inArray(accountName.toLowerCase(), $("body").data("account-names")) >= 0){
             defaultNumber++;
-            accountName = defaultName + defaultNumber;
+            accountName = defaultName + " " + defaultNumber;
         }
         $div.find("input[name='name']").val(accountName);
 
