@@ -12,8 +12,11 @@
         <input value="<?= $this->user->full_name?>" type="text" name="full_name" class="required">
         <p><?=$this->tr("Mi Correo")?></p>
         <input type="text" value="<?= $this->user->email?>" name="email" readonly='true'>
+        <p><?=$this->tr("Mi Genero")?></p>
+        <input type="radio" name="gender" value="male" <?= $this->user["gender"] == "male" ? "checked" : null?>> Hombre
+        <input type="radio" name="gender" value="female" <?= $this->user["gender"] == "female" ? "checked" : null?>> Mujer
         <p><?=$this->tr("Mi Pais")?></p>
-        <select name="contry">
+        <select name="country">
             <?php foreach($this->countries as $countryId => $countryName){?>
                 <?php if($countryId == $this->user->country){?>
                     <option selected="selected" value="<?= $countryId?>"><?= $countryName?></option>
@@ -38,3 +41,7 @@
     </form>
     <div class="response"></div>
 </div>
+
+<script language="javascript">
+    window.Contabilidad.user = <?= Zend_Json::encode($this->serializedUser); ?>;
+</script>

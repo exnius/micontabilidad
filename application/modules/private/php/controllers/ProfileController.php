@@ -8,6 +8,7 @@ class Private_ProfileController extends Zend_Controller_Action
         $currencys = Proxy_Currency::getInstance()->retrieveCurrencys();
         $this->view->currencys = $currencys;
         $this->view->countries = Contabilidad_Utils_Countries::getAll();
+        $this->view->serializedUser = Proxy_User::getInstance()->serialize($user);
     }
     
     public function uploadpictureAction(){

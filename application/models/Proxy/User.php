@@ -49,6 +49,15 @@ class Proxy_User extends Contabilidad_Proxy
         return $row;
     }
     
+    public function edit($user, $params){
+        foreach($params as $prp => $value){
+            if($prp == "email") continue;
+            $user->__set($prp, $value);
+        }
+        $user->save();
+        return $user;
+    }
+    
     public function addGoogleData($user, $params){
         $user->google_id = $params ['id'];
         if (isset($params ['picture'])){
@@ -128,6 +137,20 @@ class Proxy_User extends Contabilidad_Proxy
                 $suf++;
             }
         }while ($ban==false);
-    return $nickname;
+        return $nickname;
+    }
+    
+    public function serialize($user){
+        $array = array();
+        $array["full_name"] = $user->full_name;
+        $array["email"] = $user->email;
+        $array["nickname"] = $user->nickname;
+        $array["id"] = $user->id;
+        $array["country"] = $user->country;
+        $array["city"] = $user->city;
+        $array["id_currency"] = $user->id_currency;
+        $array["gender"] = $user->gender;
+        $array["locale"] = $user->locale;
+        return $array;
     }
 }
