@@ -8,12 +8,13 @@ Contabilidad.Validate =
          $el.data("validateMessages", messages);
     },
 
-    isValid : function($form)
+    isValid : function($form, findBy)
     {
+        if(!findBy) findBy = "input";
         var tthis = this;
         var isValid = true;
         this.clean($form);
-        $form.find("input").each(function(){
+        $form.find(findBy).each(function(){
             var rules = $(this).data("validateRules");
             for(var rule in rules){
                 tthis.validate(rule, rules[rule], $(this));

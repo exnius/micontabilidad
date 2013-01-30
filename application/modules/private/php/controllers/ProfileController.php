@@ -11,29 +11,36 @@ class Private_ProfileController extends Zend_Controller_Action
         $this->view->serializedUser = Proxy_User::getInstance()->serialize($user);
     }
     
-    public function uploadpictureAction(){
+    public function uploadavatarAction(){
         $this->view->root = ROOT;
-        $ruta= ROOT . "/public/pictures/";//ruta carpeta donde queremos copiar las imágenes
-        $uploadfile_temp=$_FILES['fichero']['tmp_name'];
+        $root = ROOT . "/public/avatars/";
+        $resp = array();
+        $uploadfile_temp = $_FILES['avatar']['tmp_name'];
         $userId = Contabilidad_Auth::getInstance()->getUser()->id;
-        $picture = $userId . '_picture.jpg';
-        $uploadfile_name=$ruta.$_FILES['fichero']['name']= $picture;
-
-        if (is_uploaded_file($uploadfile_temp))
-        {
-            move_uploaded_file($uploadfile_temp,$uploadfile_name);
-            $this->_redirect(BASE_URL . "/private/user/edit");
+        $picture = $userId . '_avatar.jpg';
+        $uploadfile_name = $root . $_FILES['avatar']['name'] = $picture;
+        $file_info = getimagesize($uploadfile_temp);
+        if($_FILES['avatar']['size'] > 2000000){
+            $resp["file_info"] = $file_info;
+            $resp["size"] = $_FILES['avatar']['size'];
+            $resp["response"] = "failure";
+        } elseif (is_uploaded_file($uploadfile_temp) && $file_info){
+            move_uploaded_file($uploadfile_temp, $uploadfile_name);
+            $resp["response"] = "success";
+            $resp["url"] = BASE_URL . "/avatars/" . $picture;
+            $user = Contabilidad_Auth::getInstance()->getUser();
+            Proxy_User::getInstance()->addAvatarUrl($user, $resp["url"]);
+        } else {
+            $resp["response"] = "failure";
         }
-        else
-        {
-        echo "error";
-        }
-        $directorio=opendir("pictures/");
-        while($ficheros=readdir($directorio))
-        {
-            $url="imagenes/".$ficheros;
-            echo "<img src=".$url.">";
-        } 
+        
+        $this->_helper->layout()->disableLayout();
+        $this->view->response = json_encode($resp);
+//        echo $this->view->render("uploadavatar.phtml");
+     }
+     
+     public function iframeAction(){
+         $this->_helper->layout()->disableLayout();
      }
 }
 ?>

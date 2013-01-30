@@ -15,7 +15,13 @@
     <?php if ($this->action != "home"){?><h1><a href="<?=BASE_URL?>">Private</a></h1> <?php }else{ ?>
     <h1>Private</h1> <?php } ?>
     <?php $logout = array("action" => "logout", "controller" => "session", "module" => "public"); ?>
-    <a href="<?= $this->url($logout)?>">Logout</a>
+    <?php $profile = array("action" => "index", "controller" => "profile", "module" => "private"); ?>
+    <div>
+        <a href="<?= $this->url($logout)?>">Logout</a>
+    </div>
+    <div>
+        <a href="<?= $this->url($profile)?>"><?= $this->tr("Mi perfil")?></a>
+    </div>
     <?= $this->layout()->content; ?>
     
     <div id="delete-popup-tpl" class="template" style="display: none;">

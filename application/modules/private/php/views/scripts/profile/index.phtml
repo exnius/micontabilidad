@@ -1,17 +1,33 @@
 <h1>Editar Perfil</h1>
-    
-
-<form action="http://micontabilidad.com/private/user/uploadpicture" method="post" enctype="multipart/form-data"> 
-    Archivo: <input name="fichero" type="file"> 
-    <input name="submit" type="submit" value="Upload!">  
-</form>
-
+<div>
+    <div id="avatar-response" style="display: none;"></div>
+    <img id="avatar" src="<?= $this->user->getPictureUrl()?>" class="user-avatar" width="100" height="100"/>
+    <div id="iframe_container">
+        <iframe src="<?= BASE_URL . "/private/profile/iframe"?>" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" style="height: 75px; width: 500px;"></iframe>
+    </div>
+</div>
 <div id="profile-form">
     <form action="" method="POST">
         <p><?=$this->tr("Mi Nombre")?></p>
         <input value="<?= $this->user->full_name?>" type="text" name="full_name" class="required">
         <p><?=$this->tr("Mi Correo")?></p>
         <input type="text" value="<?= $this->user->email?>" name="email" readonly='true'>
+        <p><?=$this->tr("Mi Contraseña")?></p>
+        <span id="fake-password">*************</span>
+        <a id="display-password-form" href="#"><?=$this->tr("Editar")?></a>
+        <div id="password-form" style="display: none;">
+            <p><?=$this->tr("Mi contraseña actual")?></p>
+            <input type="password" name="old_pass" class="required">
+            <p><?=$this->tr("Mi Nueva Contraseña")?></p>
+            <input type="password" name="new_pass" class="required">
+            <p><?=$this->tr("Confirmar Contraseña")?></p>
+            <input type="password" name="confirm_pass" class="required">
+            <div class="password-response"></div>
+            <p>
+                <a id="hide-password-form" href="#"><?=$this->tr("Cancelar")?></a>
+                <input type="button" value="<?= $this->tr("Cambiar")?>">
+            </p>
+        </div>
         <p><?=$this->tr("Mi Genero")?></p>
         <input type="radio" name="gender" value="male" <?= $this->user["gender"] == "male" ? "checked" : null?>> Hombre
         <input type="radio" name="gender" value="female" <?= $this->user["gender"] == "female" ? "checked" : null?>> Mujer

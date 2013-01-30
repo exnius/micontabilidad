@@ -14,6 +14,7 @@ class Contabilidad_Acl_ActionHelper extends Zend_Controller_Action_Helper_Abstra
 	protected $_controller;
 	protected $_module;
 	protected $auth;
+	protected $_view;
 	
 	public function __construct($root)
 	{
@@ -32,6 +33,9 @@ class Contabilidad_Acl_ActionHelper extends Zend_Controller_Action_Helper_Abstra
 			->getControllerName(); 
 		$this->_module = $this->_action->getRequest()
 			->getModuleName();
+        $viewRenderer = Zend_Controller_Action_HelperBroker::getStaticHelper('viewRenderer');
+        $this->view = $viewRenderer->view;
+        $this->view->isLogged = $this->auth->hasIdentity();
 	}
 	
     public function preDispatch()
@@ -42,10 +46,8 @@ class Contabilidad_Acl_ActionHelper extends Zend_Controller_Action_Helper_Abstra
         $module = $request->getModuleName();
         $helper = $this->_action->getHelper("Redirector");
 
-        $viewRenderer = Zend_Controller_Action_HelperBroker::getStaticHelper('viewRenderer');
-        $view = $viewRenderer->view;
+        $view = $this->view;
         $this->setViewParams($view);
-        $view->isLogged = $this->auth->hasIdentity();
         $view->action = $action;
         $view->module = $module;
         $view->controller = $controller;

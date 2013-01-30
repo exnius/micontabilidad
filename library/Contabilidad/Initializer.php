@@ -80,6 +80,7 @@ class Initializer extends Zend_Controller_Plugin_Abstract
         $this->initHelpers();
         $this->initPlugins();
         $this->initControllers();
+        $this->initMail();
     }
 
     /**
@@ -211,7 +212,7 @@ class Initializer extends Zend_Controller_Plugin_Abstract
     public function initMail()
     {
         $config = self::$_config;
-        $params = $config->smtp;
+        $params = $config->mail->smtp;
         $smtp = $params->toArray();
         $mailTransport = new Zend_Mail_Transport_Smtp($smtp['smtp'],$smtp['params']);
         Zend_Mail::setDefaultTransport($mailTransport);

@@ -45,9 +45,15 @@ class Proxy_User extends Contabilidad_Proxy
         if (isset($params ['locale'])){
             $row->locale = $params['locale'];
         }
+        $password = $this->createPassword();
+        $encryptedPass = Contabilidad_Auth::encryptPassword($row->email, $password);
+        $row->password = $encryptedPass;
         $row->save();
+        //send email to user
+//        Contabilidad_Utils_EmailTemplate::getInstance()->sendWelcomeEmailAndPassword($row, $password);
         return $row;
     }
+    
     
     public function edit($user, $params){
         foreach($params as $prp => $value){
@@ -73,6 +79,12 @@ class Proxy_User extends Contabilidad_Proxy
         return $user;
     }
 
+    public function editPassword($user, $password){
+        $newPass = Contabilidad_Auth::encryptPassword($user->email, $password);
+        $user->password = $newPass;
+        $user->save();
+        return $user;
+    }
 
     public function checkEmail($email){
         $mailCorrect = false;
@@ -140,6 +152,16 @@ class Proxy_User extends Contabilidad_Proxy
         return $nickname;
     }
     
+    private function createPassword(){
+        $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        $string = '';
+        $length = 8;
+        for ($i = 0; $i < $length; $i++) {
+            $string .= $characters[rand(0, strlen($characters) - 1)];
+        }
+        return $string;
+    }
+
     public function serialize($user){
         $array = array();
         $array["full_name"] = $user->full_name;
@@ -151,6 +173,14 @@ class Proxy_User extends Contabilidad_Proxy
         $array["id_currency"] = $user->id_currency;
         $array["gender"] = $user->gender;
         $array["locale"] = $user->locale;
+        $array["avatarUrl"] = $user->getPictureUrl();
         return $array;
+    }
+    
+    
+    public function addAvatarUrl($user, $url){
+        //checkout it is an url
+        $user->picture_url = $url;
+        $user->save();
     }
 }
