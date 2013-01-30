@@ -7,6 +7,10 @@
     <input type="text" name="date_ini" class="date required" readonly='true'>
     <p><?=$this->tr("Fecha de Finalizacion")?></p>
     <input type="text" name="date_end" class="date required" readonly='true'>
+    <p>
+        <input id="is_independent" type="checkbox" name="is_independent"/>
+        <span><label for="is_independent"><?=$this->tr("Independiente")?></label></span>
+    </p>
     <p><?=$this->tr("Tipo de moneda")?></p>
     <select name="id_currency">
         <?php foreach ($this->currencys as $currency){?>

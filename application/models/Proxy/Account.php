@@ -22,11 +22,14 @@ class Proxy_Account extends Contabilidad_Proxy
         $row->date_end = $params['date_end'];
         $row->benefit = '0';
         $row->id_view_type = '1';
+        $row->is_independent = isset($params['is_independent']) ? $params['is_independent'] : false;
         $row->id_currency = $params['id_currency'];
         $row->creation_date = time();
         $row->save();
         
-        Proxy_Transaction::getInstance()->createAllFrequencyTransactions($row);
+        if(!$row->is_independent){
+            Proxy_Transaction::getInstance()->createAllFrequencyTransactions($row);
+        }
         
         $row->benefit = $row->calculateBenefit();
         $row->save();
@@ -39,6 +42,7 @@ class Proxy_Account extends Contabilidad_Proxy
        $account->date_ini = $params['date_ini'];
        $account->date_end = $params['date_end'];
        $account->id_currency = $params['id_currency'];
+       $account->is_independent = $params['is_independent'];
        $benefit = $account->calculateBenefit();
        $account->benefit = $benefit;
        $account->save();
@@ -80,6 +84,7 @@ class Proxy_Account extends Contabilidad_Proxy
                                    'date_ini' => $account->date_ini, 
                                    'date_end' => $account->date_end, 
                                    'id_currency' => $account->id_currency, 
+                                   'is_independent' => $account->is_independent, 
                                    'accountUrl' => Proxy_Account::getUrl_($account));
     }
 }

@@ -14,6 +14,7 @@ QHelpers.account.showBalancePopup = function ($el, account){
         $div.find("#create-account-form .title").html(Contabilidad.tr("Editar balance"));
         $div.find("#create-account-form input[type='submit']").val(Contabilidad.tr("Guardar"));
         $div.find("#create-account-form input[name='name']").val(account.name);
+        if(parseInt(account.is_independent)) $div.find("input[name='is_independent']").attr('checked', true);
         var dateIni = new Date(parseInt(account.date_ini)*1000);
         $div.find("#create-account-form input[name='date_ini']")
         .val(dateIni.getDate() + "/" + (dateIni.getMonth() + 1) + "/" + dateIni.getFullYear())
@@ -93,11 +94,13 @@ QHelpers.account.onAccountPopupStart = function ($div, account){
             data.date_ini = date_ini;
             data.date_end = date_end;
             data.id = account.id;
+            data.is_independent = $div.find("input[name='is_independent']").is(":checked");
             Contabilidad.getEndPoint({async : true, success: function(resp){
                 $("#account-"+resp.account.id).find(".js-account-name").html(resp.account.name);
                 $("#account-"+resp.account.id).find(".js-account-date_ini").html(Contabilidad.toDate(data.date_ini));
                 $("#account-"+resp.account.id).find(".js-account-date_end").html(Contabilidad.toDate(data.date_end));
-                if ((resp.account.date_ini != account.date_ini || resp.account.date_end != account.date_end)
+                if ((resp.account.date_ini != account.date_ini || resp.account.date_end != account.date_end
+                    || resp.account.is_independent != account.is_independent)
                     && (Contabilidad.controller == "account" && Contabilidad.action == "index")){
                     location.reload(true);
                 }
@@ -157,6 +160,7 @@ QHelpers.account.onAccountPopupStart = function ($div, account){
                 $(this).find("input,select").each(function(){
                     data[$(this).attr("name")] = $(this).val();
                 });
+                data.is_independent = $div.find("input[name='is_independent']").is(":checked");
                 data.date_ini = date_ini;
                 data.date_end = date_end;
                 Contabilidad.getEndPoint({async : true, success: function(resp){
