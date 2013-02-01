@@ -14,5 +14,9 @@ class Proxy_CategoryType extends Contabilidad_Proxy
         }
         return (self::$_instance);
     }
+    
+    public function retrieveAll (){
+        return $this->getTable()->fetchAll();
+    }
 }
 ?>

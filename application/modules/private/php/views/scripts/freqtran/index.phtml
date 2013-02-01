@@ -1,5 +1,8 @@
-<div>
-    <a href="#" class="create-freqtransaction"><?= $this->tr("Crear transaccion frecuente")?></a>
+
+<a href="#" class="add-freqtransaction" id="add-income"><?= $this->tr("Crear ingreso frecuente")?></a>
+<br>
+<a href="#" class="add-freqtransaction" id="add-expense"><?= $this->tr("Crear egreso frecuente")?></a>
+<div id="transactions-container">
     <?php
         $m = new Mustache_Engine;
         foreach ($this->transactions as $transaction){
@@ -8,7 +11,6 @@
             } else {
                 $freqTime = $transaction->frequency_time;
             }
-            
             if ($transaction->frequency_days == -1){
                 $freqDays = $this->tr("Mensual");
             } elseif ($transaction->frequency_days == -2) {
@@ -34,3 +36,17 @@
             ));?>
         <?php }?>
 </div>
+
+<div id="freqtran-row-tpl" class="template" style="display: none;">
+    <?= $this->render("mustache/freqtran-row.phtml") ?>
+</div>
+
+<div id="create-freqtran-form" style="display: none;">
+    <?php echo $this->render('partials/createFreqtranForm.phtml'); ?>
+    <span class="js-time" style="display: none;"><?= time() ?></span>
+    <div class="response"></div>
+</div>
+
+<script language="javascript">
+    window.Contabilidad.user = <?= Zend_Json::encode($this->serializedUser); ?>;
+</script>
