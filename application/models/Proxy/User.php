@@ -22,6 +22,7 @@ class Proxy_User extends Contabilidad_Proxy
             $row->id_currency = 1;
             $row->nickname = $this->createNickname($params['full_name']);
             $row->creation_date = time();
+            $row->registered_by = "email";
             $row->save();
         }
         else
@@ -45,15 +46,52 @@ class Proxy_User extends Contabilidad_Proxy
         if (isset($params ['locale'])){
             $row->locale = $params['locale'];
         }
-        $password = $this->createPassword();
+        $password = Contabilidad_Utils_String::createRandomString();
         $encryptedPass = Contabilidad_Auth::encryptPassword($row->email, $password);
+        $row->token = Contabilidad_Utils_String::createRandomString(20);
         $row->password = $encryptedPass;
+        $row->registered_by = "google";
         $row->save();
         //send email to user
 //        Contabilidad_Utils_EmailTemplate::getInstance()->sendWelcomeEmailAndPassword($row, $password);
         return $row;
     }
     
+    public function createFacebookUser($params){
+        $row = $this->createRow();
+        $row->full_name = $params['full_name'];
+        $row->email = $params['email'];
+        $row->id_currency = 1;
+        $row->nickname = $this->createNickname($params['full_name']);
+        $row->creation_date = time();
+        $row->facebook_id = $params['uid'];
+        $row->facebook_picture_url = "https://graph.facebook.com/" . $params['uid'] . "/picture?type=large";
+        $row->facebook_token = $this->extendFacebookToken($params['token']);
+        if (isset($params ['gender'])){
+            $row->gender = $params['gender'];
+        }
+        if(isset($params['current_location'])){
+            if(isset($params['current_location']['country'])){
+                $row->country = Contabilidad_Utils_Countries::getIdByName($params['current_location']['country']);
+            }
+            if ($row->country){
+                $row->locale = Contabilidad_Utils_Countries::getLocationById($row->country);
+            }
+            if(isset($params['current_location']['city'])){
+                $row->city = $params['current_location']['city'];
+            }
+        }
+        $password = Contabilidad_Utils_String::createRandomString();
+        $encryptedPass = Contabilidad_Auth::encryptPassword($row->email, $password);
+        $row->token = Contabilidad_Utils_String::createRandomString(20);
+        $row->password = $encryptedPass;
+        $row->registered_by = "facebook";
+        $row->save();
+        //send email to user
+        Contabilidad_Utils_EmailTemplate::getInstance()->sendWelcomeEmailAndPassword($row, $password);
+        return $row;
+    }
+    //3125001921
     
     public function edit($user, $params){
         foreach($params as $prp => $value){
@@ -78,10 +116,33 @@ class Proxy_User extends Contabilidad_Proxy
         $user->save();
         return $user;
     }
+    
+    public function addFacebookData($user, $params){
+        $user->facebook_id = $params ['uid'];
+        $user->facebook_token = $this->extendFacebookToken($params ['token']);
+        $user->facebook_picture_url = "https://graph.facebook.com/" . $params['uid'] . "/picture?type=large";;
+        if (isset($params ['gender'])){
+            $row->gender = $params['gender'];
+        }
+        if(isset($params['current_location'])){
+            if(isset($params['current_location']['country'])){
+                $user->country = Contabilidad_Utils_Countries::getIdByName($params['current_location']['country']);
+            }
+            if ($user->country){
+                $user->locale = Contabilidad_Utils_Countries::getLocationById($user->country);
+            }
+            if(isset($params['current_location']['city'])){
+                $user->city = $params['current_location']['city'];
+            }
+        }
+        $user->save();
+        return $user;
+    }
 
     public function editPassword($user, $password){
         $newPass = Contabilidad_Auth::encryptPassword($user->email, $password);
         $user->password = $newPass;
+        $user->token = null;
         $user->save();
         return $user;
     }
@@ -123,8 +184,11 @@ class Proxy_User extends Contabilidad_Proxy
     }
     
     public function findByGoogleId ($id){
-       // return null;
         return $this->getTable()->fetchRow("google_id = '$id'");
+    }
+    
+    public function findByFacebookId ($id){
+        return $this->getTable()->fetchRow("facebook_id = '$id'");
     }
 
     public function findByEmail($email){
@@ -133,6 +197,10 @@ class Proxy_User extends Contabilidad_Proxy
     
     public function findByNickname ($nickname){
         return $this->getTable()->fetchRow("nickname = '$nickname'");
+    }
+    
+    public function findByToken ($token){
+        return $this->getTable()->fetchRow("token = '$token'");
     }
 
     private function createNickname ($nickname){
@@ -150,16 +218,6 @@ class Proxy_User extends Contabilidad_Proxy
             }
         }while ($ban==false);
         return $nickname;
-    }
-    
-    private function createPassword(){
-        $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        $string = '';
-        $length = 8;
-        for ($i = 0; $i < $length; $i++) {
-            $string .= $characters[rand(0, strlen($characters) - 1)];
-        }
-        return $string;
     }
 
     public function serialize($user){
@@ -182,5 +240,24 @@ class Proxy_User extends Contabilidad_Proxy
         //checkout it is an url
         $user->picture_url = $url;
         $user->save();
+    }
+    
+    public function extendFacebookToken($token)
+    {
+        $conf = Zend_Registry::get('Config');
+        $appId = $conf->oauth->facebook->clientId;
+        $appSecret = $conf->oauth->facebook->secret;
+        $token_url = "https://graph.facebook.com/oauth/access_token?" .
+                     "client_id=$appId&" .
+                     "client_secret=$appSecret&" .
+                     "grant_type=fb_exchange_token&" .
+                     "fb_exchange_token=" . $token;
+        $client = new Zend_Http_Client($token_url);
+        $client->setMethod(Zend_Http_Client::GET);
+        $response = $client->request();
+        $params = array();
+        parse_str($response->getBody(), $params);
+        return $params['access_token'];
+
     }
 }

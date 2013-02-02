@@ -21,5 +21,14 @@ class Contabilidad_Utils_String {
         
 	    return $string;
 	}
+      
+    public static function createRandomString($length = 8){
+        $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        $string = '';
+        for ($i = 0; $i < $length; $i++) {
+            $string .= $characters[rand(0, strlen($characters) - 1)];
+        }
+        return $string;
+    }
 }
 ?>

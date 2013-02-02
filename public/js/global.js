@@ -122,6 +122,10 @@ Contabilidad.getMonthInfo = function(timestamp){
     return months[month];
 }
 
+Contabilidad.getURLParameter = function(name) {
+    return decodeURI((RegExp("[\\?&#]" + name + '=' + '(.+?)(&|$)').exec(window.location)||[,null])[1]);
+}
+
 
 //PROTOTYPE FUNCTIONS
 

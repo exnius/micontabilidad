@@ -73,5 +73,24 @@ class Contabilidad_Services_Session extends Contabilidad_Services_Abstract {
         //3. login
         Contabilidad_Auth::getInstance()->loginByUser($user);
     }
+    
+    public function connectByFacebook($params){
+        $puser = Proxy_User::getInstance();
+        
+        //1. first find by facebook id
+        $user = $puser->findByFacebookId($params['uid']);
+        //2. if user not found, find by email
+        if(!$user){
+            $user = $puser->findByEmail($params['email']);
+            if(!$user){//2.1 register if user not found
+                $user = $puser->createFacebookUser($params);
+            } else {
+                $puser->addFacebookData($user, $params);
+            }
+        }
+        
+        //3. login
+        Contabilidad_Auth::getInstance()->loginByUser($user);
+    }
 }
 

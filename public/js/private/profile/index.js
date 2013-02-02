@@ -8,7 +8,10 @@ $(document).ready(function(){
         setInputRule($(this));
     });
     
-    $("#profile-form form").submit(function(){
+    $("#profile-form form").submit(function(e){
+        if($("input[type='password']").is(":focus")) return false;
+        $("#profile-form").find(".response")
+        .removeClass("*").html("").hide();
         if(Contabilidad.Validate.isValid($(this), "input[type='text']")){
             var data = {};
             $(this).find("input,select").each(function(){
@@ -64,6 +67,13 @@ $(document).ready(function(){
                         .html(Contabilidad.tr("Tu contraseña actual es incorecta")).show();
                     }
                 } else {
+                    $form.find("input[type='password']").val("");
+                    $("#password-form").animate({
+                        left: '+=50',
+                        height: 'toggle'
+                        }, 500, function() {
+                        // Animation complete.
+                    });
                     alert("your password was edited");
                 }
             }}).editPassword(Contabilidad.user.id, data);
@@ -77,6 +87,11 @@ $(document).ready(function(){
         if(code == 13) {
             submitPassForm($("#password-form"));
         }
+    });
+    
+    $("#change-password").click(function(e){
+        submitPassForm($("#password-form"));
+        return false;
     });
 });
 
@@ -158,6 +173,7 @@ function findAndDisplayErrors($form)
 
 function findAndDisplayEditPasswordErrors($form)
 {
+    console.info("findAndDisplay");
     var errors;
     $form.find(".input-error").each(function(){
         errors =  $(this).data("errors");
@@ -175,5 +191,7 @@ function setInputRule($input){
     //validation rulesc
     var rules = {required : $input.hasClass("required")};
     if($input.hasClass("is_email")){rules.email = true;}
+    if($input.attr("type") == "password"){rules.password = true;}
+    if($input.attr("is_equal_to")){rules.equalsTo = $input.parent().find("input[name='" + $input.attr("is_equal_to") + "']");}
     Contabilidad.Validate.setRules($input, rules);
 }

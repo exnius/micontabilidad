@@ -1,7 +1,23 @@
-<?php if($this->mailVersion == 'text'){?>
-    Hola <?= $this->user->full_name;?> este es tu password: <?= $this->password?>
-<?php } elseif($this->mailVersion == 'html') {?>
-    Hola <?= $this->user->full_name;?> este es tu password: <?= $this->password?>
+<?php
+    $recoverUrl = $this->user->getRecoverPassUrl();
+?>
+<?php if($this->mailVersion == 'text'){
+
+    echo "Hola" . " " . $this->user->full_name . ",";
+    echo "\n\n";
+    echo "este es tu password:" . " '" . $this->password ."'";
+    echo "\n";
+    echo "si quieres cambiar tu email ve a este link:";
+    echo $recoverUrl;
+} elseif($this->mailVersion == 'html') {?>
+    Hola <?= $this->user->full_name;?>,
+    </br>
+    </br>
+    este es tu password: <?= $this->password?>
+    </br>
+    si quieres cambiar tu email ve a este link:
+    </br>
+    <a href="<?= $recoverUrl ?>"><?= $recoverUrl ?></a>
 <?php }?>
     
 (<?= $this->mailVersion ?>)
