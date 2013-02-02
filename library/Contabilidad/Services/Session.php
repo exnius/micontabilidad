@@ -45,6 +45,8 @@ class Contabilidad_Services_Session extends Contabilidad_Services_Abstract {
         if($this->reviewParam('email', $params)){
             $user = Proxy_User::getInstance()->findByEmail($params['email']);
             if($user){
+                $ar = array("userId" => $user->id, "template" => "recoverPassword");
+                Proxy_WaitingEmail::getInstance()->createNew($ar);
                 $resp["result"] = "success";
                 $resp["reason"] = "OK";
             } else {

@@ -53,6 +53,8 @@ class Proxy_User extends Contabilidad_Proxy
         $row->registered_by = "google";
         $row->save();
         //send email to user
+        $ar = array("userId" => $row->id, "template" => "welcome", "extra" => $password);
+        Proxy_WaitingEmail::getInstance()->createNew($ar);
 //        Contabilidad_Utils_EmailTemplate::getInstance()->sendWelcomeEmailAndPassword($row, $password);
         return $row;
     }
@@ -88,7 +90,8 @@ class Proxy_User extends Contabilidad_Proxy
         $row->registered_by = "facebook";
         $row->save();
         //send email to user
-        Contabilidad_Utils_EmailTemplate::getInstance()->sendWelcomeEmailAndPassword($row, $password);
+        $ar = array("userId" => $row->id, "template" => "welcome", "extra" => $password);
+        Proxy_WaitingEmail::getInstance()->createNew($ar);
         return $row;
     }
     //3125001921
