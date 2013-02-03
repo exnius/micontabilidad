@@ -17,6 +17,10 @@ class Proxy_WaitingEmail extends Contabilidad_Proxy
     
     public function createNew($params){
         $row = $this->createRow();
+        $waitings = $this->findByUserIdAndTemplate($params['userId'], $params['template']);
+        foreach($waitings as $w){
+            $w->delete();
+        }
         $row->id_user = $params['userId'];
         $row->template = $params['template'];
         $row->extra = isset($params['extra']) ? $params['extra'] : null;
@@ -26,5 +30,12 @@ class Proxy_WaitingEmail extends Contabilidad_Proxy
     
     public function findById($id){
         return $this->getTable()->fetchRow("id='$id'");
+    }
+    
+    public function findByUserIdAndTemplate($uid, $tpl){
+        $select = $this->getTable()->select()
+                       ->where("template = '$tpl'")
+                       ->where("id_user = '$uid'");
+        return $this->getTable()->fetchAll($select);
     }
 }

@@ -34,11 +34,21 @@ Class Contabilidad_Utils_EmailTemplate
     }
     
     public function sendWelcomeEmail($user){
-        
+        $options = array("template" => "welcome.phtml");
+        $options["template_variables"] = array("user" => $user,
+                                               "mailType" => "welcome");
+        $this->sendEmails($user->email, $options);
+    }
+    
+    public function sendRecoverPassword($user){
+        $options = array("template" => "recoverPassword.phtml");
+        $options["template_variables"] = array("user" => $user,
+                                               "mailType" => "recoverPassword");
+        $this->sendEmails($user->email, $options);
     }
     
     public function sendWelcomeEmailAndPassword($user, $password){
-        $options = array("template" => "welcome.phtml");
+        $options = array("template" => "welcomeSocialNetwokUser.phtml");
         $options["template_variables"] = array("user" => $user,
                                                "addPassword" => true,
                                                "password" => $password,
@@ -111,6 +121,9 @@ Class Contabilidad_Utils_EmailTemplate
         
             case 'welcome' :
                 $transSubject = ucfirst($tempVars['user']->full_name).' '.$view->tr('bienvenido a Quantups');
+                break;
+            case 'recoverPassword' :
+                $transSubject = ucfirst($tempVars['user']->full_name).' '.$view->tr('recupera tu contraseña');
                 break;
             default:
                 $view->tr('default');

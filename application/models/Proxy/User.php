@@ -24,6 +24,9 @@ class Proxy_User extends Contabilidad_Proxy
             $row->creation_date = time();
             $row->registered_by = "email";
             $row->save();
+            
+            $ar = array("userId" => $row->id, "template" => "welcome");
+            Proxy_WaitingEmail::getInstance()->createNew($ar);
         }
         else
             Contabilidad_Exceptions::showException ('Este email ya existe');
