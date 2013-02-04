@@ -3,14 +3,14 @@ window.Contabilidad = window.Contabilidad || {};
 Contabilidad.getEndPoint =  function(options){
     if(options && options.async){
         if(!this.endAsyncPoint){
-            options = jQuery.extend({url: '/jsonrpc', async: true}, options);
+            options = jQuery.extend({url: BASE_URL + '/jsonrpc', async: true}, options);
             this.endAsyncPoint = jQuery.Zend.jsonrpc(options);
         }
         if(options.success) this.endAsyncPoint.setAsyncSuccess(options.success);
         return this.endAsyncPoint;
     } else {
         if(!this.endPoint){
-            options = jQuery.extend({url: '/jsonrpc'}, options);
+            options = jQuery.extend({url: BASE_URL + '/jsonrpc'}, options);
             this.endPoint = jQuery.Zend.jsonrpc(options);
         }
         return this.endPoint;

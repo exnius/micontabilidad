@@ -1,7 +1,7 @@
 <?php
 
 set_include_path(".");
-require_once '../application/includes.php';
+require_once 'public/includes.php';
 
 // AutoLoader not started yet
 require_once 'Contabilidad/Initializer.php';

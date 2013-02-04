@@ -164,6 +164,7 @@ class Initializer extends Zend_Controller_Plugin_Abstract
         $config = Initializer::$_config;
         $base = $config->base->toArray();
         defined('BASE_URL') or define('BASE_URL', $base['url']);
+        defined('LINKS_URL') or define('LINKS_URL', $base['linksurl']);
     }
 
     /**

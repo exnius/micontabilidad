@@ -61,5 +61,13 @@ class Contabilidad_Services_Transaction extends Contabilidad_Services_Abstract {
         }
         return $resp;
     }
+    
+    public function deleteTransactions($ids, $accountId){
+        $resp = array("result" => "failure", "reason" => self::UNSELECTED_TRANSACTION);
+        foreach ($ids as $id){
+            $resp = $this->deleteTransaction($id, $accountId);
+        }
+        return $resp;
+    }
 }
 ?>
