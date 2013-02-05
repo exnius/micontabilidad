@@ -25,6 +25,7 @@ class Proxy_Account extends Contabilidad_Proxy
         $row->is_independent = isset($params['is_independent']) ? $params['is_independent'] : false;
         $row->id_currency = $params['id_currency'];
         $row->creation_date = time();
+        $row->picture_url = $params['picture_url'];
         $row->save();
         
         if(!$row->is_independent){
@@ -45,6 +46,7 @@ class Proxy_Account extends Contabilidad_Proxy
        $account->is_independent = $params['is_independent'];
        $benefit = $account->calculateBenefit();
        $account->benefit = $benefit;
+       $account->picture_url = $params['picture_url'];
        $account->save();
        return $account;
     }
@@ -85,6 +87,7 @@ class Proxy_Account extends Contabilidad_Proxy
                                    'date_end' => $account->date_end, 
                                    'id_currency' => $account->id_currency, 
                                    'is_independent' => $account->is_independent, 
+                                   'picture_url' => $account->getPictureUrl(), 
                                    'accountUrl' => Proxy_Account::getUrl_($account));
     }
 }

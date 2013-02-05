@@ -2,6 +2,12 @@
     <h1 class="title"></h1>
     <p><?=$this->tr("Nombre del Balance")?></p>
     <input type="text" name="name" class="required">
+    <p><?=$this->tr("Imagen")?></p>
+    <div id="picture-response" style="display: none;"></div>
+    <img id="account-picture" src="" class="account-picture" width="100"/>
+    <div id="account-iframe-container">
+        <iframe src="<?= BASE_URL . "/private/account/iframe"?>" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" style="height: 75px; width: 500px;"></iframe>
+    </div>
     <h3><?=$this->tr("Periodo del Balance")?></h3>
     <p><?=$this->tr("Fecha de Inicio")?></p>
     <input type="text" name="date_ini" class="date required" readonly='true'>

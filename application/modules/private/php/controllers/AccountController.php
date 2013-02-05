@@ -23,28 +23,44 @@ class Private_AccountController extends Zend_Controller_Action
         $this->view->currencys = Proxy_Currency::getInstance()->retrieveCurrencys();
     }
     
-    public function findAction(){
-        $this->view->pru="find";
-        $transactions = Proxy_Transaction::getInstance()->retrieveFrequentsByUserId(27);
-        foreach($transactions as $transaction){
-            var_dump($transaction->name);
+    public function iframeAction(){
+        $this->_helper->layout()->disableLayout();
+    }
+    
+    public function uploadpictureAction(){
+        $this->view->root = ROOT;
+        $root = ROOT . "/public/quantups_pictures/";
+        $resp = array();
+        $uploadfile_temp = $_FILES['picture']['tmp_name'];
+        $name = $this->getUniquePictureName();
+        $ext = pathinfo($_FILES['picture']['name'], PATHINFO_EXTENSION);
+        $pictureName = $this->getUniquePictureName($ext);
+        $uploadfile_name = $root . $_FILES['picture']['name'] = $pictureName;
+        $file_info = getimagesize($uploadfile_temp);
+        if($_FILES['picture']['size'] > 2000000){
+            $resp["file_info"] = $file_info;
+            $resp["size"] = $_FILES['picture']['size'];
+            $resp["response"] = "failure";
+        } elseif (is_uploaded_file($uploadfile_temp) && $file_info){
+            move_uploaded_file($uploadfile_temp, $uploadfile_name);
+            $resp["response"] = "success";
+            $resp["url"] = LINKS_URL . "/quantups_pictures/" . $pictureName;
+        } else {
+            $resp["response"] = "failure";
         }
-        exit();
-    }
-    
-    public function removeAction(){
-        $resp = (Contabilidad_Services_Transaction::deleteTransaction('9'));
-        var_dump($resp);
-    }
-    
-    public function editAction(){
         
-    }
-    
-    public function addAction(){
-        
-    }
+        $this->_helper->layout()->disableLayout();
+        $this->view->response = json_encode($resp);
+//        echo $this->view->render("uploadavatar.phtml");
+     }
+     
+     private function getUniquePictureName($ext){
+         $userId = Contabilidad_Auth::getInstance()->getUser()->id;
+         do {
+            $name = Contabilidad_Utils_String::createRandomString(8);
+            $newName = $userId . "_" . $name . "_quantup_picture." . strtolower($ext);
+         }while(file_exists($newName));
+         return $newName;
+     }
 }
-
-
 ?>
