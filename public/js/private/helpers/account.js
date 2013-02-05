@@ -10,23 +10,32 @@ QHelpers.account.showBalancePopup = function ($el, account){
     }
     nAddFrag.appendChild($el.data("el"));
     var $div = $("<div>").append(nAddFrag);
+    $div.find("textarea#account-details").val("");
+    $div.find('#account-chars-label label.charsLeft').html(140);
     $div.find("#account-iframe-container iframe").attr("src", BASE_URL + "/private/account/iframe");
     if (account){//edit
+        //title
         $div.find("#create-account-form .title").html(Contabilidad.tr("Editar balance"));
+        //boton
         $div.find("#create-account-form input[type='submit']").val(Contabilidad.tr("Guardar"));
+        //name
         $div.find("#create-account-form input[name='name']").val(account.name);
+        //image
         $div.find("#account-picture").attr("src", account.picture_url);
+        //details
+        $div.find("textarea#account-details").val(account.details);
+        $div.find('#account-chars-label label.charsLeft').html(140 - $div.find("textarea#account-details").val().length);
         if(parseInt(account.is_independent)) $div.find("input[name='is_independent']").attr('checked', true);
         
         //date ini
         var dateIni = new Date(parseInt(account.date_ini)*1000);
         $div.find("#create-account-form input[name='date_ini']")
-        .val(Contabilidad.toDate(dateIni))
+        .val(Contabilidad.toDate(dateIni.getTime()/1000))
         .datepicker({defaultDate: dateIni , dateFormat: "dd/mm/yy"});
         //date end
         var dateEnd = new Date(parseInt(account.date_end)*1000);
         $div.find("#create-account-form input[name='date_end']")
-        .val(Contabilidad.toDate(dateEnd))
+        .val(Contabilidad.toDate(dateEnd.getTime()/1000))
         .datepicker({defaultDate: dateEnd , dateFormat: "dd/mm/yy"});
         $div.find("#create-account-form").show();
         $div.find("#create-account-form input").each(function(){
@@ -52,6 +61,7 @@ QHelpers.account.showBalancePopup = function ($el, account){
         var dateEnd = new Date(parseInt($div.find(".js-time").html()) + (60*60*24*30));
         $div.find("#create-account-form .title").html(Contabilidad.tr("Crear balance"));
         $div.find("#create-account-form input[type='submit']").val(Contabilidad.tr("Crear"));
+        //image
         $div.find("#account-picture").attr("src", "http://img.uefa.com/imgml/TP/players/14/2013/324x324/250011928.jpg");
         //date ini
         $div.find("#create-account-form input[name='date_ini']")
@@ -62,9 +72,11 @@ QHelpers.account.showBalancePopup = function ($el, account){
         .val(Contabilidad.toDate(dateEnd))
         .datepicker({defaultDate: dateEnd , dateFormat: "dd/mm/yy"});
         $div.find("#create-account-form").show();
+        $div.find('#account-chars-label label.charsLeft').val(140);
         $div.find("#create-account-form input").each(function(){
             setInputRule($(this));
         });
+        
         $.fancybox({
             'content' : $div,
             'onStart' : QHelpers.account.onAccountPopupStart($div, account),
@@ -104,6 +116,7 @@ QHelpers.account.onAccountPopupStart = function ($div, account){
                 data.id = account.id;
                 data.is_independent = $div.find("input[name='is_independent']").is(":checked");
                 data.picture_url = $div.find("#account-picture").attr("src");
+                data.details = $div.find("textarea#account-details").val();
                 Contabilidad.getEndPoint({async : true, success: function(resp){
                     $("#account-"+resp.account.id).find(".js-account-name").html(resp.account.name);
                     $("#account-"+resp.account.id).find(".js-account-date_ini").html(Contabilidad.toDate(data.date_ini));
@@ -176,6 +189,7 @@ QHelpers.account.onAccountPopupStart = function ($div, account){
                 data.date_ini = date_ini;
                 data.date_end = date_end;
                 data.picture_url = $div.find("#account-picture").attr("src");
+                data.details = $div.find("textarea#account-details").val();
                 Contabilidad.getEndPoint({async : true, success: function(resp){
                     resp.account.date_ini = Contabilidad.toDate(resp.account.date_ini);
                     resp.account.date_end = Contabilidad.toDate(resp.account.date_end);
@@ -195,51 +209,63 @@ QHelpers.account.onAccountPopupStart = function ($div, account){
             return false;
         });
     }
-
-    QHelpers.account.onCreateAccountComplete = function ($div){
-        //select name
-        $div.find("input[name='name']").select();
-    }
     
-    QHelpers.account.uploadPicture = function(fileObj){
-        var par = window.document;
-        var frm = fileObj.form;
-
-        $("#picture-response").hide();
-
-        // create new iframe
-        var new_iframe = par.createElement('iframe');
-        new_iframe.src = BASE_URL + "/private/account/iframe";
-        new_iframe.frameBorder = '0';
-        new_iframe.scrolling = 'no';
-        new_iframe.marginHeight = '0';
-        new_iframe.marginWidth = '0';
-        new_iframe.style.height = '75px';
-        new_iframe.style.width = '500px';
-
-        //hide old iframe
-        var iframes = $("#account-iframe-container iframe");
-        var iframe = iframes[iframes.length - 1];
-        iframe.style.display = 'none';
-        //append the new iframe
-        $("#account-iframe-container").append(new_iframe);
-
-        iframe.id = 'old-iframe';
-
-        // send
-        frm.submit();
-    }
-    
-    QHelpers.account.setUploadedImage = function(resp){
-        if(resp.response == "success"){
-            $("#account-picture").attr("src", resp.url);
-        } else {
-            $("#picture-response").removeClass("*")
-            .addClass("error")
-            .html(Contabilidad.tr("Lo sentimos, ocurrio un problema al subir tu imagen. Intenta con otra!"))
-            .show();
+    $div.find("textarea#account-details").keyup(function(){
+        var len = $(this).val().length;
+        if (len > 140) {
+            this.value = this.value.substring(0, 140);
+            len = this.value.length;
         }
-        var iframe = $("#account-iframe-container #old-iframe");
-        $(iframe).remove();
+        $div.find('#account-chars-label label.charsLeft').text(140 - len);
+    }).keydown(function(){
+        var len = $(this).val().length;
+        $div.find('#account-chars-label label.charsLeft').text(140 - len);
+    });
+}
+
+QHelpers.account.onCreateAccountComplete = function ($div){
+    //select name
+    $div.find("input[name='name']").select();
+}
+
+QHelpers.account.uploadPicture = function(fileObj){
+    var par = window.document;
+    var frm = fileObj.form;
+
+    $("#picture-response").hide();
+
+    // create new iframe
+    var new_iframe = par.createElement('iframe');
+    new_iframe.src = BASE_URL + "/private/account/iframe";
+    new_iframe.frameBorder = '0';
+    new_iframe.scrolling = 'no';
+    new_iframe.marginHeight = '0';
+    new_iframe.marginWidth = '0';
+    new_iframe.style.height = '75px';
+    new_iframe.style.width = '500px';
+
+    //hide old iframe
+    var iframes = $("#account-iframe-container iframe");
+    var iframe = iframes[iframes.length - 1];
+    iframe.style.display = 'none';
+    //append the new iframe
+    $("#account-iframe-container").append(new_iframe);
+
+    iframe.id = 'old-iframe';
+
+    // send
+    frm.submit();
+}
+
+QHelpers.account.setUploadedImage = function(resp){
+    if(resp.response == "success"){
+        $("#account-picture").attr("src", resp.url);
+    } else {
+        $("#picture-response").removeClass("*")
+        .addClass("error")
+        .html(Contabilidad.tr("Lo sentimos, ocurrio un problema al subir tu imagen. Intenta con otra!"))
+        .show();
     }
+    var iframe = $("#account-iframe-container #old-iframe");
+    $(iframe).remove();
 }

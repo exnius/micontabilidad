@@ -6,7 +6,7 @@ $succesfully = false;
 //register shutdown functions
 //require_once 'shutdown.inc.php';
 
-require_once realpath(dirname(__FILE__)) . '/../includes.php';
+require_once realpath(dirname(__FILE__)) . '/../../public/includes.php';
 
 
 // AutoLoader not started yet

@@ -17,6 +17,9 @@
         <input id="is_independent" type="checkbox" name="is_independent"/>
         <span><label for="is_independent"><?=$this->tr("Independiente")?></label></span>
     </p>
+    <p><?=$this->tr("Detalles")?></p>
+    <textarea id="account-details" cols="40" rows="4"></textarea>
+    <span id="account-chars-label"><label class="charsLeft">140</label></span>
     <p><?=$this->tr("Tipo de moneda")?></p>
     <select name="id_currency">
         <?php foreach ($this->currencys as $currency){?>
