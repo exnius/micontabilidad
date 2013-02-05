@@ -278,10 +278,18 @@ class Proxy_Transaction extends Contabilidad_Proxy
     }
     
     public function retrieveBetweenByAccount($account, $order = "date DESC"){
+        $ar = array('id' => $account->id, 'date_ini' => $account->date_ini, 'date_end' => $account->date_end);
+        return $this->retrieveBetweenDatesAndAccountId($ar);
+    }
+    
+    public function retrieveBetweenDatesAndAccountId($params, $order = "date DESC"){
+        $id = $params['id'];
+        $dateIni = $params['date_ini'];
+        $dateEnd = $params['date_end'];
         $select = $this->getTable()->select()
-                       ->where("id_account = '$account->id'")
-                       ->where("date >= '$account->date_ini'")
-                       ->where("date <= '$account->date_end'")
+                       ->where("id_account = '$id'")
+                       ->where("date >= '$dateIni'")
+                       ->where("date <= '$dateEnd'")
                        ->order($order);
         return $this->getTable()->fetchAll($select);
     }

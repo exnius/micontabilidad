@@ -18,6 +18,7 @@ class Private_AccountController extends Zend_Controller_Action
         foreach($this->view->outsideTrans as $tran){
             $serializedTrans[$tran->id] = Proxy_Transaction::getInstance()->serializer($tran);
         }
+        $this->view->currentBenefit = $this->view->account->calculateBenefit(strtotime("now"));
         $this->view->serializedTransactions = $serializedTrans;
         $this->view->categories = Proxy_CategoryType::getInstance()->fetchAll();
         $this->view->currencys = Proxy_Currency::getInstance()->retrieveCurrencys();

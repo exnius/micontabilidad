@@ -1,8 +1,10 @@
 <?php
 class VO_Account extends Zend_Db_Table_Row {
     
-    public function calculateBenefit(){
-        $transactions = Proxy_Transaction::getInstance()->retrieveBetweenByAccount($this);
+    public function calculateBenefit($time = null){
+        $ar = array('id' => $this->id, 'date_ini' => $this->date_ini, 'date_end' => $this->date_end);
+        if($time && $time < $this->date_end) $ar['date_end'] = $time;
+        $transactions = Proxy_Transaction::getInstance()->retrieveBetweenDatesAndAccountId($ar);
         $income = $expense = 0;
         foreach ($transactions as $transaction){
 //            if ($transaction->date >= $this->date_ini && $transaction->date <= $this->date_end){

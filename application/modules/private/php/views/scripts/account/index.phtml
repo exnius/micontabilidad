@@ -9,6 +9,7 @@
             "date_end" => Contabilidad_Utils_Dates::toDate($this->account->date_end)
         ));?>
     <?=$this->count?> transacciones
+    <p>Beneficio a la fecha: <?= $this->currentBenefit ?></p>
 </div>
 <a href="#" id="add-income" class="add-transaction" onclick="return false;">Adicionar ingresos</a>
 <br>
