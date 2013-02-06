@@ -1,0 +1,5 @@
+<form name="iform" action="<?= BASE_URL . "/private/account/uploadpicture"?>" method="post" enctype="multipart/form-data">
+    <input id="file" type="file" name="picture" onChange="window.parent.QHelpers.account.uploadPicture(this);" /><br>
+    <span style="font-size:11px; color:#666666;">only gif, png, jpg files.</span>
+    <input type="hidden" value="" name="account_id" />
+</form>

@@ -69,5 +69,6 @@ class Contabilidad_Acl_ActionHelper extends Zend_Controller_Action_Helper_Abstra
         $config = Zend_Registry::get('Config');
         $view->gapi_id = $config->oauth->google->clientId;
         $view->gapi_secret = $config->oauth->google->secret;
+        $view->facebook_id = $config->oauth->facebook->clientId;
     }
 }

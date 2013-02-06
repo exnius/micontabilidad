@@ -3,6 +3,8 @@ class Contabilidad_Services_User extends Contabilidad_Services_Abstract {
     const NOT_AUTHENTICATED = "not authenticated";
     const NOT_ALL_PARAMS = "not all params";
     const WRONG_PASSWORD = "WRONG_PASSWORD";
+    const USER_NOT_FOUND = "USER_NOT_FOUND";
+    const WRONG_TOKEN = "WRONG_TOKEN";
     
     public function editUser ($id, $params){
         $resp = array("result" => "failure", "reason" => self::NOT_ALL_PARAMS);
@@ -15,7 +17,7 @@ class Contabilidad_Services_User extends Contabilidad_Services_Abstract {
                 $resp["result"] = "success";
                 $resp["reason"] = "OK";
             } else {
-                $resp["reason"] = "user not found";
+                $resp["reason"] = self::USER_NOT_FOUND;
             }
         }
         return $resp;
@@ -39,6 +41,31 @@ class Contabilidad_Services_User extends Contabilidad_Services_Abstract {
                 }
             } else {
                 $resp["reason"] = "user not found";
+            }
+        }
+        return $resp;
+    }
+    
+    //this function is used by setpass action
+    //it changes the password by a token
+    public function setPassword($params){
+        $resp = array("result" => "failure", "reason" => self::NOT_ALL_PARAMS);
+        if ($this->reviewParam('token', $params) 
+            && $this->reviewParam('new_pass', $params)
+            && $this->reviewParam('email', $params)){
+            $puser = Proxy_User::getInstance();
+            $user = $puser->findByEmail($params['email']);
+            if($user){
+                if($params['token'] == $user->token && $params['token']){
+                    $user = $puser->editPassword($user, $params['new_pass']);
+                    Contabilidad_Auth::getInstance()->loginByUser($user);
+                    $resp["result"] = "success";
+                    $resp["reason"] = "OK";
+                } else {
+                    $resp["reason"] = self::WRONG_TOKEN;
+                }
+            } else {
+                $resp["reason"] = self::USER_NOT_FOUND;
             }
         }
         return $resp;

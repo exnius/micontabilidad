@@ -178,7 +178,8 @@ function onRecoverStart($div){
                 if(resp.result == "success"){
                     $div.find("#recover-password-form .response")
                     .addClass("success")
-                    .html(Contabilidad.tr("Da click en el link que te enviamos por email"));
+                    .html(Contabilidad.tr("En unos minutos te enviaremos un link a tu email"));
+                    $("#recover-password-form input[type=text]").val("");
                 } else if(resp.result == "failure") {
                     if(resp.reason == USER_NOT_FOUND){
                         $div.find("#recover-password-form .response")

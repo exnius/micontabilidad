@@ -45,6 +45,8 @@ class Contabilidad_Services_Session extends Contabilidad_Services_Abstract {
         if($this->reviewParam('email', $params)){
             $user = Proxy_User::getInstance()->findByEmail($params['email']);
             if($user){
+                $ar = array("userId" => $user->id, "template" => "recoverPassword");
+                Proxy_WaitingEmail::getInstance()->createNew($ar);
                 $resp["result"] = "success";
                 $resp["reason"] = "OK";
             } else {
@@ -67,6 +69,25 @@ class Contabilidad_Services_Session extends Contabilidad_Services_Abstract {
                 $user = $puser->createGoogleUser($params);
             } else {
                 $puser->addGoogleData($user, $params);
+            }
+        }
+        
+        //3. login
+        Contabilidad_Auth::getInstance()->loginByUser($user);
+    }
+    
+    public function connectByFacebook($params){
+        $puser = Proxy_User::getInstance();
+        
+        //1. first find by facebook id
+        $user = $puser->findByFacebookId($params['uid']);
+        //2. if user not found, find by email
+        if(!$user){
+            $user = $puser->findByEmail($params['email']);
+            if(!$user){//2.1 register if user not found
+                $user = $puser->createFacebookUser($params);
+            } else {
+                $puser->addFacebookData($user, $params);
             }
         }
         

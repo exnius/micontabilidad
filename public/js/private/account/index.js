@@ -48,7 +48,7 @@ $(document).ready(function(){
                     $("#delete-popup input[type='button']").click(function(){
                         if($(this).attr("id") == "yes"){
                             var id = $parent.attr("data-id");
-                            $parent.remove();
+                            deleteTransaction(id);
                             Contabilidad.getEndPoint({async : true, success: function(resp){
                                 $(".account-benefit").html(Contabilidad.currencyValue(resp.account.benefit, resp.account.id_currency));
                             }}).deleteTransaction(id, Contabilidad.account.id);
@@ -118,11 +118,17 @@ $(document).ready(function(){
                 'onComplete' : function(){
                     $("#delete-popup input[type='button']").click(function(){
                         if($(this).attr("id") == "yes"){
+                            var ids = [];
+                            $("#outside-transactions-container .transaction-container").each(function(){
+                                var id = $(this).attr("data-id");
+                                ids.push(id);
+                                deleteTransaction(id);
+                            });
 //                            var id = $parent.attr("data-id");
 //                            $parent.remove();
-//                            Contabilidad.getEndPoint({async : true, success: function(resp){
-//                                document.location.href = Contabilidad.private_home;
-//                            }}).deleteAccount(id);
+                            Contabilidad.getEndPoint({async : true, success: function(resp){
+                                
+                            }}).deleteTransactions(ids);
                         }
                         $.fancybox.close();
                     });
@@ -474,6 +480,12 @@ function displaySavedTransactions(resp)
             $("#transaction-" + tran.id + " .js-transaction-date").html(tran.date);
             $("#transaction-" + tran.id + " .js-transaction-value").html(tran.value);
         } else {
+            if(!$("#transactions-title").length){
+                var h3 = document.createElement("h3");
+                h3.id = "transactions-title";
+                $(h3).html(Contabilidad.tr("Transacciones"));
+                $("#transactions-container").before($(h3));
+            }
             var output = Mustache.render($("#transaction-row-tpl").html(), tran);
             $("#transactions-container").prepend(output);
         }
@@ -488,8 +500,20 @@ function displaySavedTransactions(resp)
     if(resp.deleted_transactions){
         $(resp.deleted_transactions).each(function(i){
             var id = resp.deleted_transactions[i];
-            $("#transaction-" + id).remove();
-            delete Contabilidad.transactions[id];
+            deleteTransaction(id);
         });
+    }
+}
+
+function deleteTransaction(id){
+    $("#transaction-" + id).remove();
+    delete Contabilidad.transactions[id];
+    
+    if(!$("#transactions-container .transaction-container").length){
+        $("#transactions-title").remove();
+    }
+    if(!$("#outside-transactions-container .transaction-container").length){
+        $("#outside-transactions-container").remove();
+        $("#outside-transactions-title").remove();
     }
 }

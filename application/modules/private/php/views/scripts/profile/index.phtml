@@ -1,7 +1,7 @@
 <h1>Editar Perfil</h1>
 <div>
     <div id="avatar-response" style="display: none;"></div>
-    <img id="avatar" src="<?= $this->user->getPictureUrl()?>" class="user-avatar" width="100" height="100"/>
+    <img id="avatar" src="<?= $this->user->getPictureUrl()?>" class="user-avatar" width="100"/>
     <div id="iframe_container">
         <iframe src="<?= BASE_URL . "/private/profile/iframe"?>" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" style="height: 75px; width: 500px;"></iframe>
     </div>
@@ -21,11 +21,11 @@
             <p><?=$this->tr("Mi Nueva Contraseña")?></p>
             <input type="password" name="new_pass" class="required">
             <p><?=$this->tr("Confirmar Contraseña")?></p>
-            <input type="password" name="confirm_pass" class="required">
+            <input type="password" is_equal_to="new_pass" name="confirm_pass" class="required">
             <div class="password-response"></div>
             <p>
                 <a id="hide-password-form" href="#"><?=$this->tr("Cancelar")?></a>
-                <input type="button" value="<?= $this->tr("Cambiar")?>">
+                <input id="change-password" type="button" value="<?= $this->tr("Cambiar")?>">
             </p>
         </div>
         <p><?=$this->tr("Mi Genero")?></p>

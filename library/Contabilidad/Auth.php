@@ -20,6 +20,10 @@ class Contabilidad_Auth {
         
         if(!$this->_auth->hasIdentity()){
         
+            require_once('Zend/Session.php');
+ 
+            $seconds = 60 * 60 * 24 * 7; // 7 days
+            Zend_Session::rememberMe($seconds);
             $authAdapter = Zend_Registry::get('authAdapter');
             $authAdapter->setIdentity($params['email']);
             $authAdapter->setCredential($params['password']);
@@ -32,6 +36,9 @@ class Contabilidad_Auth {
     }
     
     public function loginByUser($user){
+        require_once('Zend/Session.php');
+        $seconds = 60 * 60 * 24 * 7; // 7 days
+        Zend_Session::rememberMe($seconds);
         $this->_auth->getStorage()->write($user->email);
         $this->_user = $user;
     }
@@ -50,4 +57,3 @@ class Contabilidad_Auth {
         return hash_hmac('md5', $email, $password);
     }
 }
-

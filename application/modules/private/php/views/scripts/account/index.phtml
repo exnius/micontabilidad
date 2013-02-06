@@ -6,15 +6,17 @@
             "name" => strtoupper($this->account->name),
             "benefit" => $this->currencyValue($this->account->benefit, $this->account->id_currency),
             "date_ini" => Contabilidad_Utils_Dates::toDate($this->account->date_ini),
-            "date_end" => Contabilidad_Utils_Dates::toDate($this->account->date_end)
+            "date_end" => Contabilidad_Utils_Dates::toDate($this->account->date_end),
+            "picture_url" => $this->account->getPictureUrl()
         ));?>
     <?=$this->count?> transacciones
+    <p>Beneficio a la fecha: <?= $this->currentBenefit ?></p>
 </div>
 <a href="#" id="add-income" class="add-transaction" onclick="return false;">Adicionar ingresos</a>
 <br>
 <a href="#" id="add-expense" class="add-transaction" onclick="return false;">Adicionar egresos</a>
 <?php if(count($this->outsideTrans)){?>
-    <h3> transacciones por fuera del periodo</h3>
+    <h3 id="outside-transactions-title"> transacciones por fuera del periodo</h3>
     <div id="outside-transactions-container">
         <a href="#" id="delete-outside-transactions"><?= $this->tr("Eliminar todas las transacciones") ?></a>
         <?php
@@ -34,7 +36,9 @@
         <?php }?>
     </div>
 <?php }?>
-<h3> transacciones</h3>
+<?php if(count($this->transactions)) { ?>
+    <h3 id="transactions-title"><?= $this->tr("Transacciones") ?></h3>
+<?php }?>
 <div id="transactions-container">
     <?php
     $m = new Mustache_Engine;
