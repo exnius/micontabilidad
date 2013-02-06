@@ -6,7 +6,8 @@
             "name" => strtoupper($this->account->name),
             "benefit" => $this->currencyValue($this->account->benefit, $this->account->id_currency),
             "date_ini" => Contabilidad_Utils_Dates::toDate($this->account->date_ini),
-            "date_end" => Contabilidad_Utils_Dates::toDate($this->account->date_end)
+            "date_end" => Contabilidad_Utils_Dates::toDate($this->account->date_end),
+            "picture_url" => $this->account->getPictureUrl()
         ));?>
     <?=$this->count?> transacciones
     <p>Beneficio a la fecha: <?= $this->currentBenefit ?></p>

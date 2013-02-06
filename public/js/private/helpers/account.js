@@ -102,7 +102,7 @@ QHelpers.account.showBalancePopup = function ($el, account){
 
 
 QHelpers.account.onAccountPopupStart = function ($div, account){
-    if (account){
+    if (account){//edit
         $div.find("form").submit(function(){
             var date_ini = $div.find("input[name='date_ini']").datepicker("getDate").getTime()/1000;
             var date_end = $div.find("input[name='date_end']").datepicker("getDate").getTime()/1000;
@@ -132,6 +132,7 @@ QHelpers.account.onAccountPopupStart = function ($div, account){
                     }
                     $("#account-" + resp.account.id + " .account-benefit").html(Contabilidad.currencyValue(resp.account.benefit, resp.account.id_currency));
                     $("#account-"+resp.account.id).find(".js-account-benefit").html(Contabilidad.currencyValue(resp.account.benefit, resp.account.id_currency))
+                    $("#account-"+resp.account.id).find(".js-account-picture img").attr("src", resp.account.picture_url);
                     $.fancybox.close();
                 }}).editAccount(data);
             } else {

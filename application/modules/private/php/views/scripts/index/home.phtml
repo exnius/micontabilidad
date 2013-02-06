@@ -11,7 +11,8 @@
             "name" => $account->name,
             "benefit" => $account->benefit,
             "date_ini" => Contabilidad_Utils_Dates::toDate($account->date_ini),
-            "date_end" => Contabilidad_Utils_Dates::toDate($account->date_end)
+            "date_end" => Contabilidad_Utils_Dates::toDate($account->date_end),
+            "picture_url" => $account->picture_url
         ));?>
     <?php }?>
 </div>
