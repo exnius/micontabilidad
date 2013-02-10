@@ -14,9 +14,10 @@ class Proxy_Account extends Contabilidad_Proxy
         return (self::$_instance);
     }
     
-    public function createNew($user, $params){
+    public function createNew($user, $quantup, $params){
         $row = $this->createRow();
         $row->id_user = $user->id;
+        $row->id_quantup = $quantup->id;
         $row->name = $params['name'];
         $row->date_ini = $params['date_ini'];
         $row->date_end = $params['date_end'];
@@ -25,7 +26,7 @@ class Proxy_Account extends Contabilidad_Proxy
         $row->is_independent = isset($params['is_independent']) ? $params['is_independent'] : false;
         $row->id_currency = $params['id_currency'];
         $row->creation_date = time();
-        $row->picture_url = $params['picture_url'];
+        $row->picture_url = isset($params['picture_url']) ? $params['picture_url'] : null;
         $row->details = $params['details'];
         $row->save();
         
@@ -38,8 +39,7 @@ class Proxy_Account extends Contabilidad_Proxy
         return $row;
     }
 
-    public function editAccount ($params){
-       $account = $this->findById($params['id']);
+    public function editAccount ($account, $params){
        $account->name = $params['name'];
        $account->date_ini = $params['date_ini'];
        $account->date_end = $params['date_end'];

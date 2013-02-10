@@ -17,6 +17,9 @@ class Private_IndexController extends Zend_Controller_Action
       
       $pacc = Proxy_Account::getInstance();
       $accounts = $pacc->retrieveByUserId($user->id);
+      
+      $this->view->quantup = Proxy_Quantup::getInstance()->findPredeterminedByUserId($user->id);
+      
       $serializedAccounts = array();
       foreach($accounts as $acc){
           $serializedAccounts[$acc->id] = $pacc->serializer($acc);

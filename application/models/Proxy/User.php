@@ -25,8 +25,13 @@ class Proxy_User extends Contabilidad_Proxy
             $row->registered_by = "email";
             $row->save();
             
+            //create waiting to send email row
             $ar = array("userId" => $row->id, "template" => "welcome");
             Proxy_WaitingEmail::getInstance()->createNew($ar);
+            
+            //create quantup
+            $qparams = array("name" => "Mi Quantup", "is_predetermined" => true);
+            Proxy_Quantup::getInstance()->createNew($row, $qparams);
         }
         else
             Contabilidad_Exceptions::showException ('Este email ya existe');
@@ -55,10 +60,14 @@ class Proxy_User extends Contabilidad_Proxy
         $row->password = $encryptedPass;
         $row->registered_by = "google";
         $row->save();
+        
         //send email to user
         $ar = array("userId" => $row->id, "template" => "welcome", "extra" => $password);
         Proxy_WaitingEmail::getInstance()->createNew($ar);
-//        Contabilidad_Utils_EmailTemplate::getInstance()->sendWelcomeEmailAndPassword($row, $password);
+        
+        //create quantup
+        $qparams = array("name" => "Mi Quantup", "is_predetermined" => true);
+        Proxy_Quantup::getInstance()->createNew($row, $qparams);
         return $row;
     }
     
@@ -92,12 +101,17 @@ class Proxy_User extends Contabilidad_Proxy
         $row->password = $encryptedPass;
         $row->registered_by = "facebook";
         $row->save();
+        
         //send email to user
         $ar = array("userId" => $row->id, "template" => "welcome", "extra" => $password);
         Proxy_WaitingEmail::getInstance()->createNew($ar);
+        
+        //create quantup
+        $qparams = array("name" => "Mi Quantup", "is_predetermined" => true);
+        Proxy_Quantup::getInstance()->createNew($row, $qparams);
+        
         return $row;
     }
-    //3125001921
     
     public function edit($user, $params){
         foreach($params as $prp => $value){

@@ -41,6 +41,7 @@ class Proxy_Transaction extends Contabilidad_Proxy
             $row = $this->createRow();
             $row = $this->setParams($row, $params);
             $row->id_account = $account->id;
+            $row->id_quantup = $account->id_quantup;
             $row->save();
             $transactions[] = $row;
         }
@@ -206,6 +207,7 @@ class Proxy_Transaction extends Contabilidad_Proxy
                 $row->frequency_time = $tran->frequency_time;
                 $row->creation_date = time();
                 $row->id_account = $account->id;
+                $row->id_quantup = $account->id_quantup;
                 $row->value = $tran->value;
                 $row->id_category_type = $tran->id_category_type;
                 $row->id_transaction_type = $tran->id_transaction_type;
