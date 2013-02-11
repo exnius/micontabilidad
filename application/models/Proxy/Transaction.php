@@ -41,6 +41,7 @@ class Proxy_Transaction extends Contabilidad_Proxy
             $row = $this->createRow();
             $row = $this->setParams($row, $params);
             $row->id_account = $account->id;
+            $row->id_quantup = $account->id_quantup;
             $row->save();
             $transactions[] = $row;
         }
@@ -84,13 +85,37 @@ class Proxy_Transaction extends Contabilidad_Proxy
             } else {//if it is not frequent anymore
                 //delete freqtran and its children
                 $freqTran = Proxy_FreqTran::getInstance()->findById($tran->id_freq_tran);
-                $freqTran->delete();
+                $freqTran->delete();//it removes younger transactions
                 $children = $freqTran->getChildren();//it can retrieve transactions from another account
+                $updatedAccounts = array();
                 foreach($children as $childTran){
+                    $updatedAccounts[$childTran->id_account] = $childTran->id_account;
                     if($childTran->id_account == $account->id){
-                        $transactions[] = $childTran;
+                        if($childTran->date > $tran->date) {
+                            $deletedTransactions[] = $childTran->id;
+                            $childTran->delete();
+                        }
+                        else {
+                            $transactions[] = $childTran;
+                        }
                     }
                 }
+                
+                //update accounts
+                foreach($updatedAccounts as $idAccount){
+                    $yaccount = Proxy_Account::getInstance()->findById($idAccount);
+                    $yaccount->benefit = $yaccount->calculateBenefit();
+                    $yaccount->save();
+                }
+                //1. delete youngers
+//                $youngerChildren = $this->retrieveYoungerByFreqTranIdAndTransaction($tran->id_freq_tran, $tran);
+//                $updatedAccounts = array();
+//                foreach($youngerChildren as $ytran){
+//                    $updatedAccounts[$ytran->id_account] = $ytran->id_account;
+//                    if($ytran->id_account == $account->id) $deletedTransactions[] = $ytran->id;
+//                    $ytran->delete();
+//                }
+                
             }
         } elseif($tran->is_frequent){//anotherwise the user changed value or frequency prps
             $freqTran = Proxy_FreqTran::getInstance()->findById($tran->id_freq_tran);
@@ -143,7 +168,7 @@ class Proxy_Transaction extends Contabilidad_Proxy
                 }
                 if($name != $tran->name || $value != $tran->value){
                     //update accounts
-                    foreach($updatedAccounts as $idAccount){
+                    foreach($updatedAccounts as $idAccount){//@todO REVISAR
                         $yaccount = Proxy_Account::getInstance()->findById($ytran->id_account);
                         $yaccount->benefit = $yaccount->calculateBenefit();
                         $yaccount->save();
@@ -206,6 +231,7 @@ class Proxy_Transaction extends Contabilidad_Proxy
                 $row->frequency_time = $tran->frequency_time;
                 $row->creation_date = time();
                 $row->id_account = $account->id;
+                $row->id_quantup = $account->id_quantup;
                 $row->value = $tran->value;
                 $row->id_category_type = $tran->id_category_type;
                 $row->id_transaction_type = $tran->id_transaction_type;

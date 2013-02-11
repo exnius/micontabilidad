@@ -57,27 +57,24 @@
     <?php }?>
 </div>
 
-<div id="transaction-row-tpl" class="template" style="display: none;">
+<script type="text/html" id="transaction-row-tpl" class="template" style="display: none;">
     <?= $this->render("mustache/transaction-row.phtml") ?>
-</div>
+</script>
 
-<div id="create-mini-transaction-form" style="display: none;">
+<script type="text/html" id="create-mini-transaction-form" style="display: none;">
     <?php echo $this->render('partials/createMiniTransactionForm.phtml'); ?>
-    <span class="js-time" style="display: none;"><?= time() ?></span>
     <div class="response"></div>
-</div>
+</script>
 
-<div id="create-transaction-form" style="display: none;">
+<script type="text/html" id="create-transaction-form" style="display: none;">
     <?php echo $this->render('partials/createTransactionForm.phtml'); ?>
-    <span class="js-time" style="display: none;"><?= time() ?></span>
     <div class="response"></div>
-</div>
+</script>
 
-<div id="create-account-form" style="display: none;">
+<script type="text/html" id="create-account-form" style="display: none;">
     <?php echo $this->render('partials/createAccountForm.phtml'); ?>
-    <span class="js-time" style="display: none;"><?= time() ?></span>
     <div class="response"></div>
-</div>
+</script>
 
 <script language="javascript">
     window.Contabilidad.account = <?= Zend_Json::encode($this->serializedAccount); ?>;

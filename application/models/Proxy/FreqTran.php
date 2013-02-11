@@ -18,6 +18,7 @@ class Proxy_FreqTran extends Contabilidad_Proxy
     public function createNew($params){
         $row = $this->createRow();
         $row = Proxy_Transaction::getInstance()->setParams($row, $params);
+        $row->id_quantup = $account->id_quantup;
         $row->save();
         return $row;
     }
