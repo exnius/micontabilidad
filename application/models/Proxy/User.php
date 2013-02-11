@@ -42,7 +42,7 @@ class Proxy_User extends Contabilidad_Proxy
         $row->google_id = $params['id'];
         if(isset($params['picture'])){
             $row->google_picture_url = $params['picture'];
-        }
+        } 
         if (isset($params ['gender'])){
             $row->gender = $params['gender'];
         }
@@ -264,6 +264,9 @@ class Proxy_User extends Contabilidad_Proxy
         $params = array();
         parse_str($response->getBody(), $params);
         return $params['access_token'];
-
+    }
+    
+    public function retrieveByQuery ($query){
+        return $this->getTable()->fetchAll($query);
     }
 }

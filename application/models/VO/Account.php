@@ -24,7 +24,7 @@ class VO_Account extends Zend_Db_Table_Row {
         if($this->picture_url && strlen($this->picture_url)){
             $url = $this->picture_url;
         } else {
-            $url = "http://img.uefa.com/imgml/TP/players/14/2013/324x324/250011928.jpg";
+            $url = LINKS_URL . "/quantups_picture/sbudget.png";
         }
         return $url;
     }

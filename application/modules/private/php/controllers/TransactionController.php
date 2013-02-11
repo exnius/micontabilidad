@@ -1,24 +1,76 @@
 <?php
+//include the S3 class
+if (!class_exists('S3'))require_once('S3.php');
+//AWS access info
+if (!defined('awsAccessKey')) define('awsAccessKey', 'AKIAIKDNZYHDKUSMX2MQ');
+if (!defined('awsSecretKey')) define('awsSecretKey', '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');
+//instantiate the class
 
 class Private_TransactionController extends Zend_Controller_Action
 {
     public function allAction(){
-        $this->view->pru="all";
+        // Script: Update pictures from Quantups to Amazon
+        $s3 = new S3(awsAccessKey, awsSecretKey);
+        $query = "picture_url LIKE '%" . BASE_URL . "%'";
+        $accounts = Proxy_Account::getInstance()->retrieveByQuery($query);
+        $users = Proxy_User::getInstance()->retrieveByQuery($query);
+
+        if ($accounts->count() != 0){
+            $root = ROOT . "/public/quantups_pictures/";
+            $bucketName = "quantups_pictures";
+            $s3->putBucket($bucketName, S3::ACL_PUBLIC_READ);
+            $bucket_contents = $s3->getBucket($bucketName);
+            foreach ($accounts as $account){
+                $explodeUrl =  explode('/', $account->picture_url);
+                $accPictureName = $explodeUrl[(sizeof($explodeUrl))-1];
+                $ext = explode('.', $account->picture_url);
+                $name = $account->id_user . "_" . $account->id . "_" . "account_picture";
+                $pictureExt = $ext[(sizeof($ext))-1];
+                $newAccPictureName =  $name . "." . $pictureExt;
+                foreach(array("jpg" , "png", "gif") as $extension){
+                    $url = "http://$bucketName.s3.amazonaws.com/" . $name . "." . $extension;
+                    if (fopen($url, "r")){
+                        $s3->deleteObject($bucketName, $url);
+                    }
+                }
+                $s3->putObjectFile($root . $accPictureName, $bucketName, $newAccPictureName, S3::ACL_PUBLIC_READ);
+                $account->picture_url = "http://$bucketName.s3.amazonaws.com/" . $newAccPictureName;
+                $account->save();
+                unlink($root . $accPictureName);
+            }
+        }
+
+        if ($users->count() != 0){
+            $root = ROOT . "/public/avatars/";
+            $bucketName = "quantups_avatars";
+            $s3->putBucket($bucketName, S3::ACL_PUBLIC_READ);
+            $bucket_contents = $s3->getBucket($bucketName);
+            foreach ($users as $user){
+                $explodeUrl = (explode('/', $user->picture_url));
+                $userPictureName = $explodeUrl[(sizeof($explodeUrl))-1];
+                $ext = explode('.', $user->picture_url);
+                $name = $user->id . "_" . "avatar";
+                $pictureExt = $ext[(sizeof($ext))-1];
+                $newUserPictureName =  $name . "." . $pictureExt;
+                foreach(array("jpg" , "png", "gif") as $extension){
+                    $url = "http://$bucketName.s3.amazonaws.com/" . $name . "." . $extension;
+                    if (fopen($url, "r")){
+                        $s3->deleteObject($bucketName, $url);
+                    }
+                }
+                $s3->putObjectFile($root . $userPictureName, $bucketName, $newUserPictureName, S3::ACL_PUBLIC_READ);
+                $user->picture_url = "http://$bucketName.s3.amazonaws.com/" . $newUserPictureName;
+                $user->save();
+                unlink($root . $userPictureName);
+            }
+        }
     }
     
     public function addAction(){
         $this-> view->pru="add";
-        $accounts =  Proxy_Account::getInstance()->retrieveByUserId('2');
-        foreach ($accounts as $account){
-            if($account->id=='2'){
-                break;
-            }
-        }
-        var_dump($account);
-        $array = array('name'=>'Enero' , 'value'=>'123456' , 'date'=>'1234567890' , 'comment'=>'lo del motel',
-                'is_frequent'=>true , 'frequency_days'=>'28' ,'cration_date'=>'1234567890' ,
-                'id_category_type'=>'2' , 'id_transaction_type'=>'2' );
-            Proxy_Transaction::getInstance()->createTransaction($account,$array);
+        $s3 = new S3(awsAccessKey, awsSecretKey);
+        $resp = $s3->deleteObject("quantups_pictures", "38_4_account_picture..gif");
+        var_dump($resp);
     }
     
     public function editAction(){

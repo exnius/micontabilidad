@@ -9,7 +9,7 @@ class VO_User extends Zend_Db_Table_Row {
         } elseif($this->facebook_picture_url && strlen($this->facebook_picture_url)) {
             $url = $this->facebook_picture_url;
         } else {
-            $url = "http://img.uefa.com/imgml/TP/players/14/2013/324x324/250011928.jpg";
+            $url = LINKS_URL . "/avatars/default_male.png";
         }
         return $url;
     }
