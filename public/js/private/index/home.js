@@ -27,12 +27,6 @@ $(document).ready(function(){
             return false;
         } else if ($(event.target).hasClass("edit-account")){
             var id = $(event.target).parent().attr("data-id");
-            var nAddFrag = document.createDocumentFragment();
-            if(!$(event.target).data("el")){
-                var el = document.getElementById("create-account-form");
-                $(event.target).data("el", el);
-            }
-            nAddFrag.appendChild($(event.target).data("el"));
             var account = Contabilidad.accounts[id];
             QHelpers.account.showBalancePopup($(event.target), account)
             return false;
@@ -48,9 +42,9 @@ function onClose(form){
     .removeClass("*")
     .addClass("response")
     .html("");;
-    var nAddFrag = document.createDocumentFragment();
-    nAddFrag.appendChild(form);
-    $("body").append(nAddFrag);
+//    var nAddFrag = document.createDocumentFragment();
+//    nAddFrag.appendChild(form);
+//    $("body").append(nAddFrag);
 }
 
 /*************************************

@@ -14,8 +14,7 @@ $(document).ready(function(){
             overwrite: true,
             content: {
                 text: function(api) {
-                    $('#create-mini-transaction-form').show();
-                    return $('#create-mini-transaction-form')
+                    return $('#create-mini-transaction-form').html();
                 }
             },
             events: {
@@ -59,13 +58,8 @@ $(document).ready(function(){
             });
             return false;
         } else if($(event.target).hasClass("edit-transaction")){//edit transaction
-            var nAddFrag = document.createDocumentFragment();
-            if(!$(event.target).data("el")){
-                var el = document.getElementById("create-transaction-form");
-                $(event.target).data("el", el);
-            }
-            nAddFrag.appendChild($(event.target).data("el"));
-            var $div = $("<div>").append(nAddFrag);
+            var el = document.getElementById("create-transaction-form").innerHTML;
+            var $div = $("<div>").append(el);
             var id = $(event.target).parents(".transaction-container").attr("data-id");
             var curTran = Contabilidad.transactions[id];
             $div.find("input[name='id']").val(id);
@@ -124,8 +118,6 @@ $(document).ready(function(){
                                 ids.push(id);
                                 deleteTransaction(id);
                             });
-//                            var id = $parent.attr("data-id");
-//                            $parent.remove();
                             Contabilidad.getEndPoint({async : true, success: function(resp){
                                 
                             }}).deleteTransactions(ids);
@@ -180,13 +172,8 @@ function onVisibleMiniTransaction($el){
     //more options->open big transaction form
     $(".more-options").click(function(){
         $el.qtip('hide');
-        var nAddFrag = document.createDocumentFragment();
-        if(!$(this).data("el")){
-            var el = document.getElementById("create-transaction-form");
-            $(this).data("el", el);
-        }
-        nAddFrag.appendChild($(this).data("el"));
-        var $div = $("<div>").append(nAddFrag);
+        var el = document.getElementById("create-transaction-form").innerHTML;
+        var $div = $("<div>").append(el);
         showTransactionPopup($div, $el);
         return false;
     });
@@ -201,20 +188,20 @@ function showTransactionPopup($div, $el){
         content : $div,
         'onStart' : onCreateTransactionStart($div),
         'onCleanup' : function(){
-            this.form = document.getElementById("create-transaction-form");
-            if($div.find("input[name='is_frequent']").is(":checked")){
-                $div.find("input[name='is_frequent']").attr('checked', false).trigger("change");
-            }
-            $(this.form).find("#remove-frequency-warning").hide().css({opacity: 1}).stop().fadeOut();
-            $div.find("select[name='frequency_days']").val("1");
-            $div.find("input[name='precise_frequency_days']").val("");
-            $div.find("select[name='frequency_time']").val("0");
-            $div.find("input[name='id']").val("0");
-            $div.find(".less-options").show();
+//            this.form = document.getElementById("create-transaction-form");
+//            if($div.find("input[name='is_frequent']").is(":checked")){
+//                $div.find("input[name='is_frequent']").attr('checked', false).trigger("change");
+//            }
+//            $(this.form).find("#remove-frequency-warning").hide().css({opacity: 1}).stop().fadeOut();
+//            $div.find("select[name='frequency_days']").val("1");
+//            $div.find("input[name='precise_frequency_days']").val("");
+//            $div.find("select[name='frequency_time']").val("0");
+//            $div.find("input[name='id']").val("0");
+//            $div.find(".less-options").show();
         },
         'onClosed' : function(){
-            onClose(this.form);
-            $(this.form).find(".hasDatepicker").removeClass("hasDatepicker");
+//            onClose(this.form);
+//            $(this.form).find(".hasDatepicker").removeClass("hasDatepicker");
         },
         'onComplete' : function(){
             $div = this.form ? this.form : $div;
@@ -233,11 +220,11 @@ function showTransactionPopup($div, $el){
 
 function onEditTransactionComplete($div, $el){
      //rules
-    $div.find("#create-transaction-form input[type='text']").each(function(){
+    $div.find("input[type='text']").each(function(){
         setInputRule($(this));
     });
     
-    addMoneyBehavior($div.find("#create-transaction-form input[name='value']"));
+    addMoneyBehavior($div.find("input[name='value']"));
     
     var id = $el.parents(".transaction-container").attr("data-id");
     var curTran = Contabilidad.transactions[id];
@@ -288,8 +275,8 @@ function onCreateTransactionStart($div){
 function onCreateTransactionComplete($div, $el){
     var transactionName = getNewTransactionName($el);
     
-    $div.find("#create-transaction-form input[name='name']").val(transactionName).select();
-    $div.find("#create-transaction-form input[name='value']").focus();
+    $div.find("input[name='name']").val(transactionName).select();
+    $div.find("input[name='value']").focus();
     $div.find("input[name='id_transaction_type']").val($el.attr("id") == "add-income" ? 1 : 2);
     
     //less options link
@@ -323,9 +310,6 @@ function onClose(form){
     .removeClass("*")
     .addClass("response")
     .html("");
-    var nAddFrag = document.createDocumentFragment();
-    nAddFrag.appendChild(form);
-    $("body").append(nAddFrag);
 }
 
 function addMoneyBehavior($el){
@@ -384,11 +368,11 @@ function setInputRule($input){
 function transactionPoppupCommonEvents($div, date){
     var currentDate = new Date(parseInt(date)*1000);
      //rules
-    $div.find("#create-transaction-form input[type='text']").each(function(){
+    $div.find("input[type='text']").each(function(){
         setInputRule($(this));
     });
     
-    addMoneyBehavior($div.find("#create-transaction-form input[name='value']"));
+    addMoneyBehavior($div.find("input[name='value']"));
     $div.find("input[name='date']")
     .val(Contabilidad.toDate(date))
     .datepicker({defaultDate: currentDate,
@@ -431,7 +415,7 @@ function transactionPoppupCommonEvents($div, date){
         }
     });
     
-    $div.find("#create-transaction-form form").submit(function(){
+    $div.find("form").submit(function(){
         Contabilidad.Validate.clean($('#create-mini-transaction-form'));
         $('#create-mini-transaction-form .response')
         .html("").removeClass("*").addClass("response");

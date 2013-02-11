@@ -5,6 +5,7 @@ class Private_AccountController extends Zend_Controller_Action
     public function indexAction(){
         $request = $this->getRequest();
         $accountId = $request->getParam('id');
+        $user = Contabilidad_Auth::getInstance()->getUser();
         $this->view->account = Proxy_Account::getInstance()->findById($accountId);
         $this->view->serializedAccount = Proxy_Account::getInstance()->serializer($this->view->account);
         $transactions = Proxy_Transaction::getInstance()->retrieveBetweenByAccount($this->view->account);
@@ -18,6 +19,7 @@ class Private_AccountController extends Zend_Controller_Action
         foreach($this->view->outsideTrans as $tran){
             $serializedTrans[$tran->id] = Proxy_Transaction::getInstance()->serializer($tran);
         }
+        $this->view->quantup = Proxy_Quantup::getInstance()->findPredeterminedByUserId($user->id);
         $this->view->currentBenefit = $this->view->account->calculateBenefit(strtotime("now"));
         $this->view->serializedTransactions = $serializedTrans;
         $this->view->categories = Proxy_CategoryType::getInstance()->fetchAll();

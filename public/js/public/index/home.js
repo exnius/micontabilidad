@@ -207,9 +207,9 @@ function onClose(form){
     .removeClass("*")
     .addClass("response")
     .html("");;
-    var nAddFrag = document.createDocumentFragment();
-    nAddFrag.appendChild(form);
-    $("body").append(nAddFrag);
+//    var nAddFrag = document.createDocumentFragment();
+//    nAddFrag.appendChild(form);
+//    $("body").append(nAddFrag);
 }
 
 /*************************************
