@@ -5,7 +5,7 @@ $(document).ready(function(){
             var name = $parent.hasClass("js-transaction-income") ? Contabilidad.tr("ingreso") : Contabilidad.tr("egreso");
             var output = Mustache.render($("#delete-popup-tpl").html(), 
                         {message: Contabilidad.tr("Esta a punto de eliminar una transaccion frecuente, esto afectará la \n\
-                        creación de futuros balances\n\¿Realmente quieres eliminar esta transacción?", name)});
+                        creación de futuros presupuestos\n\¿Realmente quieres eliminar esta transacción?", name)});
             $.fancybox({
                 'content' : output,
                 'onComplete' : function(){

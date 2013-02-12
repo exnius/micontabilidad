@@ -9,7 +9,7 @@ $(document).ready(function(){
     $("body").click(function(event){
         if($(event.target).hasClass("delete-account")){
             var output = Mustache.render($("#delete-popup-tpl").html(),
-                        {message: Contabilidad.tr("¿Realmente quieres eliminar este balance?")});
+                        {message: Contabilidad.tr("¿Realmente quieres eliminar este presupuesto?")});
             $.fancybox({
                 'content' : output,
                 'onComplete' : function(){
