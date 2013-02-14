@@ -2,8 +2,9 @@
 //include the S3 class
 if (!class_exists('S3'))require_once('S3.php');
 //AWS access info
-if (!defined('awsAccessKey')) define('awsAccessKey', 'AKIAIKDNZYHDKUSMX2MQ');
-if (!defined('awsSecretKey')) define('awsSecretKey', '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');
+$config = Zend_Registry::get('Config');
+if (!defined('awsAccessKey')) define('awsAccessKey', $config->api->amazon->aws->clientId);
+if (!defined('awsSecretKey')) define('awsSecretKey', $config->api->amazon->aws->secret);
 //instantiate the class
 
 class Private_TransactionController extends Zend_Controller_Action
@@ -29,8 +30,10 @@ class Private_TransactionController extends Zend_Controller_Action
                 $newAccPictureName =  $name . "." . $pictureExt;
                 foreach(array("jpg" , "png", "gif") as $extension){
                     $url = "http://$bucketName.s3.amazonaws.com/" . $name . "." . $extension;
-                    if (fopen($url, "r")){
-                        $s3->deleteObject($bucketName, $url);
+                    if (!$fp = curl_init($url)) {
+                        return false;
+                    } else {
+                        $s3->deleteObject($bucketName, $name . "." . $extension);
                     }
                 }
                 $s3->putObjectFile($root . $accPictureName, $bucketName, $newAccPictureName, S3::ACL_PUBLIC_READ);
@@ -54,8 +57,10 @@ class Private_TransactionController extends Zend_Controller_Action
                 $newUserPictureName =  $name . "." . $pictureExt;
                 foreach(array("jpg" , "png", "gif") as $extension){
                     $url = "http://$bucketName.s3.amazonaws.com/" . $name . "." . $extension;
-                    if (fopen($url, "r")){
-                        $s3->deleteObject($bucketName, $url);
+                    if (!$fp = curl_init($url)) {
+                        return false;
+                    } else {
+                        $s3->deleteObject($bucketName, $name . "." . $extension);
                     }
                 }
                 $s3->putObjectFile($root . $userPictureName, $bucketName, $newUserPictureName, S3::ACL_PUBLIC_READ);

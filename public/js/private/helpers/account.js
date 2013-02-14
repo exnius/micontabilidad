@@ -10,7 +10,7 @@ QHelpers.account.showBalancePopup = function ($el, account){
     $div.find("#account-iframe-container iframe").attr("src", BASE_URL + "/private/account/iframe");
     if (account){//edit
         //title
-        $div.find(".title").html(Contabilidad.tr("Editar balance"));
+        $div.find(".title").html(Contabilidad.tr("Editar presupuesto"));
         //boton
         $div.find("input[type='submit']").val(Contabilidad.tr("Guardar"));
         //name
@@ -45,7 +45,7 @@ QHelpers.account.showBalancePopup = function ($el, account){
     } else {//create
         var dateIni = new Date(parseInt($("#js-time").html()));
         var dateEnd = new Date(parseInt($("#js-time").html()) + (60*60*24*30));
-        $div.find(".title").html(Contabilidad.tr("Crear balance"));
+        $div.find(".title").html(Contabilidad.tr("Crear presupuesto"));
         $div.find("input[type='submit']").val(Contabilidad.tr("Crear"));
         //image
         $div.find("#account-picture").attr("src", LINKS_URL + "/quantups_pictures/budget.png");

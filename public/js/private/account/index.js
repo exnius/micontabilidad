@@ -85,7 +85,7 @@ $(document).ready(function(){
             QHelpers.account.showBalancePopup($(event.target) , Contabilidad.account);
         } else if($(event.target).hasClass("delete-account")){
             var output = Mustache.render($("#delete-popup-tpl").html(), 
-                        {message: Contabilidad.tr("¿Realmente quieres eliminar este Balance?")});
+                        {message: Contabilidad.tr("¿Realmente quieres eliminar este Presupuesto?")});
             var $parent = $(event.target).parents(".account-container");
             $.fancybox({
                 'content' : output,
@@ -438,7 +438,7 @@ function transactionPoppupCommonEvents($div, date){
             if(data["date"] < Contabilidad.account.date_ini
                || data["date"] > Contabilidad.account.date_end){
                $(this).find("input[name='date']").addClass("input-error")
-                .data("errors",[{message : Contabilidad.tr("La fecha de la transaccion debe estar dentro del periodo del balance.")}]);
+                .data("errors",[{message : Contabilidad.tr("La fecha de la transaccion debe estar dentro del periodo del presupuesto.")}]);
             }
             findAndDisplayErrors($div);
         }
