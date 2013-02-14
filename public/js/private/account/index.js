@@ -14,7 +14,7 @@ $(document).ready(function(){
             overwrite: true,
             content: {
                 text: function(api) {
-                    return $('#create-mini-transaction-form').html();
+                    return $('#create-mini-transaction-tpl').html();
                 }
             },
             events: {
@@ -234,15 +234,6 @@ function onEditTransactionComplete($div, $el){
 };
 
 function onHiddenMiniTransaction(){
-    $("#create-mini-transaction-form input[name='value']")
-    .unbind("keypress").unbind("keyup");
-    $(".more-options").unbind("click");
-    $('#create-mini-transaction-form form').unbind("submit");
-    $('#create-mini-transaction-form .response')
-    .html("").removeClass("*").addClass("response");
-    $("#create-mini-transaction-form input[type='text']").each(function(){
-        $(this).val("");
-    });
 }
 
 function getNewTransactionName($el){
