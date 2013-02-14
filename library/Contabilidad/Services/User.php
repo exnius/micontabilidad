@@ -26,6 +26,8 @@ class Contabilidad_Services_User extends Contabilidad_Services_Abstract {
     public function editPassword ($id, $params){
         $resp = array("result" => "failure", "reason" => self::NOT_ALL_PARAMS);
         if ($id && $this->reviewParam('old_pass', $params) && $this->reviewParam('new_pass', $params)){
+            $params['old_pass'] = trim($params['old_pass']);
+            $params['new_pass'] = trim($params['new_pass']);
             $puser = Proxy_User::getInstance();
             $user = $puser->findById($id);
             if($user){
@@ -55,6 +57,7 @@ class Contabilidad_Services_User extends Contabilidad_Services_Abstract {
             && $this->reviewParam('email', $params)){
             $puser = Proxy_User::getInstance();
             $user = $puser->findByEmail($params['email']);
+            $params['new_pass'] = trim($params['new_pass']);
             if($user){
                 if($params['token'] == $user->token && $params['token']){
                     $user = $puser->editPassword($user, $params['new_pass']);

@@ -29,8 +29,10 @@
             </p>
         </div>
         <p><?=$this->tr("Mi Genero")?></p>
-        <input type="radio" name="gender" value="male" <?= $this->user["gender"] == "male" ? "checked" : null?>> Hombre
-        <input type="radio" name="gender" value="female" <?= $this->user["gender"] == "female" ? "checked" : null?>> Mujer
+        <input id="male" type="radio" name="gender" value="male" <?= $this->user["gender"] == "male" ? "checked" : null?>> 
+        <label for="male"><?= $this->tr("Hombre") ?></label>
+        <input id="female" type="radio" name="gender" value="female" <?= $this->user["gender"] == "female" ? "checked" : null?>>
+        <label for="female"><?= $this->tr("Mujer") ?></label>
         <p><?=$this->tr("Mi Pais")?></p>
         <select name="country">
             <?php foreach($this->countries as $countryId => $countryName){?>

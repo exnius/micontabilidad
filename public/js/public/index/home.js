@@ -44,6 +44,9 @@ $(document).ready(function(){
             'onStart' : function(){
                 onRegisterStart($div)
             },
+            'onComplete' : function(){
+                $div.find("#register-form input[name='full_name']").focus();
+            },
             'onCleanup' : function(){
                 this.form = document.getElementById("register-form");
             },
@@ -66,6 +69,8 @@ function onRegisterStart ($div){
     $div.find("#register-form input").each(function(){
         setInputRule($(this));
     });
+    
+    $div.find("#login-form input[name='full_name']").focus();
     
     //REGISTER SUBMIT
     $div.find("form").submit(function(){
@@ -104,6 +109,7 @@ function onLoginStart($div){
         setInputRule($(this));
     });
     
+    
     //LOGIN SUBMIT
     $div.find("form").submit(function(){
         if(Contabilidad.Validate.isValid($(this))){
@@ -130,6 +136,8 @@ function onLoginStart($div){
 }
 
 function onLoginComplete ($div){
+    $div.find("#login-form input[name='email']").focus();
+    
     //RECOVER PASSWORD FANCYBOX
     $div.find("#js-fancy-recover-password").click(function(){
         var nAddFrag = document.createDocumentFragment();
@@ -143,7 +151,10 @@ function onLoginComplete ($div){
         $.fancybox({
             'content' : $div,
             'onStart' : function(){
-                onRecoverStart($div)
+                onRecoverStart($div);
+            },
+            'onComplete' : function(){
+                $div.find("#recover-password-form input[name='email']").focus();
             },
             'onCleanup' : function(){
                 this.form = document.getElementById("recover-password-form");

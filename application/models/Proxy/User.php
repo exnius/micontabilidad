@@ -16,11 +16,11 @@ class Proxy_User extends Contabilidad_Proxy
         $is = $this->checkEmail($params['email']);
         if ($is){
             $row = $this->createRow();
-            $row->full_name = $params['full_name'];
-            $row->email = $params['email'];
-            $row->password = Contabilidad_Auth::encryptPassword($params['email'], $params['password']);
+            $row->full_name = trim($params['full_name']);
+            $row->email = trim($params['email']);
+            $row->password = Contabilidad_Auth::encryptPassword(trim($params['email']), trim($params['password']));
             $row->id_currency = 1;
-            $row->nickname = $this->createNickname($params['full_name']);
+            $row->nickname = $this->createNickname(trim($params['full_name']));
             $row->creation_date = time();
             $row->registered_by = "email";
             $row->save();
@@ -116,7 +116,7 @@ class Proxy_User extends Contabilidad_Proxy
     public function edit($user, $params){
         foreach($params as $prp => $value){
             if($prp == "email") continue;
-            $user->__set($prp, $value);
+            $user->__set($prp, trim($value));
         }
         $user->save();
         return $user;
