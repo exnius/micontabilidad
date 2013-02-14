@@ -15,12 +15,15 @@ class Proxy_FreqTran extends Contabilidad_Proxy
         return (self::$_instance);
     }
     
-    public function createNew($params){
+    public function createNew($params, $account){
         $row = $this->createRow();
         $row = Proxy_Transaction::getInstance()->setParams($row, $params);
         $row->id_quantup = $account->id_quantup;
         $row->save();
-        return $row;
+        
+        $omiteDate = isset($params['omite_date']) ? $params['omite_date'] : null;
+        $transactions= Proxy_Transaction::getInstance()->createCopies($row, $account, $omiteDate);
+        return $transactions;
     }
     
     public function findById($id){
@@ -54,7 +57,8 @@ class Proxy_FreqTran extends Contabilidad_Proxy
     }
     
     public function serializer ($transaction){
-        return $serialized = array(
+        return $serialized = array("id" => $transaction->id, 
+            "transactionUrl" => $this->getUrl_($transaction),
             "id" => $transaction->id,
             "name" => $transaction->name,
             "frequency_days" => $transaction->frequency_days,
@@ -62,6 +66,7 @@ class Proxy_FreqTran extends Contabilidad_Proxy
             "timestampDate" => $transaction->date,
             "date" => Contabilidad_Utils_Dates::toDate($transaction->date),
             "value" => $transaction->value,
+            "dateClass" => $transaction->date > time() ? "@" : "",
             "transactionType" => $transaction->id_transaction_type == 1 ? "income" : "expense");
     }
 }
