@@ -1,19 +1,74 @@
+<!--[if gte IE 9]>
+  <style type="text/css">
+    .gradient {
+       filter: none;
+    }
+  </style>
+<![endif]-->
+
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-"http://www.w3.org/TR/html4/loose.dtd"> 
+    "http://www.w3.org/TR/html4/loose.dtd"> 
+    <?php $login = array("action" => "login", "controller" => "session", "module" => "public") ?>
+
 <html>
     <head>
-
-        <title><?=$this->title?></title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
-        <link rel="shortcut icon" href="<?=BASE_URL?>/assets/layouts/img/favicon.png" />
         <?php echo $this->render('headLinks.phtml'); ?>
+        <link rel="stylesheet" type="text/css" href="<?= LINKS_URL ?>/css/public/index.css"/>
     </head>
 
-    <body>
-<!--        <h1>Public</h1>-->
+    <body class="public">
         <div id="fb-root"></div>
         <?php $home = array("action" => "home", "controller" => "index", "module" => "public"); ?>
-        <a href="<?= $this->url($home) ?>">Home</a>
-        <?= $this->layout()->content; ?>
+        <div id="top-container" class="fixed-bar bg-color-fixed-bars opacity-95-percent">
+            <a href="<?= $this->url($home) ?>" title="Quantups"><img id="top-logo" class="position-absolute bg-color-transparent opacity-no-opacity" src="<?= LINKS_URL ?>/images/logo.png"/></a>
+            <div id="top-line-public" class="bg-color-blue-1"></div>
+        </div> <!--/top-container-->
+
+        <div id="login-container" class="fixed-bar bg-color-transparent opacity-no-opacity">
+            <a href="#"><img id="google-login" class="login-google js-google-login position-absolute bg-color-transparent" src="<?= LINKS_URL ?>/images/login-google.png" title="Iniciar sesión con Google"/></a>
+            <a href="#"><img id="facebook-login" class="login-facebook js-facebook-login position-absolute bg-color-transparent" src="<?= LINKS_URL ?>/images/login-facebook.png" title="Iniciar sesión con Google"/></a>
+            <a href="#"><img id="" class="login-mail js-fancy-login position-absolute bg-color-transparent" src="<?= LINKS_URL ?>/images/login-mail.png" title="Iniciar sesión con Google"/></a>
+            <a href="<?= $this->url($login) ?>"><img id="" class="login-mail js-fancy-login position-absolute bg-color-transparent" src="<?= LINKS_URL ?>/images/login-mail.png" title="Iniciar sesión con Google"/></a>
+
+        </div> <!--/login-container-->
+
+        <div id="wrapper" class="">
+            <?= $this->layout()->content; ?>
+        </div>
+
+
+
+
+
+        <div id="bottom-container" class="fixed-bar opacity-90-percent bg-color-fixed-bars">
+            <div id="bottom-line" class="position-absolute bg-color-blue-3"></div>
+            <div id="bottom-social-media-icons-container" class="position-absolute bg-color-transparent">
+                <a href="http://www.facebook.com/Quantups" target="_blank">
+                    <img id="bottom-social-media-icon-facebook" class="position-absolute bottom-social-media-button opacity-70-percent bg-color-transparent" 
+                         src="<?= LINKS_URL ?>/images/follow-fb.png" title="Síguenos en Facebook"/></a>
+                <a href="http://www.twitter.com/Quantups" target="_blank">
+                    <img id="bottom-social-media-icon-twitter" class="position-absolute bottom-social-media-button opacity-70-percent bg-color-transparent" 
+                         src="<?= LINKS_URL ?>/images/follow-twitter.png" title="Síguenos en Twitter"/></a>
+            </div>
+            <div id="bottom-text-container" class="position-absolute color-white-yellow bg-color-transparent">
+                
+                
+                
+                
+                <a href="<?= $this->about ?>" class="color-white-yellow bg-color-transparent">Acerca de nosotros</a>&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp;
+<!--                <a href="<?= $this->about ?>" class="color-white-yellow bg-color-transparent">Acerca de nosotros</a>&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp; -->
+                <a href="<?= $this->blog ?>" class="color-white-yellow bg-color-transparent">Blog</a>&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp;
+                <a href="<?= $this->terms ?>" class="color-white-yellow bg-color-transparent">Términos y condiciones</a>&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp;
+                <a href="<?= $this->join ?>" class="color-white-yellow bg-color-transparent">Trabaja con nosotros</a>&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp;
+                <span id="copyright" class="color-white-yellow bg-color-transparent">© Quantups 2013</span>
+            </div>
+        </div>
+        <a href="#" onclick="window.open('https://twitter.com/intent/tweet?&text=Ahora%20uso%20%23Quantups%20y%20puedo%20controlar%20super%20fácil%20mi%20dinero.%20Entra%20a%20www.quantups.com%20y%20síguelos%20en%20%40Quantups', 'Twitter', 'device-width=10', 'height=5', 'status=no', 'scrollbars=no', 'toolbars=no', 'menubar=no', 'direction=no', 'location=no'); return false;"><img src="<?= LINKS_URL ?>/images/buttons/twit-gift.png" id="button-twit-gift" class="fixed-bar opacity-95-percent opacity-on-hover-no-opacity bg-color-transparent"/></a>
+
+
+
+
+
     </body>
 </html>

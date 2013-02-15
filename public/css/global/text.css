@@ -1,0 +1,96 @@
+/*••••••••••••••••••••••••••••••••••••••••••••••••••••*/ 
+/*                      GLOBAL                        */
+/*••••••••••••••••••••••••••••••••••••••••••••••••••••*/ 
+
+/*Font/typography type*/
+body.public {
+    font-size: 11pt;
+    line-height: 1.1;
+}
+body.private {
+    font-size: 13pt;
+    line-height: 1.1;
+    /*text-align: justify;*/
+}
+body, input, button, select, option, textarea {
+    /*    font-size: 62.5%;
+        line-height: 1.6875;*/
+    font-family: ubuntu, helvetica, sans serif; 
+    font-family: 'ubuntu', 'helvetica', 'sans serif';
+}
+
+/*Titles*/
+h1 {font-size: 2em; margin: .67em 10px 0 10px; font-variant: small-caps;}
+h2 {font-size: 1.5em; margin: .75em 10px 0 10px;}
+h4 {margin: .78em 10px 0 10px;}
+h3 {font-size: 1.17em; margin: .83em 10px 0 10px;}
+h5 {font-size: .83em; margin: 1.5em 10px 0 10px;font-variant: small-caps;}
+h6 {font-size: .75em; margin: 1.67em 10px 0 10px;font-variant: small-caps;}
+h1, h2, h3, h4, h5, h6 { font-weight: bold;}
+strong {font-weight: bolder;}
+
+/*Paragraphs*/
+p {font-size: 105%; line-height: 1.8; margin: 1.3em 10px;} /* Valor comprobado */
+.text-padding-left-right-1-percent {padding-left: 1%; padding-right: 1%;}
+.text-padding-left-right-2-percent {padding-left: 2%; padding-right: 2%}
+.text-padding-left-right-3-percent {padding-left: 3%; padding-right: 3%}
+.text-padding-left-right-4-percent {padding-left: 4%; padding-right: 4%}
+.text-padding-left-right-5-percent {padding-left: 5%; padding-right: 5%}
+
+
+/*Copyright hover*/
+#copyright:hover {font-size: 110%;}
+
+/*Align*/
+.text-align-left {text-align: left;}
+.text-align-right {text-align: right;}
+.text-align-justify {text-align: justify;}
+.text-align-center {text-align: center;}
+
+/*Size*/
+.font-size-10-percent {font-size: 10%;}
+.font-size-20-percent {font-size: 20%;}
+.font-size-30-percent {font-size: 30%;}
+.font-size-40-percent {font-size: 40%;}
+.font-size-50-percent {font-size: 50%;}
+.font-size-60-percent {font-size: 60%;}
+.font-size-70-percent {font-size: 70%;}
+.font-size-80-percent {font-size: 80%;}
+.font-size-90-percent {font-size: 90%;}
+.font-size-100-percent {font-size: 100%;}
+.font-size-110-percent {font-size: 110%;}
+.font-size-120-percent {font-size: 120%;}
+.font-size-130-percent {font-size: 130%;}
+.font-size-140-percent {font-size: 140%;}
+.font-size-150-percent {font-size: 150%;}
+.font-size-160-percent {font-size: 160%;}
+.font-size-170-percent {font-size: 170%;}
+.font-size-180-percent {font-size: 180%;}
+.font-size-190-percent {font-size: 190%;}
+.font-size-200-percent {font-size: 200%;}
+
+/*Style*/
+.text-variant-small-caps {font-variant: small-caps;}
+.text-transform-capitalize {text-transform: capitalize;}
+.text-transform-uppercase {text-transform: uppercase;}
+
+.text-capital-letter:first-letter {
+    float: left;
+    margin: 7px 2px 7px 10px;
+    font-size: 3em;
+    /*vertical-align: text-top;*/
+} .text-capital-letter:first-line {word-spacing: 85%;}
+
+.font-bold {
+    font-weight: bold;
+}
+.mono-text {
+    font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;
+    font-size: 95%;
+    border: 1px dotted #1A1A1A;
+    margin: 1px 10%;
+    white-space: pre-wrap;
+}
+
+
+

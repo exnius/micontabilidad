@@ -86,7 +86,7 @@ function onRegisterStart ($div){
                     if(resp.reason == EMAIL_ALREADY_REGISTERED){
                         $div.find(".response")
                         .addClass("error")
-                        .html(Contabilidad.tr("Ya existe usuario con ese email!"));
+                        .html(Contabilidad.tr("Ya existe una cuenta con la dirección de correo proporcionada."));
                     }
                 }
             }}).register(data);
@@ -124,7 +124,7 @@ function onLoginStart($div){
                     if(resp.reason == USER_NOT_FOUND){
                         $div.find(".response")
                         .addClass("error")
-                        .html(Contabilidad.tr("correo o contraseña incorrectos"));
+                        .html(Contabilidad.tr("El nombre de usuario y la contraseña proporcionados no coinciden."));
                     }
                 }
             }}).login(data);
@@ -189,13 +189,13 @@ function onRecoverStart($div){
                 if(resp.result == "success"){
                     $div.find("#recover-password-form .response")
                     .addClass("success")
-                    .html(Contabilidad.tr("En unos minutos te enviaremos un link a tu email"));
+                    .html(Contabilidad.tr("En poco tiempo te enviaremos un mensaje de recuperación de contraseña."));
                     $("#recover-password-form input[type=text]").val("");
                 } else if(resp.result == "failure") {
                     if(resp.reason == USER_NOT_FOUND){
                         $div.find("#recover-password-form .response")
                         .addClass("error")
-                        .html(Contabilidad.tr("No existe usuario con ese email"));
+                        .html(Contabilidad.tr("No tenemos una cuenta registrada con la dirección de correo proporcionada."));
                     }
                 }
             }}).recoverPassword(data);

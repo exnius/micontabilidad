@@ -1,15 +1,63 @@
-<?php $register = array("action" => "register", "controller" => "session", "module" => "public")?>
-<a class="js-google-login" href="#"><?= $this->tr("Entrar por google")?></a>
-<form action="<?= $this->url($register); ?>" method="POST">
-    <h1>Registro de Usuario</h1>
-    <p>Nombre de usuario</p>
-    <input type="text" name="full_name" class="required">
-    <p>Email</p>
-    <input type="text" name="email" class="required is_email">
-    <p>Contraseña</p>
-    <input type="password" name="password" class="required">
-    <p>Confirmar contraseña</p>
-    <input type="password" name="confirm_password" class="required" is_equal_to="password">
-    <input type="submit" value="Enviar" />
-</form>
-     
+<?php $register = array("action" => "register", "controller" => "session", "module" => "public") ?>
+
+<div id="register" class="border-radius-0 color-grey-1 form-box padding-20px">
+    <form action="<?= $this->url($register); ?>" method="POST" class="bg-color-transparent color-grey-1">
+
+        <h3>Regístrate con tu cuenta de correo</h3>
+
+        <h6 class="color-transparent">-</h6> <!--Separador-->
+
+        <input 
+            id="input-name" 
+            type="text" 
+            name="full_name" 
+            class="required input-text" 
+            placeholder="Nombre completo"
+            >
+
+        <h6>-</h6> <!--Separador-->
+
+        <input 
+            id="input-email" 
+            type="text" 
+            name="email" 
+            class="required is_email input-text" 
+            placeholder="Correo electrónico"
+            > 
+
+        <h6>-</h6> <!--Separador-->
+
+        <input 
+            type="password" 
+            name="password" 
+            class="input-password required input-text" 
+            placeholder="Contraseña"
+            >
+
+        <h6>-</h6> <!--Separador-->
+
+        <input 
+            type="password" 
+            name="confirm_password" 
+            class="input-password required input-text" 
+            is_equal_to="password" 
+            placeholder="Contraseña (nuevamente)"
+            />
+
+        <h6>-</h6> <!--Separador-->
+
+        <input 
+            class="input-button"
+            type="submit" 
+            value="Registrar" 
+            />
+    </form>
+        <h6>-</h6> <!--Separador-->
+        <p id="info" class="padding-0 margin-left-right-auto color-grey-1">Para mayor comodidad, puedes registrarte rápidamente usando una cuenta de 
+        <a class="js-google-login" href="#">Google</a>
+        o una de 
+        <a class="js-facebook-login" href="#">
+            Facebook
+        </a>.
+    </p>
+</div>
