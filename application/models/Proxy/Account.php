@@ -26,7 +26,11 @@ class Proxy_Account extends Contabilidad_Proxy
         $row->is_independent = isset($params['is_independent']) ? $params['is_independent'] : false;
         $row->id_currency = $params['id_currency'];
         $row->creation_date = time();
-        $row->picture_url = isset($params['picture_url']) ? $params['picture_url'] : null;
+        if (isset($params['picture_url'])){
+            $row->picture_url = strtolower($params['picture_url']);
+        } else {
+            $row->picture_url = null;
+        }
         $row->details = $params['details'];
         $row->save();
         
@@ -40,17 +44,23 @@ class Proxy_Account extends Contabilidad_Proxy
     }
 
     public function editAccount ($account, $params){
-       $account->name = $params['name'];
-       $account->date_ini = $params['date_ini'];
-       $account->date_end = $params['date_end'];
-       $account->id_currency = $params['id_currency'];
-       $account->is_independent = $params['is_independent'];
-       $benefit = $account->calculateBenefit();
-       $account->benefit = $benefit;
-       $account->picture_url = $params['picture_url'];
-       $account->details = $params['details'];
-       $account->save();
-       return $account;
+        $account->name = $params['name'];
+        $account->date_ini = $params['date_ini'];
+        $account->date_end = $params['date_end'];
+        $account->id_currency = $params['id_currency'];
+        $account->is_independent = $params['is_independent'];
+        $benefit = $account->calculateBenefit();
+        $account->benefit = $benefit;
+        $explodeUrl = explode(".",$params['picture_url']);
+        $ext = $explodeUrl[(sizeof($explodeUrl))-1];
+        if ($ext == "jpg" || $ext == "png" || $ext == "gif"){
+            $account->picture_url = $params['picture_url'];
+        } else {
+            $account->picture_url = null;
+        }
+        $account->details = $params['details'];
+        $account->save();
+        return $account;
     }
     
     public function retrieveNoIndependentByUserIdAndMajorThanDate($userId, $date){
