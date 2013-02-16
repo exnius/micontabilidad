@@ -40,6 +40,13 @@ Class Contabilidad_Utils_EmailTemplate
         $this->sendEmails($user->email, $options);
     }
     
+    public function sendFeedback($extra){
+        $options = array("template" => "feedback.phtml");
+        $options["template_variables"] = array("extra" => $extra,
+                                               "mailType" => "feedback");
+        $this->sendEmails($user->email, $options);
+    }
+    
     public function sendRecoverPassword($user){
         $options = array("template" => "recoverPassword.phtml");
         $options["template_variables"] = array("user" => $user,
@@ -124,6 +131,9 @@ Class Contabilidad_Utils_EmailTemplate
                 break;
             case 'recoverPassword' :
                 $transSubject = ucfirst($tempVars['user']->full_name).' '.$view->tr('recupera tu contraseña');
+                break;
+            case 'feedback' :
+                $transSubject = ucfirst('Feedback');
                 break;
             default:
                 $view->tr('default');

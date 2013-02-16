@@ -18,7 +18,9 @@ new Initializer('production');
 $waitings = Proxy_WaitingEmail::getInstance()->fetchAll();
 foreach($waitings as $w){
     var_dump($w->id);
-    $user = Proxy_User::getInstance()->findById($w->id_user);
+    if($w->id_user){
+        $user = Proxy_User::getInstance()->findById($w->id_user);
+    }
     switch($w->template){
         case "welcome":
             if($user->registered_by == "facebook" || $user->registered_by == "google"){
@@ -29,6 +31,9 @@ foreach($waitings as $w){
             break;
         case "recoverPassword":
                 Contabilidad_Utils_EmailTemplate::getInstance()->sendRecoverPassword($user);
+            break;
+        case "feedback":
+                Contabilidad_Utils_EmailTemplate::getInstance()->sendFeedback($w->extra);
             break;
     }
     $w->delete();
