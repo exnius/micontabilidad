@@ -4,6 +4,7 @@
 <div id="accounts-container">
     <?php $m = new Mustache_Engine;
     foreach ($this->accounts as $account){
+        if ($account->picture_url == null) $account->picture_url = LINKS_URL."/quantups_pictures/budget.png";
     ?>
         <?= $m->render($this->render("mustache/account-row.phtml"), array(
             "id" => $account->id,
