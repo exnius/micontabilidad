@@ -7,7 +7,6 @@ Contabilidad.facebookLogin = function()
      * Load Facebook libraries
      */
     this.initialize = function(){
-    console.info("Entro");  
         var tthis = this;
         var appId = window.ID_FB_API;
         window.fbAsyncInit = function() {
@@ -93,8 +92,10 @@ $(document).ready(function(){
     var facebookLogin = new Contabilidad.facebookLogin();
     facebookLogin.initialize();
     
-    $("#facebook-login").click(function(){
-        facebookLogin.connect();
-        return false;
+    $("body").click(function(event){
+        if($(event.target).hasClass("js-facebook-login")){
+            facebookLogin.connect();
+            return false;
+        }
     });
 });
