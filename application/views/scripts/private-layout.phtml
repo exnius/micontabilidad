@@ -8,6 +8,7 @@
 	<link rel="shortcut icon" href="<?=BASE_URL?>/assets/layouts/img/favicon.png" />
 	
     <?php echo $this->render('headLinks.phtml'); ?>
+    <script src="<?=LINKS_URL?>/js/feedbacks.js" language="javascript" type="text/javascript"></script>
 	
 </head>
 
@@ -22,11 +23,18 @@
     <div>
         <a href="<?= $this->url($profile)?>"><?= $this->tr("Mi perfil")?></a>
     </div>
+    <div>
+        <a href="#" class="wv-js-feedbacks"><?= $this->tr("Comentarios")?></a>
+    </div>
     <?= $this->layout()->content; ?>
     
     <div id="delete-popup-tpl" class="template" style="display: none;">
         <?= $this->render("mustache/delete.phtml") ?>
     </div>
+    <script type="text/html" id="feedback-tpl" class="template" style="display: none;">
+        <?= $this->render("partials/feedbackForm.phtml") ?>
+        <div class="response"></div>
+    </script>
     <span id="js-time" style="display: none;"><?= time();?></span>
 
 </body>
