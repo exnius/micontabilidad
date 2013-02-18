@@ -214,6 +214,101 @@ body {
 .width-95-percent {width: 95%;}
 .width-100-percent {width: 100%;}
 
+.width-max-100-percent 
+{
+    max-width: 100%;
+    width: expression(document.body.clientWidth > 101%? "100%": "auto");
+}
+.width-max-90-percent 
+{
+    max-width: 90%;
+    width: expression(document.body.clientWidth > 91%? "90%": "auto");
+}
+.width-max-80-percent 
+{
+    max-width: 80%;
+    width: expression(document.body.clientWidth > 81%? "80%": "auto");
+}
+
+.width-max-70-percent 
+{
+    max-width: 70%;
+    width: expression(document.body.clientWidth > 71%? "70%": "auto");
+}
+.width-max-60-percent 
+{
+    max-width: 60%;
+    width: expression(document.body.clientWidth > 61%? "60%": "auto");
+}
+.width-max-50-percent 
+{
+    max-width: 50%;
+    width: expression(document.body.clientWidth > 51%? "50%": "auto");
+}
+.width-max-40-percent 
+{
+    max-width: 40%;
+    width: expression(document.body.clientWidth > 41%? "40%": "auto");
+}
+
+
+
+
+
+
+.height-max-10-percent 
+{
+    max-width: 10%;
+    width: expression(document.body.clientHeight > 11%? "10%": "auto");
+}
+.height-max-20-percent 
+{
+    max-width: 20%;
+    width: expression(document.body.clientHeight > 21%? "20%": "auto");
+}
+.height-max-30-percent 
+{
+    max-width: 30%;
+    width: expression(document.body.clientHeight > 31%? "30%": "auto");
+}
+.height-max-40-percent 
+{
+    max-width: 40%;
+    width: expression(document.body.clientHeight > 41%? "40%": "auto");
+}
+.height-max-50-percent 
+{
+    max-width: 50%;
+    width: expression(document.body.clientHeight > 51%? "50%": "auto");
+}
+.height-max-60-percent 
+{
+    max-width: 60%;
+    width: expression(document.body.clientHeight > 61%? "60%": "auto");
+}
+.height-max-70-percent 
+{
+    max-width: 70%;
+    width: expression(document.body.clientHeight > 71%? "70%": "auto");
+}
+.height-max-80-percent 
+{
+    max-width: 80%;
+    width: expression(document.body.clientHeight > 81%? "80%": "auto");
+}
+.height-max-90-percent 
+{
+    max-width: 90%;
+    width: expression(document.body.clientHeight > 91%? "90%": "auto");
+}
+.height-max-100-percent 
+{
+    max-width: 100%;
+    width: expression(document.body.clientHeight > 101%? "100%": "auto");
+}
+
+
+
 .height-10-percent {height: 10%;}
 .height-20-percent {height: 20%;}
 .height-30-percent {height: 30%;}

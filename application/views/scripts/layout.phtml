@@ -18,28 +18,32 @@
     </head>
 
     <body class="public">
-        <div id="fb-root"></div>
         <?php $home = array("action" => "home", "controller" => "index", "module" => "public"); ?>
+
         <div id="top-container" class="fixed-bar bg-color-fixed-bars opacity-95-percent">
             <a href="<?= $this->url($home) ?>" title="Quantups"><img id="top-logo" class="position-absolute bg-color-transparent opacity-no-opacity" src="<?= LINKS_URL ?>/images/logo.png"/></a>
             <div id="top-line-public" class="bg-color-blue-1"></div>
         </div> <!--/top-container-->
 
         <div id="login-container" class="fixed-bar bg-color-transparent opacity-no-opacity">
-            <a href="#"><img id="google-login" class="login-google js-google-login position-absolute bg-color-transparent" src="<?= LINKS_URL ?>/images/login-google.png" title="Iniciar sesión con Google"/></a>
-            <a href="#"><img id="facebook-login" class="login-facebook js-facebook-login position-absolute bg-color-transparent" src="<?= LINKS_URL ?>/images/login-facebook.png" title="Iniciar sesión con Google"/></a>
-            <a href="#"><img id="" class="login-mail js-fancy-login position-absolute bg-color-transparent" src="<?= LINKS_URL ?>/images/login-mail.png" title="Iniciar sesión con Google"/></a>
-            <a href="<?= $this->url($login) ?>"><img id="" class="login-mail js-fancy-login position-absolute bg-color-transparent" src="<?= LINKS_URL ?>/images/login-mail.png" title="Iniciar sesión con Google"/></a>
+            <a href="#">
+                <img id="google-login" class="login-google js-google-login position-absolute bg-color-transparent" 
+                     src="<?= LINKS_URL ?>/images/login-google.png" title="Iniciar sesión con Google"/>
+            </a>
+            <a href="#">
+                <img id="facebook-login" class="login-facebook js-facebook-login position-absolute bg-color-transparent" 
+                     src="<?= LINKS_URL ?>/images/login-facebook.png" title="Iniciar sesión con Facebook"/>
+            </a>
+            <a href="<?= $this->url($login) ?>">
+                <img id="" class="login-mail js-fancy-login position-absolute bg-color-transparent" 
+                     src="<?= LINKS_URL ?>/images/login-mail.png" title="Iniciar sesión con Google"/>
+            </a>
 
         </div> <!--/login-container-->
 
         <div id="wrapper" class="">
             <?= $this->layout()->content; ?>
         </div>
-
-
-
-
 
         <div id="bottom-container" class="fixed-bar opacity-90-percent bg-color-fixed-bars">
             <div id="bottom-line" class="position-absolute bg-color-blue-3"></div>
@@ -52,15 +56,11 @@
                          src="<?= LINKS_URL ?>/images/follow-twitter.png" title="Síguenos en Twitter"/></a>
             </div>
             <div id="bottom-text-container" class="position-absolute color-white-yellow bg-color-transparent">
-                
-                
-                
-                
-                <a href="<?= $this->about ?>" class="color-white-yellow bg-color-transparent">Acerca de nosotros</a>&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp;
-<!--                <a href="<?= $this->about ?>" class="color-white-yellow bg-color-transparent">Acerca de nosotros</a>&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp; -->
-                <a href="<?= $this->blog ?>" class="color-white-yellow bg-color-transparent">Blog</a>&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp;
-                <a href="<?= $this->terms ?>" class="color-white-yellow bg-color-transparent">Términos y condiciones</a>&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp;
-                <a href="<?= $this->join ?>" class="color-white-yellow bg-color-transparent">Trabaja con nosotros</a>&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp;
+
+                <a href="<?= BASE_URL ?>/index/about" class="color-white-yellow bg-color-transparent">Acerca de nosotros</a>&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp;
+                <a href="<?= BASE_URL ?>/index/blog" class="color-white-yellow bg-color-transparent">Blog</a>&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp;
+                <a href="<?= BASE_URL ?>/index/terms"  class="color-white-yellow bg-color-transparent">Términos y condiciones</a>&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp;
+                <a href="<?= BASE_URL ?>/index/join" class="color-white-yellow bg-color-transparent">Trabaja con nosotros</a>&nbsp;&nbsp;&nbsp;·&nbsp;&nbsp;&nbsp;
                 <span id="copyright" class="color-white-yellow bg-color-transparent">© Quantups 2013</span>
             </div>
         </div>

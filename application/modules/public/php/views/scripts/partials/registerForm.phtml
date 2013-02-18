@@ -1,4 +1,6 @@
 <?php $register = array("action" => "register", "controller" => "session", "module" => "public") ?>
+<
+
 
 <div id="register" class="border-radius-0 color-grey-1 form-box padding-20px">
     <form action="<?= $this->url($register); ?>" method="POST" class="bg-color-transparent color-grey-1">
@@ -52,12 +54,20 @@
             value="Registrar" 
             />
     </form>
-        <h6>-</h6> <!--Separador-->
-        <p id="info" class="padding-0 margin-left-right-auto color-grey-1">Para mayor comodidad, puedes registrarte rápidamente usando una cuenta de 
-        <a class="js-google-login" href="#">Google</a>
+    <h6>-</h6> <!--Separador-->
+    <p id="info" class="padding-0 margin-left-right-auto color-grey-1">Para mayor comodidad, puedes registrarte rápidamente usando una cuenta de 
+        <a 
+            id="google-login"
+            class="js-google-login" 
+            href="#">Google</a>
         o una de 
-        <a class="js-facebook-login" href="#">
+        <a 
+            id="facebook-login"
+            class="js-facebook-login" 
+            href="#">
             Facebook
         </a>.
+
+        <!--PENDIENTE: <div id="fb-root"></div> FB no funciona-->
     </p>
 </div>
