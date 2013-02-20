@@ -52,7 +52,7 @@ class Proxy_Account extends Contabilidad_Proxy
         $benefit = $account->calculateBenefit();
         $account->benefit = $benefit;
         $explodeUrl = explode(".",$params['picture_url']);
-        $ext = $explodeUrl[(sizeof($explodeUrl))-1];
+        $ext = strtolower($explodeUrl[(sizeof($explodeUrl))-1]);
         if ($ext == "jpg" || $ext == "png" || $ext == "gif"){
             $account->picture_url = $params['picture_url'];
         } else {

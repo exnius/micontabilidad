@@ -41,10 +41,11 @@ Class Contabilidad_Utils_EmailTemplate
     }
     
     public function sendFeedback($extra){
+        $email = "support@quantups.com";
         $options = array("template" => "feedback.phtml");
         $options["template_variables"] = array("extra" => $extra,
                                                "mailType" => "feedback");
-        $this->sendEmails($user->email, $options);
+        $this->sendEmails($email, $options);
     }
     
     public function sendRecoverPassword($user){
