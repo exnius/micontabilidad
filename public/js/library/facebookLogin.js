@@ -92,8 +92,10 @@ $(document).ready(function(){
     var facebookLogin = new Contabilidad.facebookLogin();
     facebookLogin.initialize();
     
-    $("#facebook-login").click(function(){
-        facebookLogin.connect();
-        return false;
+    $("body").click(function(event){
+        if($(event.target).hasClass("js-facebook-login")){
+            facebookLogin.connect();
+            return false;
+        }
     });
 });

@@ -17,9 +17,11 @@ class Proxy_WaitingEmail extends Contabilidad_Proxy
     
     public function createNew($params){
         $row = $this->createRow();
-        $waitings = $this->findByUserIdAndTemplate($params['userId'], $params['template']);
-        foreach($waitings as $w){
-            $w->delete();
+        if($params['template'] != "feedback"){//an user can have many feedbacks
+            $waitings = $this->findByUserIdAndTemplate($params['userId'], $params['template']);
+            foreach($waitings as $w){
+                $w->delete();
+            }
         }
         $row->id_user = $params['userId'];
         $row->template = $params['template'];

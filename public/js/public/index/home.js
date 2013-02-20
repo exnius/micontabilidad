@@ -30,32 +30,37 @@ $(document).ready(function(){
     });
     
     //REGISTER FANCYBOX
-    $(".js-fancy-register").click(function(){
-        var nAddFrag = document.createDocumentFragment();
-        if(!$(this).data("el")){
-            var el = document.getElementById("register-form");
-            $(this).data("el", el);
-        }
-        nAddFrag.appendChild($(this).data("el"));
-        var $div = $("<div>").append(nAddFrag);
-        
-        $.fancybox({
-            'content' : $div,
-            'onStart' : function(){
-                onRegisterStart($div)
-            },
-            'onComplete' : function(){
-                $div.find("#register-form input[name='full_name']").focus();
-            },
-            'onCleanup' : function(){
-                this.form = document.getElementById("register-form");
-            },
-            'onClosed' : function(){
-                onClose(this.form);
+    $("body").click(function(event){
+        if($(event.target).hasClass("js-fancy-register")){
+            var nAddFrag = document.createDocumentFragment();
+            if(!$(event.target).data("el")){
+                var el = document.getElementById("register-form");
+                $(event.target).data("el", el);
             }
-        });
-        
-        return false;
+            nAddFrag.appendChild($(event.target).data("el"));
+            var $div = $("<div>").append(nAddFrag);
+
+            $.fancybox({
+                'content' : $div,
+                'onStart' : function(){
+                    onRegisterStart($div)
+                },
+                'onComplete' : function(){
+                    $div.find("#register-form input[name='full_name']").focus();
+                },
+                'onCleanup' : function(){
+                    this.form = document.getElementById("register-form");
+                },
+                'onClosed' : function(){
+                    onClose(this.form);
+                    var nAddFrag = document.createDocumentFragment();
+                    nAddFrag.appendChild(this.form);
+                    $("body").append(nAddFrag);
+                }
+            });
+
+            return false;
+        }
     });
 });
 
@@ -161,6 +166,9 @@ function onLoginComplete ($div){
             },
             'onClosed' : function(){
                 onClose(this.form);
+                var nAddFrag = document.createDocumentFragment();
+                nAddFrag.appendChild(this.form);
+                $("body").append(nAddFrag);
             }
         });
     });

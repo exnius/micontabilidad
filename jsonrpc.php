@@ -15,6 +15,7 @@ $server->setClass('Contabilidad_Services_Account');
 $server->setClass('Contabilidad_Services_Transaction');
 $server->setClass('Contabilidad_Services_FreqTran');
 $server->setClass('Contabilidad_Services_User');
+$server->setClass('Contabilidad_Services_Other');
 
 if ('GET' == $_SERVER['REQUEST_METHOD']) {
     // Indicate the URL endpoint, and the JSON-RPC version used:

@@ -258,7 +258,13 @@ class Proxy_User extends Contabilidad_Proxy
     
     public function addAvatarUrl($user, $url){
         //checkout it is an url
-        $user->picture_url = $url;
+        $explodeUrl = explode(".",$url);
+        $ext = $explodeUrl[(sizeof($explodeUrl))-1];
+        if ($ext == "jpg" || $ext == "png" || $ext == "gif"){
+            $user->picture_url = $url;
+        } else {
+            $user->picture_url = null;
+        }
         $user->save();
     }
     
