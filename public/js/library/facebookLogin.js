@@ -7,7 +7,6 @@ Contabilidad.facebookLogin = function()
      * Load Facebook libraries
      */
     this.initialize = function(){
-    console.info("Entro");  
         var tthis = this;
         var appId = window.ID_FB_API;
         window.fbAsyncInit = function() {
