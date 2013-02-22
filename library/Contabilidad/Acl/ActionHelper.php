@@ -55,7 +55,7 @@ class Contabilidad_Acl_ActionHelper extends Zend_Controller_Action_Helper_Abstra
             Zend_Layout::startMvc(array('layoutPath' => $this->_root . '/application/views/scripts' , 'layout' => 'private-layout'));
         }
         if($view->isLogged) {
-            if($module == "public" && $action != "logout" && $controller != "error" && $controller != "services"){
+            if($module == "public" && $action != "logout" && $controller != "error" && $controller != "services" && $action != "setpass"){
                 $helper->direct("home", "index", "private");
             }
         } else {
