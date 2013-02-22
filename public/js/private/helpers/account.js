@@ -210,30 +210,34 @@ QHelpers.account.onCreateAccountComplete = function ($div){
 QHelpers.account.uploadPicture = function(fileObj){
     var par = window.document;
     var frm = fileObj.form;
+    var iframes = $("#account-iframe-container iframe");
+    var iframe = iframes[iframes.length - 1];
 
     $("#picture-response").hide();
 
-    // create new iframe
-    var new_iframe = par.createElement('iframe');
-    new_iframe.src = BASE_URL + "/private/account/iframe";
-    new_iframe.frameBorder = '0';
-    new_iframe.scrolling = 'no';
-    new_iframe.marginHeight = '0';
-    new_iframe.marginWidth = '0';
-    new_iframe.style.height = '75px';
-    new_iframe.style.width = '500px';
+     if(Contabilidad.Validate.isValid($(iframe.contentDocument), "#file")){
+        // create new iframe
+        var new_iframe = par.createElement('iframe');
+        new_iframe.src = BASE_URL + "/private/account/iframe";
+        new_iframe.frameBorder = '0';
+        new_iframe.scrolling = 'no';
+        new_iframe.marginHeight = '0';
+        new_iframe.marginWidth = '0';
+        new_iframe.style.height = '75px';
+        new_iframe.style.width = '500px';
 
-    //hide old iframe
-    var iframes = $("#account-iframe-container iframe");
-    var iframe = iframes[iframes.length - 1];
-    iframe.style.display = 'none';
-    //append the new iframe
-    $("#account-iframe-container").append(new_iframe);
+        //hide old iframe
+        iframe.style.display = 'none';
+        //append the new iframe
+        $("#account-iframe-container").append(new_iframe);
 
-    iframe.id = 'old-iframe';
+        iframe.id = 'old-iframe';
 
-    // send
-    frm.submit();
+        // send
+        frm.submit();
+     } else {
+         $("#picture-response").html(Contabilidad.tr("Tu archivo no es valido, solo aceptamos extensiones jpg, gif y png")).show();
+     }
 }
 
 QHelpers.account.setUploadedImage = function(resp){
@@ -247,4 +251,8 @@ QHelpers.account.setUploadedImage = function(resp){
     }
     var iframe = $("#account-iframe-container #old-iframe");
     $(iframe).remove();
+}
+
+QHelpers.account.addIframe = function(iframe){
+    Contabilidad.Validate.setRules($(iframe.document).find("#file"), {accept : "gif|jpg|png"})
 }
