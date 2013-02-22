@@ -30,32 +30,37 @@ $(document).ready(function(){
     });
     
     //REGISTER FANCYBOX
-    $(".js-fancy-register").click(function(){
-        var nAddFrag = document.createDocumentFragment();
-        if(!$(this).data("el")){
-            var el = document.getElementById("register-form");
-            $(this).data("el", el);
-        }
-        nAddFrag.appendChild($(this).data("el"));
-        var $div = $("<div>").append(nAddFrag);
-        
-        $.fancybox({
-            'content' : $div,
-            'onStart' : function(){
-                onRegisterStart($div)
-            },
-            'onComplete' : function(){
-                $div.find("#register-form input[name='full_name']").focus();
-            },
-            'onCleanup' : function(){
-                this.form = document.getElementById("register-form");
-            },
-            'onClosed' : function(){
-                onClose(this.form);
+    $("body").click(function(event){
+        if($(event.target).hasClass("js-fancy-register")){
+            var nAddFrag = document.createDocumentFragment();
+            if(!$(event.target).data("el")){
+                var el = document.getElementById("register-form");
+                $(event.target).data("el", el);
             }
-        });
-        
-        return false;
+            nAddFrag.appendChild($(event.target).data("el"));
+            var $div = $("<div>").append(nAddFrag);
+
+            $.fancybox({
+                'content' : $div,
+                'onStart' : function(){
+                    onRegisterStart($div)
+                },
+                'onComplete' : function(){
+                    $div.find("#register-form input[name='full_name']").focus();
+                },
+                'onCleanup' : function(){
+                    this.form = document.getElementById("register-form");
+                },
+                'onClosed' : function(){
+                    onClose(this.form);
+                    var nAddFrag = document.createDocumentFragment();
+                    nAddFrag.appendChild(this.form);
+                    $("body").append(nAddFrag);
+                }
+            });
+
+            return false;
+        }
     });
 });
 
@@ -86,7 +91,7 @@ function onRegisterStart ($div){
                     if(resp.reason == EMAIL_ALREADY_REGISTERED){
                         $div.find(".response")
                         .addClass("error")
-                        .html(Contabilidad.tr("Ya existe usuario con ese email!"));
+                        .html(Contabilidad.tr("Ya existe una cuenta con la dirección de correo proporcionada."));
                     }
                 }
             }}).register(data);
@@ -124,7 +129,7 @@ function onLoginStart($div){
                     if(resp.reason == USER_NOT_FOUND){
                         $div.find(".response")
                         .addClass("error")
-                        .html(Contabilidad.tr("correo o contraseña incorrectos"));
+                        .html(Contabilidad.tr("El nombre de usuario y la contraseña proporcionados no coinciden."));
                     }
                 }
             }}).login(data);
@@ -161,6 +166,9 @@ function onLoginComplete ($div){
             },
             'onClosed' : function(){
                 onClose(this.form);
+                var nAddFrag = document.createDocumentFragment();
+                nAddFrag.appendChild(this.form);
+                $("body").append(nAddFrag);
             }
         });
     });
@@ -189,13 +197,13 @@ function onRecoverStart($div){
                 if(resp.result == "success"){
                     $div.find("#recover-password-form .response")
                     .addClass("success")
-                    .html(Contabilidad.tr("En unos minutos te enviaremos un link a tu email"));
+                    .html(Contabilidad.tr("En poco tiempo te enviaremos un mensaje de recuperación de contraseña."));
                     $("#recover-password-form input[type=text]").val("");
                 } else if(resp.result == "failure") {
                     if(resp.reason == USER_NOT_FOUND){
                         $div.find("#recover-password-form .response")
                         .addClass("error")
-                        .html(Contabilidad.tr("No existe usuario con ese email"));
+                        .html(Contabilidad.tr("No tenemos una cuenta registrada con la dirección de correo proporcionada."));
                     }
                 }
             }}).recoverPassword(data);

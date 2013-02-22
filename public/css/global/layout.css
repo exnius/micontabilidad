@@ -1,0 +1,255 @@
+/*••••••••••••••••••••••••••••••••••••••••••••••••••••*/ 
+/*                      TEMPORAL                      */
+/*••••••••••••••••••••••••••••••••••••••••••••••••••••*/ 
+
+.private *[help]:hover:before, .private *[title]:focus:after {
+    content: attr(help);
+
+    position: fixed;
+    /*margin: 5px 0;*/
+    bottom: 40px;
+    padding: 2px 2%;
+
+    width: 96%;  
+    height: 18px;
+    z-index: 200;
+
+    color: #1a1a1a;
+    background-color: #9dddf6;
+    white-space: nowrap;
+    font-size: 13px;
+    border-top: 2px solid #63C2E0;
+    outline: 1px dashed #F7E700;
+}
+
+
+
+/*••••••••••••••••••••••••••••••••••••••••••••••••••••*/ 
+/*                      GLOBAL                        */
+/*••••••••••••••••••••••••••••••••••••••••••••••••••••*/ 
+
+/*Main container*/
+#main-container {
+    position: relative;
+    top:0;
+    /*    margin-right: auto; 
+        margin-left: auto; */
+    /*border: #4e4e4e solid 1px;*/
+}
+
+/* Bottom*/
+#bottom-container {
+    bottom: 0%;
+    right: 0%;
+
+    width: 100%;
+    height: 40px;
+}
+#bottom-line { 
+    top: 1px;
+    right: 0%;
+
+    width:100%;
+    height: 2px;
+    /*border-top: 1.5px solid #333;*/
+}
+/*Social media icons*/
+#bottom-social-media-icons-container {
+    top: 5%;
+    left: 0%;
+
+    width:25%;
+    height: 100%;
+} 
+#bottom-social-media-icon-facebook {margin-left: 20px;}
+#bottom-social-media-icon-twitter {margin-left: 70px;}
+.bottom-social-media-button {
+    bottom: 15%;
+    height: 70%;
+    /*margin: 0 auto 0 90%;*/
+}
+.bottom-social-media-button:hover {
+    bottom: 7.5%;
+    height: 85%;
+}
+#bottom-text-container {
+    font-size: 10px; 
+    line-height: 100%;
+    top: 14px;
+    right: 2%;
+    width: 75%;
+    height: 2%;
+    text-align: right;
+    z-index: 120;
+}
+
+/*••••••••••••••••••••••••••••••••••••••••••••••••••••*/ 
+/*                      PUBLIC                        */
+/*••••••••••••••••••••••••••••••••••••••••••••••••••••*/ 
+
+/*Fixed buttons*/
+.public #button-twit-gift {
+    top: 170px !important;
+    right: 0px;
+    width: 23px !important;
+    z-index: 140;
+}
+.public #button-twit-gift:hover {
+    width: 25px !important;
+    z-index: 140;
+}
+
+.public #button-error, .public #button-message 
+{
+    display: none !important;
+}
+
+body.public {
+    background: url("../../images/bg/bg13.png") repeat center;
+/*    background-color: #C3E9F0;*/
+}
+
+/*Fixed top bar*/
+.public #top-container { 
+    /*position: fixed;*/
+    top:0%;
+    right: 0%;
+
+    width:100%;
+    height: 170px;
+    z-index: 120;
+}
+.public #top-line-public { 
+    position: absolute !important;
+    top: 166px; /* #top-container.height - border.height */
+    right: 0%;
+
+    width:100%;
+    height: 3px;
+}
+/*Logo*/
+.public #top-logo {
+    position: relative;
+    top: 20px;
+    left: 2%;
+
+    height: 126px;
+    width: 360px;
+}
+/*Login*/
+.public #login-container {
+    top:0%;
+    /* login-container.height - top-container.height = login-container.top */
+    right: 0%;
+
+    width: 32%;
+    height: 170px; 
+    z-index: 120;
+}
+
+#login-container img{
+    right: 0;
+    height: 22%;
+    /*margin: 0 auto 0 90%;*/
+}
+.login-google {
+    top: 8.5%;
+}
+.login-facebook {
+    top: 39%;
+}
+.login-mail {
+    top: 69.5%;
+}
+/*.login-button { Reemplazado por lo anterior
+    right: 0;
+    height: 22%;
+    margin: 0 auto 0 90%;
+}*/
+#login-container img:hover {
+    height: 24%;
+}
+/*Wrapper*/
+.public #wrapper {
+    position: relative; 
+    margin: 195px 2% 65px 2%; 
+    height:auto; 
+    z-index: 5;
+    /*border: 1px #4E4E4E solid;*/ 
+}
+
+/*••••••••••••••••••••••••••••••••••••••••••••••••••••*/ 
+/*                      PRIVATE                       */
+/*••••••••••••••••••••••••••••••••••••••••••••••••••••*/ 
+
+
+body.private {
+    background: url("../../images/bg/bg12.png") repeat center;
+    background-color: #C7C7C7;
+}
+.private #button-twit-gift {
+    top: 70px !important;
+    right: 0px;
+    width: 20px !important;
+    z-index: 130;
+}
+.private #button-twit-gift:hover, .private #button-twit-gift:focus {
+    width: 25px !important;
+    z-index: 140;
+}
+.private #button-message {
+    top: 160px !important;
+    right: 0px;
+    width: 20px !important;
+    z-index: 129;
+}
+.private #button-message:hover, .private #button-message:focus {
+    width: 25px !important;
+    z-index: 140;
+}
+.private #button-error {
+    top: 220px !important;
+    right: 0px;
+    width: 20px !important;
+    z-index: 128;
+}
+.private #button-error:hover, .private #button-error:focus {
+    width: 25px !important;
+    z-index: 140;
+}
+
+.private #top-container { 
+    /*position: fixed;*/
+    top:0%;
+    right: 0%;
+
+    width:100%;
+    height: 70px;
+    z-index: 120;
+}
+.private #top-line-public { 
+    position: absolute !important;
+    top: 67px; /* #top-container.height - border.height */
+    right: 0%;
+
+    width:100%;
+    height: 2px;
+}
+/*Logo*/
+.private #top-logo {
+    position: relative;
+    top: 10px;
+    left: 10px;
+
+    height: 50px;
+    width: 143px;
+}
+
+/*Wrapper*/
+.private #wrapper {
+    position: relative; 
+    margin: 79px 10px 50px 10px; 
+    z-index: 5;
+    /*outline: 1px #0998BF dotted;*/ 
+}
+

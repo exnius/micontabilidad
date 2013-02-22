@@ -28,5 +28,15 @@ class IndexController extends Zend_Controller_Action
         $this->view->about="about";
     }
     
+    public function blogAction()
+    {
+        $this->view->blog="blog";
+    }
+    
+    public function joinAction()
+    {
+        $this->view->join="join";
+    }
+    
 }
 
