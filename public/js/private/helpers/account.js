@@ -177,6 +177,7 @@ QHelpers.account.onAccountPopupStart = function ($div, account){
                     $("#accounts-container").prepend(output);
                     Contabilidad.accounts[resp.account.id] = resp.account;
                     $.fancybox.close();
+                    document.location.href = resp.account.accountUrl;
                 }}).createAccount(data);
             } else {
                 if(date_end < date_ini) {
