@@ -31,7 +31,7 @@ class Proxy_Account extends Contabilidad_Proxy
         } else {
             $row->picture_url = null;
         }
-        $row->details = $params['details'];
+        $row->details = substr($params['details'], 0, 140);
         $row->save();
         
         if(!$row->is_independent){
@@ -58,7 +58,7 @@ class Proxy_Account extends Contabilidad_Proxy
         } else {
             $account->picture_url = null;
         }
-        $account->details = $params['details'];
+        $account->details = substr($params['details'], 0, 140);
         $account->save();
         return $account;
     }
