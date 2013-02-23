@@ -48,7 +48,7 @@ QHelpers.account.showBalancePopup = function ($el, account){
         $div.find(".title").html(Contabilidad.tr("Crear presupuesto"));
         $div.find("input[type='submit']").val(Contabilidad.tr("Crear"));
         //image
-        $div.find("#account-picture").attr("src", LINKS_URL + "/quantups_pictures/budget.png");
+        $div.find("#account-picture").attr("src", LINKS_URL + "/default_pictures/budget.png");
         //date ini
         $div.find("input[name='date_ini']")
         .val(Contabilidad.toDate(dateIni))
