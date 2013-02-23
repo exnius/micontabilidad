@@ -18,7 +18,7 @@ class Proxy_Account extends Contabilidad_Proxy
         $row = $this->createRow();
         $row->id_user = $user->id;
         $row->id_quantup = $quantup->id;
-        $row->name = $params['name'];
+        $row->name = substr($params['name'], 0, 30);
         $row->date_ini = $params['date_ini'];
         $row->date_end = $params['date_end'];
         $row->benefit = '0';
@@ -44,7 +44,7 @@ class Proxy_Account extends Contabilidad_Proxy
     }
 
     public function editAccount ($account, $params){
-        $account->name = $params['name'];
+        $account->name = substr($params['name'], 0, 30);
         $account->date_ini = $params['date_ini'];
         $account->date_end = $params['date_end'];
         $account->id_currency = $params['id_currency'];

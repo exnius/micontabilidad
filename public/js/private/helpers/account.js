@@ -189,6 +189,7 @@ QHelpers.account.onAccountPopupStart = function ($div, account){
         });
     }
     
+    //TEXTAREA - DETAILS
     $div.find("textarea#account-details").keyup(function(){
         var len = $(this).val().length;
         if (len > 140) {
@@ -199,6 +200,15 @@ QHelpers.account.onAccountPopupStart = function ($div, account){
     }).keydown(function(){
         var len = $(this).val().length;
         $div.find('#account-chars-label label.charsLeft').text(140 - len);
+    });
+    
+    //INPUT - NAME
+    $div.find("input[name='name']").keyup(function(){
+        var len = $(this).val().length;
+        if (len > 30) {
+            this.value = this.value.substring(0, 30);
+            len = this.value.length;
+        }
     });
 }
 
