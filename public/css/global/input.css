@@ -46,7 +46,7 @@
     font-size: 6px;
     color: transparent;
 }
-.input-text 
+input
 {
     font-size: 1.05em;
     padding: 7px 5px 7px 44px;
@@ -66,8 +66,12 @@
     border-radius: 3px;
 }
 
-.input-text:focus, .input-text:hover:focus
+input:focus, input:hover:focus
 {
+    transition: all 0.35s ease-in-out;
+    -webkit-transition: all 0.35s ease-in-out;
+    -moz-transition: all 0.35s ease-in-out;
+
     background-color: #FFF;
     border: 1px solid #1A1A1A;
     outline: 2.5px solid #333333;
@@ -76,73 +80,73 @@
     box-shadow:         0px 0px 15px rgba(50, 50, 50, 0.75);
 }
 
-.input-text:hover 
+input:hover 
 {
     border: 1px solid #878585;
+    -webkit-box-shadow: 0px 0px 15px rgba(50, 50, 50, 0.5);
+    -moz-box-shadow:    0px 0px 15px rgba(50, 50, 50, 0.5);
+    box-shadow:         0px 0px 15px rgba(50, 50, 50, 0.5);
 }
 
-#input-email.input-text 
+input#input-email
 {
     background-image: url(../../images/forms/mail.png); 
     background-repeat: no-repeat;
 }
-.input-password.input-text 
+input.input-password
 {
     background-image: url(../../images/forms/password.png); 
     background-repeat: no-repeat;
 }
-#input-budget.input-text 
+input#input-budget
 {
     background-image: url(../../images/forms/budget.png); 
     background-repeat: no-repeat;
 }
 
-#input-date.input-text 
+input#input-date
 {
     background-image: url(../../images/forms/budget.png); 
     background-repeat: no-repeat;
 }
 
-#input-name.input-text 
+input#input-name
 {
     background-image: url(../../images/forms/user.png); 
     background-repeat: no-repeat;
 }
 
-.input-date.input-text 
+input.input-date
 {
     background-image: url(../../images/forms/date.png); 
     background-repeat: no-repeat;
 }
 
-.input-date.input-text 
+input.input-date
 {
     background-image: url(../../images/forms/date.png); 
     background-repeat: no-repeat;
 }
 
-.input-budget.input-text 
+input.input-budget
 {
     background-image: url(../../images/forms/budget.png); 
     background-repeat: no-repeat;
 }
 
 /*
-- input personales con nuestros colores de bordes, color, tamaño de letra....
-
-clase para error: input-error
 un cuadro con un mensaje de exito:
 - se ha editado su perfil
 - se ha modificado su contraseña
 algo asi
 y unos con error o alertas
-Andres:  nop yo quiero un simple div 
-q al llamarlo ya el color de la letra y el color 
-sea de exito o de error o de alerta*/
+un simple div q al llamarlo ya el color de la letra y el color 
+sea de exito, de error o de alerta*/
 
 .input-error 
 {
-    background-color: #BA1818;
-    border-color: #800100;
+    border-color: #D95252;
+    outline: #D95252 solid 1px;
     font-family: ubuntu, helvetica, sans serif; 
+    color: #BA1818;
 }
