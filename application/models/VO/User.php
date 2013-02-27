@@ -9,9 +9,9 @@ class VO_User extends Zend_Db_Table_Row {
         } elseif($this->facebook_picture_url && strlen($this->facebook_picture_url)) {
             $url = $this->facebook_picture_url;
         } elseif ($this->gender == "female"){
-            $url = LINKS_URL . "/avatars/default_female.png";
+            $url = LINKS_URL . "/default_pictures/female.png";
         } else {
-            $url = LINKS_URL . "/avatars/default_male.png";
+            $url = LINKS_URL . "/default_pictures/male.png";
         }
         return $url;
     }
