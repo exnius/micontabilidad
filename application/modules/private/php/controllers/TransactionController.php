@@ -84,5 +84,9 @@ class Private_TransactionController extends Zend_Controller_Action
     public function removeAction(){
         $this-> view->pru="remove";
     }
+    public function pieAction(){
+        $this-> view->pru="pie";
+    }
+    
 }
 ?>

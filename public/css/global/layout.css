@@ -1,255 +1,349 @@
-/*••••••••••••••••••••••••••••••••••••••••••••••••••••*/ 
-/*                      TEMPORAL                      */
-/*••••••••••••••••••••••••••••••••••••••••••••••••••••*/ 
-
-.private *[help]:hover:before, .private *[title]:focus:after {
-    content: attr(help);
-
-    position: fixed;
-    /*margin: 5px 0;*/
-    bottom: 40px;
-    padding: 2px 2%;
-
-    width: 96%;  
-    height: 18px;
-    z-index: 200;
-
-    color: #1a1a1a;
-    background-color: #9dddf6;
-    white-space: nowrap;
-    font-size: 13px;
-    border-top: 2px solid #63C2E0;
-    outline: 1px dashed #F7E700;
+#testimonies-container
+{
+    margin: 10px;
+    padding: 10px;
+    text-align: center;
 }
 
+.testimony
+{
+    display: inline-block;
+    width: 23%;
+    min-width: 250px;
+    max-width: 500px;
 
-
-/*••••••••••••••••••••••••••••••••••••••••••••••••••••*/ 
-/*                      GLOBAL                        */
-/*••••••••••••••••••••••••••••••••••••••••••••••••••••*/ 
-
-/*Main container*/
-#main-container {
-    position: relative;
-    top:0;
-    /*    margin-right: auto; 
-        margin-left: auto; */
-    /*border: #4e4e4e solid 1px;*/
+    padding: 3px;
+    margin: 15px;
+    text-align: center;
+    border: solid #fff 1px;
+    background-color: #fff;
+    vertical-align: top;
 }
-
-/* Bottom*/
-#bottom-container {
-    bottom: 0%;
-    right: 0%;
-
+.testimony img
+{
     width: 100%;
-    height: 40px;
+    border: solid 1px #1a1a1a;
 }
-#bottom-line { 
-    top: 1px;
-    right: 0%;
+.testimony p
+{
+    color: #3d3d3d !important;
+    font-size: 1.3em;
+    line-height: 1.2em;
+    margin: 0 5px;
+    padding: 0;
+}
 
-    width:100%;
-    height: 2px;
-    /*border-top: 1.5px solid #333;*/
-}
-/*Social media icons*/
-#bottom-social-media-icons-container {
-    top: 5%;
-    left: 0%;
+/*••••••••••••••••••••••••••••••••••••••••••••••••••••
+                      GLOBAL                        
+•••••••••••••••••••••••••••••••••••••••••••••••••••••*/ 
 
-    width:25%;
-    height: 100%;
-} 
-#bottom-social-media-icon-facebook {margin-left: 20px;}
-#bottom-social-media-icon-twitter {margin-left: 70px;}
-.bottom-social-media-button {
-    bottom: 15%;
-    height: 70%;
-    /*margin: 0 auto 0 90%;*/
-}
-.bottom-social-media-button:hover {
-    bottom: 7.5%;
-    height: 85%;
-}
-#bottom-text-container {
-    font-size: 10px; 
-    line-height: 100%;
-    top: 14px;
-    right: 2%;
-    width: 75%;
-    height: 2%;
-    text-align: right;
-    z-index: 120;
+#wrapper
+{
+    position: relative; 
+
 }
 
 /*••••••••••••••••••••••••••••••••••••••••••••••••••••*/ 
 /*                      PUBLIC                        */
 /*••••••••••••••••••••••••••••••••••••••••••••••••••••*/ 
 
-/*Fixed buttons*/
+body.public
+{
+    clear: both;
+    background-color: #0998BF;
+    background: #1a1a1a url("../../images/bg/bg-image-1-big.jpg") no-repeat fixed;
+    /*background: #9DDDF6 url("../../images/bg/bg13.png") repeat;*/
+    background-position: center center;
+    background-size: cover;
+    min-height:100%;
+    min-width: 100%;
+}
+
+#login-container
+{ 
+    /*position: relative;*/
+    bottom: 0;
+    margin: 0 auto;
+    width: 55%;
+    min-width: 440px;
+    _width: 45%;
+    -ms-width: 45%;
+    max-width: 1000px;
+
+    height: 100%;
+    border: solid 1px transparent;
+    text-align: center;
+
+    background-color: #3d3d3d;
+    background: rgba(0, 0, 0, 0.7);
+    color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.7);
+}
+#login-container #logo
+{
+    position: relative;
+    margin: 50px auto 30px auto;
+
+    width: 67%;
+    min-width: 400px;
+}
+#login-container .login-button
+{
+    display: block;
+    width: 45%;
+    min-width: 220px;
+    max-width: 320px;
+    margin: 10px auto;
+    transition: all 0.5s ease-in-out;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;   
+}
+
+#login-container .login-button img
+{
+    width: 100%;
+}
+
+#login-container .login-button:hover,
+#login-container .login-button:focus,
+#login-container .login-button:active
+{
+    width: 50%;
+    min-width: 250px;
+    max-width: 350px;
+    border: 0;
+    outline: 0;
+}
+#loginForm.response
+{
+    text-align: center;
+    color: #D95252;
+    font-weight: bold;
+}
+#login-container-promo-text
+{
+    /*margin: 10*/
+    position: relative;
+    width: 50%;
+    bottom: 3%;
+    padding: 0 20%;
+    font-size: 1.6em;
+    line-height: 1.2em;
+    text-shadow: 4px 4px 10px rgba(0, 2, 0, 1);
+}
+.public #browsers
+{
+    border: 1px #fff dashed;
+    /*border-bottom: 1px #3D3D3D dashed;*/
+    font-size: 1.2em;
+    /*clear: both;*/
+    width: 90%;
+    /*margin: 25px auto;*/
+    text-align: center;
+    color: #333;
+    margin: 25px auto 20px auto;
+}
+
+.public #browsers div:first-child /*Title*/
+{
+    background-color: transparent;
+    padding-top: 25px;
+    font-variant: small-caps;
+    text-transform: uppercase;
+    font-weight: bolder;
+    letter-spacing: .3em;
+}
+.public #browsers #browsers-text /*Paragraph*/
+{
+    padding: 22px 6%;
+    font-variant: normal;
+    text-align: center;
+    white-space: pre-line;
+}
+
+.public #browsers img
+{
+    position: relative;
+    max-width: 8.5%;
+    min-height: 30px;
+    padding: 0px 3%;
+    filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale"); /* Firefox 10+, Firefox on Android */
+    filter: gray; /* IE6-9 */
+    -webkit-filter: grayscale(80%); /* Chrome 19+, Safari 6+, Safari 6+ iOS */
+    -webkit-transition: .2s ease-in-out;
+    -moz-transition: .2s ease-in-out;
+    -o-transition: .2s ease-in-out;
+    -ms-transition: .2s ease-in-out;
+    transition: .2s ease-in-out;
+
+}
+
+.public #browsers img:hover,
+.public #browsers img:focus
+{
+    filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'1 0 0 0 0, 0 1 0 0 0, 0 0 1 0 0, 0 0 0 1 0\'/></filter></svg>#grayscale");
+    -webkit-filter: grayscale(0%);
+}
+/*END ----------------Login container--------------- */
+
+.public #top-bar
+{
+    margin: 0;
+    padding: 20px;
+
+    height: 80px;
+    border: solid 1px transparent;
+
+    background-color: #3d3d3d;
+    background: rgba(0, 0, 0, 0.7);
+    color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.public #top-bar #logo
+{
+    height: 100%;
+}
+
+#top-bar #login-container-secondary
+{
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 126px;
+    overflow: hidden;
+}
+#top-bar .login-button
+{
+    position: relative;
+    right: -177px;
+    display: block;
+    width: 210px;
+    margin: 3px 0;
+}
+#top-bar .login-button:hover, 
+#top-bar .login-button:focus
+{
+    right: 0;
+    width: 215px;
+    z-index:900;
+}
+
 .public #button-twit-gift {
-    top: 170px !important;
+    top: 40% !important;
     right: 0px;
-    width: 23px !important;
+    width: 26px !important;
     z-index: 140;
 }
 .public #button-twit-gift:hover {
-    width: 25px !important;
+    width: 30px !important;
     z-index: 140;
 }
 
-.public #button-error, .public #button-message 
-{
-    display: none !important;
-}
-
-body.public {
-    background: url("../../images/bg/bg13.png") repeat center;
-/*    background-color: #C3E9F0;*/
-}
-
-/*Fixed top bar*/
-.public #top-container { 
-    /*position: fixed;*/
-    top:0%;
-    right: 0%;
-
-    width:100%;
-    height: 170px;
-    z-index: 120;
-}
-.public #top-line-public { 
-    position: absolute !important;
-    top: 166px; /* #top-container.height - border.height */
-    right: 0%;
-
-    width:100%;
-    height: 3px;
-}
-/*Logo*/
-.public #top-logo {
-    position: relative;
-    top: 20px;
-    left: 2%;
-
-    height: 126px;
-    width: 360px;
-}
-/*Login*/
-.public #login-container {
-    top:0%;
-    /* login-container.height - top-container.height = login-container.top */
-    right: 0%;
-
-    width: 32%;
-    height: 170px; 
-    z-index: 120;
-}
-
-#login-container img{
-    right: 0;
-    height: 22%;
-    /*margin: 0 auto 0 90%;*/
-}
-.login-google {
-    top: 8.5%;
-}
-.login-facebook {
-    top: 39%;
-}
-.login-mail {
-    top: 69.5%;
-}
-/*.login-button { Reemplazado por lo anterior
-    right: 0;
-    height: 22%;
-    margin: 0 auto 0 90%;
-}*/
-#login-container img:hover {
-    height: 24%;
-}
-/*Wrapper*/
 .public #wrapper {
-    position: relative; 
-    margin: 195px 2% 65px 2%; 
-    height:auto; 
+    max-width: 1920px;
+    min-height: 100%;
+    margin: 20px;
     z-index: 5;
-    /*border: 1px #4E4E4E solid;*/ 
+}
+/* Bottom*/
+.public #bottom-container 
+{
+    clear: both;
+    /*position: relative;*/
+    margin: 20px;
+    /*margin: 20px auto 20px auto;*/
+    /*    width: 80%;*/
+    min-width: 380px;
+
+    padding: 10px 5%;
+    text-align: center;
+    background-color: #3d3d3d;
+    background-color: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.6);
+    color: rgba(0, 0, 0, 0.6);
+}
+/*Social media icons*/
+.public #social-media-icons-container {
+    margin: 5px auto;
+    vertical-align: middle;
+} 
+.public .social-media-icon {
+    width: 40px;
+    padding: 7px;
+}
+.public .social-media-icon:hover {
+}
+.public .bottom-text-container {
+    font-size: .87em; 
+    line-height: 1.3em;
+    margin: 0 auto 10px auto;
+}
+
+.public #bottom-container-secondary
+{
+    position:fixed;
+    bottom: -82px;
+    width: 100%;
+    padding: 0;
+    text-align: center;
+    background-color: #3d3d3d;
+    background-color: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.6);
+    color: rgba(0, 0, 0, 0.6);
+    z-index: 900;
+    border-top: 6px solid #fff;
+}
+.public #bottom-container-secondary:hover
+{
+    bottom: 0;
+}
+#bottom-container-secondary #social-media-icons-container
+{
+    position: fixed;
+    left: 0;
+    top: 126px;
+    width: auto;
+    padding: 3px;
+    /*background-color: #0A98BF;*/
+    z-index: 910;
+}
+.public #bottom-container-secondary img
+{
+    display: block;
+    width: 20px;
+    padding: 4px;
+}
+.public #bottom-container-secondary img:hover
+{
+    display: block;
+    width: 34px;
+    padding: 0px;
+}
+.public #bottom-container-secondary a:focus
+{
+    outline: dashed 1px #0A98BF;
 }
 
 /*••••••••••••••••••••••••••••••••••••••••••••••••••••*/ 
 /*                      PRIVATE                       */
 /*••••••••••••••••••••••••••••••••••••••••••••••••••••*/ 
 
-
-body.private {
-    background: url("../../images/bg/bg12.png") repeat center;
-    background-color: #C7C7C7;
+.private #color-mask
+{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    overflow: auto;
+    background: rgb(195,233,240);
+    background: -moz-linear-gradient(top,  rgba(195,233,240,0.94) 0%, rgba(196,233,240,0.94) 1%, rgba(255,255,255,0.94) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(195,233,240,0.94)), color-stop(1%,rgba(196,233,240,0.94)), color-stop(100%,rgba(255,255,255,0.94))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  rgba(195,233,240,0.94) 0%,rgba(196,233,240,0.94) 1%,rgba(255,255,255,0.94) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  rgba(195,233,240,0.94) 0%,rgba(196,233,240,0.94) 1%,rgba(255,255,255,0.94) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  rgba(195,233,240,0.94) 0%,rgba(196,233,240,0.94) 1%,rgba(255,255,255,0.94) 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  rgba(195,233,240,0.94) 0%,rgba(196,233,240,0.94) 1%,rgba(255,255,255,0.94) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f0c3e9f0', endColorstr='#f0ffffff',GradientType=0 ); /* IE6-8 */
 }
-.private #button-twit-gift {
-    top: 70px !important;
-    right: 0px;
-    width: 20px !important;
-    z-index: 130;
-}
-.private #button-twit-gift:hover, .private #button-twit-gift:focus {
-    width: 25px !important;
-    z-index: 140;
-}
-.private #button-message {
-    top: 160px !important;
-    right: 0px;
-    width: 20px !important;
-    z-index: 129;
-}
-.private #button-message:hover, .private #button-message:focus {
-    width: 25px !important;
-    z-index: 140;
-}
-.private #button-error {
-    top: 220px !important;
-    right: 0px;
-    width: 20px !important;
-    z-index: 128;
-}
-.private #button-error:hover, .private #button-error:focus {
-    width: 25px !important;
-    z-index: 140;
-}
-
-.private #top-container { 
-    /*position: fixed;*/
-    top:0%;
-    right: 0%;
-
-    width:100%;
-    height: 70px;
-    z-index: 120;
-}
-.private #top-line-public { 
-    position: absolute !important;
-    top: 67px; /* #top-container.height - border.height */
-    right: 0%;
-
-    width:100%;
-    height: 2px;
-}
-/*Logo*/
-.private #top-logo {
-    position: relative;
-    top: 10px;
-    left: 10px;
-
-    height: 50px;
-    width: 143px;
-}
-
-/*Wrapper*/
-.private #wrapper {
-    position: relative; 
-    margin: 79px 10px 50px 10px; 
-    z-index: 5;
-    /*outline: 1px #0998BF dotted;*/ 
-}
-
