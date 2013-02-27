@@ -24,7 +24,7 @@ class VO_Account extends Zend_Db_Table_Row {
         if($this->picture_url && strlen($this->picture_url)){
             $url = $this->picture_url;
         } else {
-            $url = LINKS_URL . "/quantups_pictures/budget.png";
+            $url = LINKS_URL . "/default_pictures/budget.png";
         }
         return $url;
     }
