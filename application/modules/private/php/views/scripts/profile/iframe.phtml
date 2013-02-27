@@ -1,4 +1,4 @@
-<form name="iform" action="<?= BASE_URL . "/private/profile/uploadavatar"?>" method="post" enctype="multipart/form-data">
+<form name="iform" action="<?= BASE_URL . "/uploadavatar"?>" method="post" enctype="multipart/form-data">
     <input id="file" type="file" name="avatar" onChange="window.parent.uploadAvatar(this);" /><br>
     <span><?= $this->tr("solo aceptamos archivos con extensiones gif, png, jpg.")?></span>
     <input type="hidden" value="" name="div_id" />

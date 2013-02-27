@@ -13,6 +13,6 @@ class SessionController extends Zend_Controller_Action
     public function logoutAction()
     {
         Contabilidad_Auth::getInstance()->logout();
-        $this->_redirect("index");
+        $this->_redirect(BASE_URL);
     }
 }

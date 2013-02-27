@@ -81,6 +81,7 @@ class Initializer extends Zend_Controller_Plugin_Abstract
         $this->initPlugins();
         $this->initControllers();
         $this->initMail();
+        $this->initRoutes();
     }
 
     /**
@@ -181,7 +182,33 @@ class Initializer extends Zend_Controller_Plugin_Abstract
      * @return void
      */
     public function initRoutes ()
-    {}
+    {
+        $router = $this->_front->getRouter();
+//        $router->removeDefaultRoutes();
+
+        $router->addRoutes(array(
+            "publicIndex" => new Zend_Controller_Router_Route(
+                    '/index',
+                    array('module' => 'public', 'controller' => 'index', 'action' => 'index')),
+            "privateIndex" => new Zend_Controller_Router_Route(
+                    '/:nickname',
+                    array('module' => 'private', 'controller' => 'index', 'action' => 'index')),
+            "account" => new Zend_Controller_Router_Route_Regex(
+                        '.*budget-(\d)-(.*)',
+                        array('controller' => 'account', 'action' => 'index', 'module' => 'private'),
+                        array(1 => 'id', 2 => 'name')),//regex group,
+            "profile" => new Zend_Controller_Router_Route(
+                        '/profile',
+                        array('module' => 'private', 'controller' => 'profile', 'action' => 'index')),
+            "uploadAvatar" => new Zend_Controller_Router_Route(
+                        '/uploadAvatar',
+                        array('module' => 'private', 'controller' => 'profile', 'action' => 'uploadavatar')),
+            "logout" => new Zend_Controller_Router_Route(
+                        '/logout',
+                        array('module' => 'public', 'controller' => 'session', 'action' => 'logout'))
+        ));
+
+    }
 
     /**
      * Initialize Controller paths 

@@ -13,15 +13,17 @@
 </head>
 
 <body class="wv-blank-layout">
-    <?php if ($this->action != "home"){?><h1><a href="<?=BASE_URL?>">Private</a></h1> <?php }else{ ?>
-    <h1>Private</h1> <?php } ?>
-    <?php $logout = array("action" => "logout", "controller" => "session", "module" => "public"); ?>
+    <?php if ($this->action != "home"){?>
+        <h1><a href="<?=BASE_URL?>">Private</a></h1> 
+    <?php }else{ ?>
+        <h1>Private</h1>
+    <?php } ?>
     <?php $profile = array("action" => "index", "controller" => "profile", "module" => "private"); ?>
     <div>
-        <a href="<?= $this->url($logout)?>">Logout</a>
+        <a href="<?= BASE_URL . "/logout"?>">Logout</a>
     </div>
     <div>
-        <a href="<?= $this->url($profile)?>"><?= $this->tr("Mi perfil")?></a>
+        <a href="<?= BASE_URL . "/profile"?>"><?= $this->tr("Mi perfil")?></a>
     </div>
     <div>
         <a href="#" class="wv-js-feedbacks"><?= $this->tr("Comentarios")?></a>

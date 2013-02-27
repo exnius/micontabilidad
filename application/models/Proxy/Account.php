@@ -93,8 +93,8 @@ class Proxy_Account extends Contabilidad_Proxy
      * @params VO_Account
      */
     public static function getUrl_ ($account){
-        $url = BASE_URL . "/private/account/index?id=" . $account->id;
-        return $url;
+        $url = BASE_URL . "/budget-" . $account->id . "-" . strtolower($account->name);
+        return urldecode($url);
     }
     
     public function serializer ($account){
