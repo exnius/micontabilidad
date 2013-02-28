@@ -4,26 +4,32 @@ class Private_AccountController extends Zend_Controller_Action
 {
     public function indexAction(){
         $request = $this->getRequest();
+//        $explode = explode("-", $request->getParam('xr'));
+//        $accountId = $explode[0];
         $accountId = $request->getParam('id');
         $user = Contabilidad_Auth::getInstance()->getUser();
-        $this->view->account = Proxy_Account::getInstance()->findById($accountId);
-        $this->view->serializedAccount = Proxy_Account::getInstance()->serializer($this->view->account);
-        $transactions = Proxy_Transaction::getInstance()->retrieveBetweenByAccount($this->view->account);
-        $this->view->outsideTrans = Proxy_Transaction::getInstance()->retrieveOutsideByAccount($this->view->account);
-        $this->view->transactions = $transactions;
-        $this->view->count = count($transactions);
-        $serializedTrans = array();
-        foreach($transactions as $tran){
-            $serializedTrans[$tran->id] = Proxy_Transaction::getInstance()->serializer($tran);
+        $this->view->account = $account = Proxy_Account::getInstance()->findById($accountId);
+        if(!$account || $user->id != $account->id_user){
+            $this->_forward("unavailable", "error", "public");
+        } else {
+            $this->view->serializedAccount = Proxy_Account::getInstance()->serializer($this->view->account);
+            $transactions = Proxy_Transaction::getInstance()->retrieveBetweenByAccount($this->view->account);
+            $this->view->outsideTrans = Proxy_Transaction::getInstance()->retrieveOutsideByAccount($this->view->account);
+            $this->view->transactions = $transactions;
+            $this->view->count = count($transactions);
+            $serializedTrans = array();
+            foreach($transactions as $tran){
+                $serializedTrans[$tran->id] = Proxy_Transaction::getInstance()->serializer($tran);
+            }
+            foreach($this->view->outsideTrans as $tran){
+                $serializedTrans[$tran->id] = Proxy_Transaction::getInstance()->serializer($tran);
+            }
+            $this->view->quantup = Proxy_Quantup::getInstance()->findPredeterminedByUserId($user->id);
+            $this->view->currentBenefit = $this->view->account->calculateBenefit(strtotime("now"));
+            $this->view->serializedTransactions = $serializedTrans;
+            $this->view->categories = Proxy_CategoryType::getInstance()->fetchAll();
+            $this->view->currencys = Proxy_Currency::getInstance()->retrieveCurrencys();
         }
-        foreach($this->view->outsideTrans as $tran){
-            $serializedTrans[$tran->id] = Proxy_Transaction::getInstance()->serializer($tran);
-        }
-        $this->view->quantup = Proxy_Quantup::getInstance()->findPredeterminedByUserId($user->id);
-        $this->view->currentBenefit = $this->view->account->calculateBenefit(strtotime("now"));
-        $this->view->serializedTransactions = $serializedTrans;
-        $this->view->categories = Proxy_CategoryType::getInstance()->fetchAll();
-        $this->view->currencys = Proxy_Currency::getInstance()->retrieveCurrencys();
     }
     
     public function iframeAction(){

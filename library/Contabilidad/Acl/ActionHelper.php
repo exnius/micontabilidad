@@ -55,8 +55,8 @@ class Contabilidad_Acl_ActionHelper extends Zend_Controller_Action_Helper_Abstra
             Zend_Layout::startMvc(array('layoutPath' => $this->_root . '/application/views/scripts' , 'layout' => 'private-layout'));
         }
         if($view->isLogged) {
-            if($module == "public" && $action != "logout" && $controller != "error" && $controller != "services"){
-                $helper->direct("home", "index", "private");
+            if($module == "public" && $action != "logout" && $controller != "error" && $controller != "services" && $action != "setpass"){
+                $helper->setGotoRoute(array("nickname" => Contabilidad_Auth::getInstance()->getUser()->nickname), "privateIndex");
             }
         } else {
             if($module == "private"){

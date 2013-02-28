@@ -22,7 +22,7 @@ class Private_ProfileController extends Zend_Controller_Action
         $pictureFullName = "$pictureName." . strtolower($ext);
         $uploadfile_name = $root . $_FILES['avatar']['name'] = $pictureFullName;
         $file_info = getimagesize($uploadfile_temp);
-        if($_FILES['avatar']['size'] > 2000000){
+        if($_FILES['avatar']['size'] > 2000000 || ($ext != "jpg" && $ext != "png" && $ext != "gif")){
             $resp["file_info"] = $file_info;
             $resp["size"] = $_FILES['avatar']['size'];
             $resp["response"] = "failure";

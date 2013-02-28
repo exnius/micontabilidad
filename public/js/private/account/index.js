@@ -50,6 +50,7 @@ $(document).ready(function(){
                             deleteTransaction(id);
                             Contabilidad.getEndPoint({async : true, success: function(resp){
                                 $(".account-benefit").html(Contabilidad.currencyValue(resp.account.benefit, resp.account.id_currency));
+                                $(".account-current-benefit").html(Contabilidad.currencyValue(resp.account.currentBenefit, resp.account.id_currency));
                             }}).deleteTransaction(id, Contabilidad.account.id);
                         }
                         $.fancybox.close();
@@ -155,7 +156,7 @@ function onVisibleMiniTransaction($el){
             data.name = $("#create-mini-transaction-form input[name='name']").val();
             data.value = $("#create-mini-transaction-form input[name='value']")
             .val().replace(/\./g, '').replace(/,/g, '.');
-            data.id_account = parseInt(Contabilidad.getURLParameter("id"));
+            data.id_account = Contabilidad.account.id;
             data.id_transaction_type = $el.attr("id") == "add-income" ? 1 : 2;
             Contabilidad.getEndPoint({async : true, success: function(resp){
                 displaySavedTransactions(resp);
@@ -465,7 +466,6 @@ function displaySavedTransactions(resp)
             $("#transactions-container").prepend(output);
         }
         $("body").data("transaction-names").push(tran.name.toLowerCase());
-        $(".account-benefit").html(Contabilidad.currencyValue(resp.account.benefit, resp.account.id_currency));
 
         //update temporal variable
         Contabilidad.transactions[tran.id] = tran;
@@ -478,6 +478,8 @@ function displaySavedTransactions(resp)
             deleteTransaction(id);
         });
     }
+    $(".account-benefit").html(Contabilidad.currencyValue(resp.account.benefit, resp.account.id_currency));
+    $(".account-current-benefit").html(Contabilidad.currencyValue(resp.account.currentBenefit, resp.account.id_currency));
 }
 
 function deleteTransaction(id){

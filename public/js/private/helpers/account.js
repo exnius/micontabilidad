@@ -48,7 +48,7 @@ QHelpers.account.showBalancePopup = function ($el, account){
         $div.find(".title").html(Contabilidad.tr("Crear presupuesto"));
         $div.find("input[type='submit']").val(Contabilidad.tr("Crear"));
         //image
-        $div.find("#account-picture").attr("src", LINKS_URL + "/quantups_pictures/budget.png");
+        $div.find("#account-picture").attr("src", LINKS_URL + "/default_pictures/budget.png");
         //date ini
         $div.find("input[name='date_ini']")
         .val(Contabilidad.toDate(dateIni))
@@ -109,6 +109,7 @@ QHelpers.account.onAccountPopupStart = function ($div, account){
                         Contabilidad.accounts[resp.account.id] = resp.account;
                     }
                     $("#account-" + resp.account.id + " .account-benefit").html(Contabilidad.currencyValue(resp.account.benefit, resp.account.id_currency));
+                    $(".account-current-benefit").html(Contabilidad.currencyValue(resp.account.currentBenefit, resp.account.id_currency));
                     $("#account-"+resp.account.id).find(".js-account-benefit").html(Contabilidad.currencyValue(resp.account.benefit, resp.account.id_currency))
                     $("#account-"+resp.account.id).find(".js-account-picture img").attr("src", resp.account.picture_url);
                     $.fancybox.close();
@@ -177,6 +178,7 @@ QHelpers.account.onAccountPopupStart = function ($div, account){
                     $("#accounts-container").prepend(output);
                     Contabilidad.accounts[resp.account.id] = resp.account;
                     $.fancybox.close();
+                    document.location.href = resp.account.accountUrl;
                 }}).createAccount(data);
             } else {
                 if(date_end < date_ini) {
@@ -189,6 +191,7 @@ QHelpers.account.onAccountPopupStart = function ($div, account){
         });
     }
     
+    //TEXTAREA - DETAILS
     $div.find("textarea#account-details").keyup(function(){
         var len = $(this).val().length;
         if (len > 140) {
@@ -200,6 +203,15 @@ QHelpers.account.onAccountPopupStart = function ($div, account){
         var len = $(this).val().length;
         $div.find('#account-chars-label label.charsLeft').text(140 - len);
     });
+    
+    //INPUT - NAME
+    $div.find("input[name='name']").keyup(function(){
+        var len = $(this).val().length;
+        if (len > 30) {
+            this.value = this.value.substring(0, 30);
+            len = this.value.length;
+        }
+    });
 }
 
 QHelpers.account.onCreateAccountComplete = function ($div){
@@ -210,30 +222,34 @@ QHelpers.account.onCreateAccountComplete = function ($div){
 QHelpers.account.uploadPicture = function(fileObj){
     var par = window.document;
     var frm = fileObj.form;
+    var iframes = $("#account-iframe-container iframe");
+    var iframe = iframes[iframes.length - 1];
 
     $("#picture-response").hide();
 
-    // create new iframe
-    var new_iframe = par.createElement('iframe');
-    new_iframe.src = BASE_URL + "/private/account/iframe";
-    new_iframe.frameBorder = '0';
-    new_iframe.scrolling = 'no';
-    new_iframe.marginHeight = '0';
-    new_iframe.marginWidth = '0';
-    new_iframe.style.height = '75px';
-    new_iframe.style.width = '500px';
+     if(Contabilidad.Validate.isValid($(iframe.contentDocument), "#file")){
+        // create new iframe
+        var new_iframe = par.createElement('iframe');
+        new_iframe.src = BASE_URL + "/private/account/iframe";
+        new_iframe.frameBorder = '0';
+        new_iframe.scrolling = 'no';
+        new_iframe.marginHeight = '0';
+        new_iframe.marginWidth = '0';
+        new_iframe.style.height = '75px';
+        new_iframe.style.width = '500px';
 
-    //hide old iframe
-    var iframes = $("#account-iframe-container iframe");
-    var iframe = iframes[iframes.length - 1];
-    iframe.style.display = 'none';
-    //append the new iframe
-    $("#account-iframe-container").append(new_iframe);
+        //hide old iframe
+        iframe.style.display = 'none';
+        //append the new iframe
+        $("#account-iframe-container").append(new_iframe);
 
-    iframe.id = 'old-iframe';
+        iframe.id = 'old-iframe';
 
-    // send
-    frm.submit();
+        // send
+        frm.submit();
+     } else {
+         $("#picture-response").html(Contabilidad.tr("Tu archivo no es valido, solo aceptamos extensiones jpg, gif y png")).show();
+     }
 }
 
 QHelpers.account.setUploadedImage = function(resp){
@@ -247,4 +263,8 @@ QHelpers.account.setUploadedImage = function(resp){
     }
     var iframe = $("#account-iframe-container #old-iframe");
     $(iframe).remove();
+}
+
+QHelpers.account.addIframe = function(iframe){
+    Contabilidad.Validate.setRules($(iframe.document).find("#file"), {accept : "gif|jpg|png"})
 }

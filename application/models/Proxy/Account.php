@@ -18,7 +18,7 @@ class Proxy_Account extends Contabilidad_Proxy
         $row = $this->createRow();
         $row->id_user = $user->id;
         $row->id_quantup = $quantup->id;
-        $row->name = $params['name'];
+        $row->name = substr($params['name'], 0, 30);
         $row->date_ini = $params['date_ini'];
         $row->date_end = $params['date_end'];
         $row->benefit = '0';
@@ -31,7 +31,7 @@ class Proxy_Account extends Contabilidad_Proxy
         } else {
             $row->picture_url = null;
         }
-        $row->details = $params['details'];
+        $row->details = substr($params['details'], 0, 140);
         $row->save();
         
         if(!$row->is_independent){
@@ -44,7 +44,7 @@ class Proxy_Account extends Contabilidad_Proxy
     }
 
     public function editAccount ($account, $params){
-        $account->name = $params['name'];
+        $account->name = substr($params['name'], 0, 30);
         $account->date_ini = $params['date_ini'];
         $account->date_end = $params['date_end'];
         $account->id_currency = $params['id_currency'];
@@ -52,13 +52,13 @@ class Proxy_Account extends Contabilidad_Proxy
         $benefit = $account->calculateBenefit();
         $account->benefit = $benefit;
         $explodeUrl = explode(".",$params['picture_url']);
-        $ext = $explodeUrl[(sizeof($explodeUrl))-1];
+        $ext = strtolower($explodeUrl[(sizeof($explodeUrl))-1]);
         if ($ext == "jpg" || $ext == "png" || $ext == "gif"){
             $account->picture_url = $params['picture_url'];
         } else {
             $account->picture_url = null;
         }
-        $account->details = $params['details'];
+        $account->details = substr($params['details'], 0, 140);
         $account->save();
         return $account;
     }
@@ -93,14 +93,15 @@ class Proxy_Account extends Contabilidad_Proxy
      * @params VO_Account
      */
     public static function getUrl_ ($account){
-        $url = BASE_URL . "/private/account/index?id=" . $account->id;
-        return $url;
+        $url = BASE_URL . "/budget-" . $account->id . "-" . strtolower($account->name);
+        return urldecode($url);
     }
     
     public function serializer ($account){
         return $serialized = array('id' => $account->id, 
                                    'name' => $account->name, 
-                                   'benefit' => $account->benefit, 
+                                   'benefit' => $account->benefit,
+                                   'currentBenefit' => $account->calculateBenefit(strtotime("now")),
                                    'date_ini' => $account->date_ini, 
                                    'date_end' => $account->date_end, 
                                    'id_currency' => $account->id_currency, 

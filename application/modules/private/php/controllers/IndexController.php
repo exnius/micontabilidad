@@ -8,9 +8,12 @@ class Private_IndexController extends Zend_Controller_Action
         /* Initialize action controller here */
     }
 
-    public function homeAction()
+    public function indexAction()
     {
       $user = Contabilidad_Auth::getInstance()->getUser();
+      if($user->nickname != $this->_request->getParam("nickname")){
+          $this->_redirect(BASE_URL . "/$user->nickname");
+      }
       $this->view->accounts = Proxy_Account::getInstance()->retrieveByUserId($user->id);
       $this->view->currencys = Proxy_Currency::getInstance()->retrieveCurrencys();
       $this->view->user = $user;

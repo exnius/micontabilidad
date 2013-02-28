@@ -114,30 +114,35 @@ function isUserFormDirty(data)
 function uploadAvatar(fileObj){
     var par = window.document;
     var frm = fileObj.form;
+    var iframes = $("#iframe_container iframe");
+    //old iframe
+    var iframe = iframes[iframes.length - 1];
     
     $("#avatar-response").hide();
 
-    // create new iframe
-    var new_iframe = par.createElement('iframe');
-    new_iframe.src = BASE_URL + "/private/profile/iframe";
-    new_iframe.frameBorder = '0';
-    new_iframe.scrolling = 'no';
-    new_iframe.marginHeight = '0';
-    new_iframe.marginWidth = '0';
-    new_iframe.style.height = '75px';
-    new_iframe.style.width = '500px';
+    if(Contabilidad.Validate.isValid($(iframe.contentDocument), "#file")){
+        // create new iframe
+        var new_iframe = par.createElement('iframe');
+        new_iframe.src = BASE_URL + "/private/profile/iframe";
+        new_iframe.frameBorder = '0';
+        new_iframe.scrolling = 'no';
+        new_iframe.marginHeight = '0';
+        new_iframe.marginWidth = '0';
+        new_iframe.style.height = '75px';
+        new_iframe.style.width = '500px';
 
-    //hide old iframe
-    var iframes = $("#iframe_container iframe");
-    var iframe = iframes[iframes.length - 1];
-    iframe.style.display = 'none';
-    //append the new iframe
-    $("#iframe_container").append(new_iframe);
-    
-    iframe.id = 'old-iframe';
+        //hide old iframe
+        iframe.style.display = 'none';
+        //append the new iframe
+        $("#iframe_container").append(new_iframe);
 
-    // send
-    frm.submit();
+        iframe.id = 'old-iframe';
+
+        // send
+        frm.submit();
+    } else {
+        $("#avatar-response").html(Contabilidad.tr("Tu archivo no es valido, solo aceptamos extensiones jpg, gif y png")).show();
+    }
 }
 
 function setUploadedImage(resp){
@@ -173,7 +178,6 @@ function findAndDisplayErrors($form)
 
 function findAndDisplayEditPasswordErrors($form)
 {
-    console.info("findAndDisplay");
     var errors;
     $form.find(".input-error").each(function(){
         errors =  $(this).data("errors");
@@ -194,4 +198,8 @@ function setInputRule($input){
     if($input.attr("type") == "password"){rules.password = true;}
     if($input.attr("is_equal_to")){rules.equalsTo = $input.parent().find("input[name='" + $input.attr("is_equal_to") + "']");}
     Contabilidad.Validate.setRules($input, rules);
+}
+
+function addIframe(iframe){
+    Contabilidad.Validate.setRules($(iframe.document).find("#file"), {accept : "gif|jpg|png"})
 }
