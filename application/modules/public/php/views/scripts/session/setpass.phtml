@@ -1,10 +1,12 @@
-<div id="set-password-form">
-    <form method="POST" action="">
-        <p><?=$this->tr("Mi Nueva Contraseña")?></p>
-        <input type="password" name="new_pass" class="required">
-        <p><?=$this->tr("Confirmar Contraseña")?></p>
-        <input type="password" name="confirm_pass" is_equal_to="new_pass" class="required">
-        <input type="submit" value="<?=$this->tr("Cambiar")?>">
-    </form>
+<div id="set-password-form" class="form-box">
     <div class="response"></div>
+    <form method="POST" action="">
+        <div class="separation-transparent-10px"></div>
+        <input type="password" name="new_pass" class="required input-text input-password" placeholder="<?=$this->tr('Escribe tu nueva contraseña')?>">
+       <div class="separation-transparent-10px"></div>
+<!--        <p><?=$this->tr("Confirmar Contraseña")?></p>-->
+        <input type="password" name="confirm_pass" is_equal_to="new_pass" class="required input-text input-password" placeholder="<?=$this->tr('Escríbela de nuevo')?>">
+        <div class="separation-transparent-10px"></div>
+        <input type="submit" value="<?=$this->tr("Cambiar")?>" class="input-button">
+    </form>
 </div>

@@ -5,6 +5,15 @@
     text-align: center;
 }
 
+#set-password-form
+{
+    position: relative;
+    margin: 10% auto;
+    width: 500px;
+    display: block !important;
+    text-align: center;
+    padding: 20px 25px;
+}
 #register.form-box 
 {
     display: block !important;
