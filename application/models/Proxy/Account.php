@@ -100,7 +100,8 @@ class Proxy_Account extends Contabilidad_Proxy
     public function serializer ($account){
         return $serialized = array('id' => $account->id, 
                                    'name' => $account->name, 
-                                   'benefit' => $account->benefit, 
+                                   'benefit' => $account->benefit,
+                                   'currentBenefit' => $account->calculateBenefit(strtotime("now")),
                                    'date_ini' => $account->date_ini, 
                                    'date_end' => $account->date_end, 
                                    'id_currency' => $account->id_currency, 

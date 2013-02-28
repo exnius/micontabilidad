@@ -109,6 +109,7 @@ QHelpers.account.onAccountPopupStart = function ($div, account){
                         Contabilidad.accounts[resp.account.id] = resp.account;
                     }
                     $("#account-" + resp.account.id + " .account-benefit").html(Contabilidad.currencyValue(resp.account.benefit, resp.account.id_currency));
+                    $(".account-current-benefit").html(Contabilidad.currencyValue(resp.account.currentBenefit, resp.account.id_currency));
                     $("#account-"+resp.account.id).find(".js-account-benefit").html(Contabilidad.currencyValue(resp.account.benefit, resp.account.id_currency))
                     $("#account-"+resp.account.id).find(".js-account-picture img").attr("src", resp.account.picture_url);
                     $.fancybox.close();

@@ -207,7 +207,6 @@ class Initializer extends Zend_Controller_Plugin_Abstract
                         '/logout',
                         array('module' => 'public', 'controller' => 'session', 'action' => 'logout'))
         ));
-
     }
 
     /**
