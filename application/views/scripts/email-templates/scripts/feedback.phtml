@@ -11,9 +11,10 @@ if ($this->mailVersion == 'text') {
     <br>
     <?php
     foreach ($items as $item) {
-        echo $item;
-        ?> 
-        <br> <?php }
+        echo $item; ?> 
+        <br> 
+    <?php }
 }
 ?>
-
+        
+(<?php echo $this->mailVersion ?>)
