@@ -10,12 +10,6 @@ class IndexController extends Zend_Controller_Action
     
     public function indexAction()
     {
-        $this->_forward("home");
-    }
-
-    public function homeAction()
-    {
-        
     }
     
     public function termsAction()  
