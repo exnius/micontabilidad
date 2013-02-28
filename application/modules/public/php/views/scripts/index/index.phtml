@@ -1,72 +1,163 @@
-<?php $register = array("action" => "register", "controller" => "session", "module" => "public") ?>
-<?php $login = array("action" => "login", "controller" => "session", "module" => "public") ?>
+<div id="login-container" class="fade-in">
+    <a href="<?= BASE_URL ?>" title="Quantups">
+        <img id="logo" class="bg-color-transparent" src="<?= LINKS_URL ?>/images/logo.png"/>
+    </a>
+    <div class="separation-transparent-20px"></div>
+    <!--[if IE]>                
+  <div id="browsers" class="padding-top-bottom-10px">
+      <div class="color-white">
+          Navegadores soportados
+      </div>
+      <div id="browsers-text" class="position-relative color-white">Quantups se ha diseñado y desarrollado de acuerdo a la mayoría de los estándares del <a href="http://www.w3c.es/estandares/" target="_blank" title="World Wide Web Consortium" class="color-white">W3C</a>, que produce recomendaciones para el funcionamiento de Internet. Está previsto que funcione correctamente en los exploradores que se adaptan a dichos estándares, como son: Chrome, Firefox, Opera y Safari. 
+  <div class="separation-transparent-20px"></div>
+    Te aconsejamos descargar e instalar uno de ellos para poder usar Quantups con funcionalidad completa:
+      </div>
+      <div>
+          <a class="" href="https://www.google.com/intl/es/chrome/browser/?hl=es" target="_blank" title="Descargar Google Chrome en español"><img id="" src="<?= LINKS_URL ?>/images/extra/chrome.png"/></a>
+          <a class="" href="http://www.mozilla.org/es-ES/firefox/new/" target="_blank" title="Descargar Firefox en español"><img id="" src="<?= LINKS_URL ?>/images/extra/firefox.png"/></a>
+          <a class="" href="http://support.apple.com/kb/DL1531?viewlocale=es_ES" target="_blank" title="Descargar Safari en español"><img id="" src="<?= LINKS_URL ?>/images/extra/safari.png"/></a>
+          <a class="" href="http://www.opera.com/download/" target="_blank" title="Descargar Opera en español"><img id="" src="<?= LINKS_URL ?>/images/extra/opera.png"/></a>
+      </div>
+  </div>
+  <![endif]-->
 
-<!--<a id='google-login' class="js-google-login" href="#"><?= $this->tr("Entrar por google") ?></a>-->
-<!--<a id='facebook-login' class="js-facebook-login" href="#"><?= $this->tr("Entrar por facebook") ?></a>-->
-<!--<a href="<?= $this->url($register) ?>" class="js-fancy-register"> Register</a>-->
-<!--<a  href="<?= $this->url($login) ?>" class="js-fancy-login">Usa tu cuenta de correo</a>-->
 
-<!--::::::::::::::::::::::::::::::::::::::::
-               L O G I N             
-:::::::::::::::::::::::::::::::::::::::::-->
-<div id="login-form" style="display: none;">
-    <?php echo $this->render('partials/loginForm.phtml'); ?>
-    <div class="separation-transparent-10px"></div>
-    <div id="loginForm" class="response"></div>
-    <div class="separation-transparent-10px"></div>
-</div>
-<div id="register-form" style="display: none;">
-    <div class="response"></div>
-    <?php echo $this->render('partials/registerForm.phtml'); ?>
-</div>
-<div id="recover-password-form" style="display: none;">
-    <div class="response"></div>
-    <?php echo $this->render('partials/recoverPassForm.phtml'); ?>
-    <div class="separation-transparent-10px"></div>
-</div>
 
-<!--::::::::::::::::::::::::::::::::::::::::
-               TESTIMONIES
-:::::::::::::::::::::::::::::::::::::::::-->
-<div id="testimonies-container" class="">
-    <div class="testimony">
-        <img class="" src="<?= LINKS_URL ?>/images/testimonies/01.jpg"/>
-        <p class="">
-            Olvídate de las hojas de cálculo.
-        </p>
+    <div class="login-button">
+        <a href="#">
+            <img id="google-login" class="js-google-login" 
+                 src="<?= LINKS_URL ?>/images/login/login-google.png" title="<?= $this->tr("Iniciar sesión con Google") ?>"/>
+        </a>
     </div>
-    <div class="testimony">
-        <img class="" src="<?= LINKS_URL ?>/images/testimonies/02.jpg"/>
-        <p class="">
-            Desperdiciábamos mucho tiempo haciendo el presupuesto del mes, ahora tenemos más tiempo libre.
-        </p>
+    <div class="login-button">
+        <a href="#">
+            <img id="facebook-login" class="js-facebook-login" 
+                 src="<?= LINKS_URL ?>/images/login/login-facebook.png" title="<?= $this->tr("Iniciar sesión con Facebook") ?>"/>
+        </a>
     </div>
-    <div class="testimony">
-        <img class="" src="<?= LINKS_URL ?>/images/testimonies/03.jpg"/>
-        <p class="">
-            Quantups es muy fácil de usar. 
-        </p>
+    <div class="login-button">
+        <a href="#">
+            <img id="mail-login" class="js-fancy-login" 
+                 src="<?= LINKS_URL ?>/images/login/login-mail.png" title="<?= $this->tr("Iniciar sesión con una cuenta de correo") ?>"/>
+        </a>
     </div>
+    <div class="separation-transparent-20px"></div>
+
+    <p id="login-container-promo-text" class="color-white">
+        <?= $this->tr("La forma sencilla, gratuita y segura de controlar tu presupuesto.") ?>
+    </p>
+    <div class="separation-transparent-20px"></div>
+</div> <!--/login-container !-->
+                   
+<div id="wrapper" class="fade-in">
+    <?php $register = array("action" => "register", "controller" => "session", "module" => "public") ?>
+    <?php $login = array("action" => "login", "controller" => "session", "module" => "public") ?>
+
+    <!--<a id='google-login' class="js-google-login" href="#"><?= $this->tr("Entrar por google") ?></a>-->
+    <!--<a id='facebook-login' class="js-facebook-login" href="#"><?= $this->tr("Entrar por facebook") ?></a>-->
+    <!--<a href="<?= $this->url($register) ?>" class="js-fancy-register"> Register</a>-->
+    <!--<a  href="<?= $this->url($login) ?>" class="js-fancy-login">Usa tu cuenta de correo</a>-->
+
+    <!--::::::::::::::::::::::::::::::::::::::::
+                   L O G I N             
+    :::::::::::::::::::::::::::::::::::::::::-->
+    <div id="login-form" style="display: none;">
+        <?php echo $this->render('partials/loginForm.phtml'); ?>
+        <div class="separation-transparent-10px"></div>
+        <div id="loginForm" class="response"></div>
+        <div class="separation-transparent-10px"></div>
+    </div>
+    <div id="register-form" style="display: none;">
+        <div class="response"></div>
+        <?php echo $this->render('partials/registerForm.phtml'); ?>
+    </div>
+    <div id="recover-password-form" style="display: none;">
+        <div class="response"></div>
+        <?php echo $this->render('partials/recoverPassForm.phtml'); ?>
+        <div class="separation-transparent-10px"></div>
+    </div>
+
+    <!--::::::::::::::::::::::::::::::::::::::::
+                   TESTIMONIES
+    :::::::::::::::::::::::::::::::::::::::::-->
+    <div id="testimonies-container" class="">
+        <div class="testimony">
+            <img class="" src="<?= LINKS_URL ?>/images/testimonies/01.jpg"/>
+            <p class="">
+                Olvídate de las hojas de cálculo.
+            </p>
+        </div>
+        <div class="testimony">
+            <img class="" src="<?= LINKS_URL ?>/images/testimonies/02.jpg"/>
+            <p class="">
+                Desperdiciábamos mucho tiempo haciendo el presupuesto del mes, ahora tenemos más tiempo libre.
+            </p>
+        </div>
+        <div class="testimony">
+            <img class="" src="<?= LINKS_URL ?>/images/testimonies/03.jpg"/>
+            <p class="">
+                Quantups es muy fácil de usar. 
+            </p>
+        </div>
+    </div>
+
+    <!--::::::::::::::::::::::::::::::::::::::::
+                   EXTRA INFO
+    :::::::::::::::::::::::::::::::::::::::::-->
+
+    <!--<div id="extra-box-1" class="extra-box color-gray-1 border-color-blue-2 border-style-solid border-width-1px">
+        Extra Box 1
+    </div>
+
+
+
+    <div class="extra-box position-float-clear-both">
+
+        <h3><?= $this->tr("Texto opcional") ?></h3>
+        <p class="color-gray-1"> 
+    <?= $this->tr("Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.") ?>
+        </p> 
+    </div>
+    -->
 </div>
 
-<!--::::::::::::::::::::::::::::::::::::::::
-               EXTRA INFO
-:::::::::::::::::::::::::::::::::::::::::-->
+<div id="bottom-container" class="">
+    <div id="social-media-icons-container" class="">
+        <a href="<?= BASE_URL ?>/index/blog">
+            <img class="social-media-icon opacity-50-percent opacity-on-hover-no-opacity bg-color-transparent" 
+                 src="<?= LINKS_URL ?>/images/social-icons/blog.png" title="<?= $this->tr("Blog") ?>"/>
+        </a>
+        <a href="http://www.facebook.com/Quantups" target="_blank">
+            <img class="social-media-icon opacity-50-percent opacity-on-hover-no-opacity bg-color-transparent" 
+                 src="<?= LINKS_URL ?>/images/social-icons/facebook.png" title="<?= $this->tr("Síguenos en Facebook") ?>"/>
+        </a>
+        <a href="http://www.twitter.com/Quantups" target="_blank">
+            <img class="social-media-icon opacity-50-percent opacity-on-hover-no-opacity bg-color-transparent" 
+                 src="<?= LINKS_URL ?>/images/social-icons/twitter.png" title="<?= $this->tr("Síguenos en Twitter") ?>"/>
+        </a>
+        <a href="http://www.youtube.com/Quantups" target="_blank">
+            <img class="social-media-icon opacity-50-percent opacity-on-hover-no-opacity bg-color-transparent" 
+                 src="<?= LINKS_URL ?>/images/social-icons/youtube.png" title="<?= $this->tr("Canal de Youtube") ?>"/>
+        </a>
 
-<!--<div id="extra-box-1" class="extra-box color-gray-1 border-color-blue-2 border-style-solid border-width-1px">
-    Extra Box 1
+        <a href="http://www.facebook.com/sharer.php?u=http://quantups.com/" target="_blank">
+            <img class="social-media-icon opacity-50-percent opacity-on-hover-no-opacity bg-color-transparent" 
+                 src="<?= LINKS_URL ?>/images/social-icons/facebook-2.png" title="<?= $this->tr("Compartir en Facebook") ?>"/>
+        </a>
+        <a href="https://www.delicious.com/save?url=<?= BASE_URL ?>&title=Quantups%3A%20La%20forma%20sencilla,%20gratuita%20y%20segura%20de%20controlar%20tu%20presupuesto." target="_blank">
+            <img class="social-media-icon opacity-50-percent opacity-on-hover-no-opacity bg-color-transparent" 
+                 src="<?= LINKS_URL ?>/images/social-icons/delicious.png" title="<?= $this->tr("Agregar a Delicious") ?>"/>
+        </a>
+        <a href="http://www.linkedin.com/shareArticle?mini=true&url=http%3A//quantups.com&title=Quantups&summary=La%20forma%20sencilla,%20gratuita%20y%20segura%20de%20controlar%20tu%20presupuesto." target="_blank">
+            <img class="social-media-icon opacity-50-percent opacity-on-hover-no-opacity bg-color-transparent" 
+                 src="<?= LINKS_URL ?>/images/social-icons/linkedin.png" title="<?= $this->tr("Compartir en LinkedIn") ?>"/>
+        </a>
+        <div class="separation-transparent-10px"></div>
+    </div>
+    <div class="bottom-text-container white-space-pre-line color-white bg-color-transparent">
+        <a href="<?= BASE_URL ?>/index/about" class="color-white bg-color-transparent"><?= $this->tr("Acerca de nosotros") ?></a>
+        <a href="<?= BASE_URL ?>/index/terms"  class="color-white bg-color-transparent"><?= $this->tr("Términos y condiciones") ?></a>
+        <a href="<?= BASE_URL ?>/index/join" class="color-white bg-color-transparent"><?= $this->tr("Trabaja con nosotros") ?></a>
+    </div>
+    <div id="copyright" class="bottom-text-container color-white bg-color-transparent">© Quantups 2013</div>
 </div>
-
-
-
-<div class="extra-box position-float-clear-both">
-
-    <h3><?= $this->tr("Texto opcional") ?></h3>
-    <p class="color-gray-1"> 
-<?= $this->tr("Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.") ?>
-    </p> 
-</div>
--->
-
-
-

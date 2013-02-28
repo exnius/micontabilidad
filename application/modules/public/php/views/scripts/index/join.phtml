@@ -1,25 +1,30 @@
-<div id="main-container" class="bg-color-transparency-3 border-color-gray-3 border-style-solid border-width-1px margin-left-right-auto border-radius-10px padding-left-right-20px">
-    <div class="width-60-percent margin-left-right-auto">
-        <h2 class="text-align-center font-size-190-percent color-white">
-            <?= $this->tr("¡Nos gusta tu entusiasmo!") ?>
-        </h2> 
-        <div class="text-align-center">
-            <img src="<?= LINKS_URL ?>/images/photos/coffee.JPG" 
-                 class="width-100-percent margin-top-25px margin-bottom-10px border-radius-15px"/>
-        </div> 
-        <p class="color-white">
-            <?= $this->tr("Quantups es una aplicación en crecimiento, por lo cual creemos que el apoyo de otros profesionales será de gran utilidad; sin embargo, en este momento no hay disponibilidad para nuevos miembros.") ?>
-        </p> 
-        <p class="font-size-110-percent color-white">
-            <?= $this->tr("Agradecemos tu interés por unirte a nuestro equipo, así que si deseas que tu hoja de vida esté en nuestro archivo para futuros requerimientos, puedes escribirnos a") ?>&nbsp;
-            <a href="mailto:join@quantups.com" class="color-white">join@quantups.com</a> <?= $this->tr("siguiendo este formato:") ?>
-        </p>
+<?php echo $this->render('partials/anotherTop.phtml'); ?>
+<div id="wrapper" class="fade-in">
+    <div id="main-container" class="bg-color-transparency-3 border-color-gray-3 border-style-solid border-width-1px margin-left-right-auto border-radius-10px padding-left-right-20px">
+        <div class="width-60-percent margin-left-right-auto">
+            <h2 class="text-align-center font-size-190-percent color-white">
+                <?= $this->tr("¡Nos gusta tu entusiasmo!") ?>
+            </h2> 
+            <div class="text-align-center">
+                <img src="<?= LINKS_URL ?>/images/photos/coffee.JPG" 
+                     class="width-100-percent margin-top-25px margin-bottom-10px border-radius-15px"/>
+            </div> 
+            <p class="color-white">
+                <?= $this->tr("Quantups es una aplicación en crecimiento, por lo cual creemos que el apoyo de otros profesionales será de gran utilidad; sin embargo, en este momento no hay disponibilidad para nuevos miembros.") ?>
+            </p> 
+            <p class="font-size-110-percent color-white">
+                <?= $this->tr("Agradecemos tu interés por unirte a nuestro equipo, así que si deseas que tu hoja de vida esté en nuestro archivo para futuros requerimientos, puedes escribirnos a") ?>&nbsp;
+                <a href="mailto:join@quantups.com" class="color-white">join@quantups.com</a> <?= $this->tr("siguiendo este formato:") ?>
+            </p>
 
-        <div class="mono-text white-space-pre-line color-white margin-bottom-20px">
-            <?= $this->tr("Asunto: <Área profesional>
-            Contenido: Perfil ocupacional
-            Archivo adjunto: Hoja de vida en formato PDF") ?>
-        </div> 
-        <div class="separation-transparent-30px"></div>
+            <div class="mono-text white-space-pre-line color-white margin-bottom-20px">
+                <?= $this->tr("Asunto: <Área profesional>
+                Contenido: Perfil ocupacional
+                Archivo adjunto: Hoja de vida en formato PDF") ?>
+            </div> 
+            <div class="separation-transparent-30px"></div>
+        </div>
     </div>
 </div>
+
+<?php echo $this->render('partials/anotherBottom.phtml'); ?>
