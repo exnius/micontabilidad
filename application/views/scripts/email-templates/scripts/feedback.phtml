@@ -1,0 +1,19 @@
+<?php
+$items = explode('*-', $this->extra);
+if ($this->mailVersion == 'text') {
+    echo "Feedback\n\n";
+    foreach ($items as $item) {
+        echo $item . "\n";
+    }
+} elseif ($this->mailVersion == 'html') {?>
+    Feedback
+    <br>
+    <br>
+    <?php
+    foreach ($items as $item) {
+        echo $item;
+        ?> 
+        <br> <?php }
+}
+?>
+
