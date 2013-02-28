@@ -15,7 +15,6 @@
     <head>
         <?php echo $this->render('headLinks.phtml'); ?>
         <link rel="stylesheet" type="text/css" href="<?= LINKS_URL ?>/css/public/index.css"/>
-        
     </head>
 
     <body class="public">
@@ -25,5 +24,24 @@
             <img src="<?= LINKS_URL ?>/images/buttons/twit-gift.png" id="button-twit-gift" class="fixed-bar transition-3s opacity-95-percent opacity-on-hover-no-opacity bg-color-transparent"/>
         </a>
         <?= $this->layout()->content; ?>
+        
+        <!--::::::::::::::::::::::::::::::::::::::::
+               L O G I N             
+        :::::::::::::::::::::::::::::::::::::::::-->
+        <div id="login-form" style="display: none;">
+            <?php echo $this->render('partials/loginForm.phtml'); ?>
+            <div class="separation-transparent-10px"></div>
+            <div id="loginForm" class="response"></div>
+            <div class="separation-transparent-10px"></div>
+        </div>
+        <div id="register-form" style="display: none;">
+            <div class="response"></div>
+            <?php echo $this->render('partials/registerForm.phtml'); ?>
+        </div>
+        <div id="recover-password-form" style="display: none;">
+            <div class="response"></div>
+            <?php echo $this->render('partials/recoverPassForm.phtml'); ?>
+            <div class="separation-transparent-10px"></div>
+        </div>
     </body>
 </html>

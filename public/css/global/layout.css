@@ -1,11 +1,11 @@
-#testimonies-container
+.public #info-boxes-container
 {
     margin: 10px;
     padding: 10px;
     text-align: center;
 }
 
-.testimony
+.public .info-box
 {
     display: inline-block;
     width: 23%;
@@ -19,12 +19,12 @@
     background-color: #fff;
     vertical-align: top;
 }
-.testimony img
+.public .info-box img
 {
     width: 100%;
     border: solid 1px #1a1a1a;
 }
-.testimony p
+.public .info-box p
 {
     color: #3d3d3d !important;
     font-size: 1.3em;
@@ -59,7 +59,7 @@ body.public
     min-width: 100%;
 }
 
-#login-container
+.public #login-container
 { 
     /*position: relative;*/
     bottom: 0;
@@ -79,7 +79,7 @@ body.public
     color: rgba(0, 0, 0, 0.7);
     background-color: rgba(0, 0, 0, 0.7);
 }
-#login-container #logo
+.public #login-container #logo
 {
     position: relative;
     margin: 50px auto 30px auto;
@@ -87,7 +87,7 @@ body.public
     width: 67%;
     min-width: 400px;
 }
-#login-container .login-button
+.public #login-container .login-button
 {
     display: block;
     width: 45%;
@@ -99,14 +99,14 @@ body.public
     -moz-transition: all 0.5s ease-in-out;   
 }
 
-#login-container .login-button img
+.public #login-container .login-button img
 {
     width: 100%;
 }
 
-#login-container .login-button:hover,
-#login-container .login-button:focus,
-#login-container .login-button:active
+.public #login-container .login-button:hover,
+.public #login-container .login-button:focus,
+.public #login-container .login-button:active
 {
     width: 50%;
     min-width: 250px;
@@ -114,13 +114,13 @@ body.public
     border: 0;
     outline: 0;
 }
-#loginForm.response
+.public #loginForm.response
 {
     text-align: center;
     color: #D95252;
     font-weight: bold;
 }
-#login-container-promo-text
+.public #login-container-promo-text
 {
     /*margin: 10*/
     position: relative;
@@ -205,7 +205,7 @@ body.public
     height: 100%;
 }
 
-#top-bar #login-container-secondary
+.public #top-bar #login-container-secondary
 {
     position: absolute;
     top: 0;
@@ -213,7 +213,7 @@ body.public
     height: 126px;
     overflow: hidden;
 }
-#top-bar .login-button
+.public #top-bar .login-button
 {
     position: relative;
     right: -177px;
@@ -221,8 +221,8 @@ body.public
     width: 210px;
     margin: 3px 0;
 }
-#top-bar .login-button:hover, 
-#top-bar .login-button:focus
+.public #top-bar .login-button:hover, 
+.public #top-bar .login-button:focus
 {
     right: 0;
     width: 215px;
@@ -264,7 +264,7 @@ body.public
     color: rgba(0, 0, 0, 0.6);
 }
 /*Social media icons*/
-.public #social-media-icons-container {
+.public #bottom-container-secondary #social-media-icons-container {
     margin: 5px auto;
     vertical-align: middle;
 } 
@@ -298,7 +298,7 @@ body.public
 {
     bottom: 0;
 }
-#bottom-container-secondary #social-media-icons-container
+.public #bottom-container-secondary #social-media-icons-container
 {
     position: fixed;
     left: 0;
@@ -308,13 +308,13 @@ body.public
     /*background-color: #0A98BF;*/
     z-index: 910;
 }
-.public #bottom-container-secondary img
+.public #bottom-container-secondary .social-media-icon
 {
     display: block;
     width: 20px;
     padding: 4px;
 }
-.public #bottom-container-secondary img:hover
+.public #bottom-container-secondary .social-media-icon:hover
 {
     display: block;
     width: 34px;
