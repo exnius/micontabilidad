@@ -52,6 +52,7 @@ $(document).ready(function(){
                     this.form = document.getElementById("register-form");
                 },
                 'onClosed' : function(){
+                    $(this.form).find(".QapTcha").html("");
                     onClose(this.form);
                     var nAddFrag = document.createDocumentFragment();
                     nAddFrag.appendChild(this.form);
@@ -76,10 +77,14 @@ function onRegisterStart ($div){
     });
     
     $div.find("#login-form input[name='full_name']").focus();
+    $div.find('.QapTcha').QapTcha();
+    
     
     //REGISTER SUBMIT
     $div.find("form").submit(function(){
-        if(Contabilidad.Validate.isValid($(this))){
+        $div.find(".response").html("").removeClass("*").hide();
+        var isValid = Contabilidad.Validate.isValid($(this));
+        if(isValid && $("body").data("isHuman")){
             var data = {};
             $(this).find("input").each(function(){
                 data[$(this).attr("name")] = $(this).val();
@@ -91,12 +96,15 @@ function onRegisterStart ($div){
                     if(resp.reason == EMAIL_ALREADY_REGISTERED){
                         $div.find(".response")
                         .addClass("error")
-                        .html(Contabilidad.tr("Ya existe una cuenta con la dirección de correo proporcionada."));
+                        .html(Contabilidad.tr("Ya existe una cuenta con la dirección de correo proporcionada."))
+                        .show();
                     }
                 }
             }}).register(data);
-        } else {
-            findAndDisplayErrors($(this).parent());
+        } else if(!isValid) {
+            findAndDisplayErrors($div);
+        } else if(!$("body").data("isHuman")) {
+            $div.find(".response").addClass("error").html(Contabilidad.tr("Por favor validate como humano.")).show();
         }
         return false;
     });
@@ -245,7 +253,7 @@ function findAndDisplayErrors($form)
         }
         return;
     });
-    $form.find(".response").html(errors[0].message).show();
+    $form.find(".response").addClass("error").html(errors[0].message).show();
 }
 
 //set rules to an input
