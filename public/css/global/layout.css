@@ -94,9 +94,9 @@ body.public
     min-width: 220px;
     max-width: 320px;
     margin: 10px auto;
-    transition: all 0.5s ease-in-out;
-    -webkit-transition: all 0.5s ease-in-out;
-    -moz-transition: all 0.5s ease-in-out;   
+    transition: all 0.2s ease-in-out;
+    -webkit-transition: all 0.2s ease-in-out;
+    -moz-transition: all 0.2s ease-in-out;   
 }
 
 .public #login-container .login-button img
@@ -279,7 +279,13 @@ body.public
     line-height: 1.3em;
     margin: 0 auto 10px auto;
 }
+.public .bottom-text-container a:hover {
+        -webkit-transition: all 0.2s ease-in-out;
+        -moz-transition: all 0.2s ease-in-out;   
+         transition: all 0.2s ease-in-out;
+}
 
+/*
 .public #bottom-container-secondary
 {
     position:fixed;
@@ -297,7 +303,7 @@ body.public
 .public #bottom-container-secondary:hover
 {
     bottom: 0;
-}
+}*/
 .public #bottom-container-secondary #social-media-icons-container
 {
     position: fixed;
