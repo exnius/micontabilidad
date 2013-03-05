@@ -10,7 +10,7 @@
             "id" => $account->id,
             "accountUrl" => $this->createUrl("account", $account),
             "name" => $account->name,
-            "benefit" => $account->benefit,
+            "benefit" => $this->currencyValue($account->benefit, $account->id_currency),
             "date_ini" => Contabilidad_Utils_Dates::toDate($account->date_ini),
             "date_end" => Contabilidad_Utils_Dates::toDate($account->date_end),
             "picture_url" => $account->picture_url
