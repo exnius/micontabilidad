@@ -10,7 +10,7 @@
             "picture_url" => $this->account->getPictureUrl()
         ));?>
     <?=$this->count?> transacciones
-    <p>Beneficio a la fecha: <span class="account-current-benefit"><?= $this->currentBenefit ?></span></p>
+    <p>Beneficio a la fecha: <span class="account-current-benefit"><?= $this->currencyValue($this->currentBenefit, $this->account->id_currency) ?></span></p>
 </div>
 <a href="#" id="add-income" class="add-transaction" onclick="return false;">Adicionar ingresos</a>
 <br>
