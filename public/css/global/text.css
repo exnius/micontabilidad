@@ -4,13 +4,13 @@
 
 p 
 {
-    color: #1a1a1a !important; 
+    color: #1a1a1a; 
 }
 p a:link, 
 p a:visited 
 {
     /*    background-color: #7FD5FB !important;*/
-    color: #333333 !important;
+    color: #333333;
     padding: 2px 3px;
     text-decoration: underline;
     /*outline: 2px #878585 dotted;*/
@@ -20,8 +20,8 @@ p a:active,
 p a:focus 
 {
     padding: 2px 3px;
-    color: #F7F2F2 !important;
-    background-color: #0998BF !important;
+    color: #F7F2F2;
+    background-color: #0998BF;
 }
 
 
@@ -186,7 +186,7 @@ p
 
 
 /*Copyright hover*/
-#copyright:hover {font-size: 105%;}
+#copyright:hover {font-size: 110%;}
 
 /*Align*/
 .text-align-left {text-align: left;}

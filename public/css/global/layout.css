@@ -247,6 +247,10 @@ body.public
     z-index: 5;
 }
 /* Bottom*/
+.public #bottom-container #social-media-icons-container li
+{
+    display: inline-block;  
+}
 .public #bottom-container 
 {
     clear: both;
@@ -276,8 +280,13 @@ body.public
 }
 .public .bottom-text-container {
     font-size: .87em; 
-    line-height: 1.3em;
     margin: 0 auto 10px auto;
+    line-height: 1.8em;
+}
+.public .bottom-text-container li
+{
+    display: block;  
+    margin: 0;
 }
 .public .bottom-text-container a:hover {
         -webkit-transition: all 0.2s ease-in-out;

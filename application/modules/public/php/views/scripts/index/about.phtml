@@ -1,61 +1,64 @@
 <?php echo $this->render('partials/anotherTop.phtml'); ?>
 <div id="wrapper" class="fade-in">
-    <div class="bg-color-transparency-3 border-color-gray-3 border-style-solid border-width-1px margin-left-right-auto border-radius-10px">
+    <article class="bg-color-transparency-3 margin-left-right-auto padding-10px">
 
-        <h2 class="text-align-center font-size-190-percent color-white">
+        <h1 class="text-align-center font-size-190-percent color-white">
             <?= $this->tr("El equipo Quantups") ?>
-        </h2> 
-        <div class="text-align-center">
+        </h1> 
+
+        <!--Team photo-->
+        <figure class="text-align-center">
             <img src="<?= LINKS_URL ?>/images/team/team.jpg" 
-                 class="width-75-percent margin-top-25px margin-bottom-10px border-radius-15px"/>
-        </div> 
+                 class="width-75-percent margin-top-25px margin-bottom-10px border-radius-5px"/>
+        </figure> 
+        <div class="separation-transparent-30px"></div>
 
-        <div class="position-float-clear-both separation-transparent-20px"></div>
-        <div class="position-float-clear-both separation-transparent-20px"></div>
-        <div id="team">
-            <div id="andres" class="team-member">
-                <img src="<?= LINKS_URL ?>/images/team/team-1.png"/>
-                <div class="position-float-clear-both separation-transparent-20px"></div>
-                <div class="font-bold font-size-130-percent color-gray-1">
+        <!--Team members-->
+        <ol id="team">
+            <li id="andres" class="team-member">
+                <figure>
+                    <img src="<?= LINKS_URL ?>/images/team/team-1.png"/>
+                </figure>
+                <h3>
                     Andres Peña Carmona
-                </div> 
-                <p class="color-gray-1">
-                    <?= $this->tr("Director de proyecto.") ?>
+                </h3> 
+                <p>
+                    <?= $this->tr("Dirección de proyecto y desarrollo web.") ?>
                 </p>
                 <p>
-                    <a href="#" target="_blank" class="color-gray-1">Portafolio</a>
+                    <a href="https://twitter.com/andrewsxx" target="_blank">@andrewsxx</a>
                 </p>
-            </div>
-
-            <div id="helman" class="team-member">
-                <img src="<?= LINKS_URL ?>/images/team/team-1.png"/>
-                <div class="position-float-clear-both separation-transparent-20px"></div>
-                <div class="font-bold font-size-130-percent color-gray-1">
-                    Helman Rodríguez
-                </div> 
-                <p class="color-gray-1">
-                    <?= $this->tr("Desarrollador") ?>
+            </li>
+            <li id="helman" class="team-member">
+                <figure>
+                    <img src="<?= LINKS_URL ?>/images/team/team-1.png"/>
+                </figure>
+                <h3>
+                     Helman Rodríguez
+                </h3> 
+                <p>
+                    <?= $this->tr("Desarrollo web y base de datos.") ?>
                 </p>
                 <p>
-                    <a href="#" target="_blank" class="color-gray-1">Portafolio</a>
+                    <a href="https://twitter.com/HelmanRL" target="_blank">@HelmanRL</a>
                 </p>
-            </div>
+            </li>
 
-            <div id="exnius" class="team-member">
-                <img src="<?= LINKS_URL ?>/images/team/team-1.png"/>
-                <div class="position-float-clear-both separation-transparent-20px"></div>
-                <div class="font-bold font-size-130-percent color-gray-1">
-                    Exnius
-                </div> 
-                <p class="color-gray-1">
-                    <?= $this->tr("Diseñador de interfaz.") ?>
+            <li id="exnius" class="team-member">
+                <figure>
+                    <img src="<?= LINKS_URL ?>/images/team/team-1.png"/>
+                </figure>
+                <h3>
+                     Fernando Caicedo Albarello
+                </h3> 
+                <p>
+                    <?= $this->tr("Diseño de interfaz y de experiencia de usuario.") ?>
                 </p>
                 <p>
-                    <a href="#" target="_blank" class="color-gray-1">Portafolio</a>
+                    <a href="https://twitter.com/exniu" target="_blank">@exnius</a>
                 </p>
-            </div>
-
-            <div class="position-float-clear-both separation-transparent-20px"></div>
-        </div>
-    </div>
+            </li>
+        </ol>
+        <div class="position-float-clear-both separation-transparent-20px"></div>
+    </article>
 </div>

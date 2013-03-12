@@ -5,7 +5,7 @@ class Contabilidad_Helper_Tr {
     function tr(){
         $args = func_get_args();
         if(count($args) == 1){
-            return $args[0];
+            return $args[0].'(Traducido)';
         } else {
             $return = $args[0];
             $vars = array_slice($args, 1);
@@ -13,7 +13,7 @@ class Contabilidad_Helper_Tr {
             {
                 $return = preg_replace('/%s/', $vars[$i], $return, 1);
             }
-            return $return;
+            return $return.'(Traducido)';
         }
     }
 }
