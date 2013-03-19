@@ -19,11 +19,13 @@
     background-color: #fff;
     vertical-align: top;
 }
+
 .public .info-box img
 {
     width: 100%;
     border: solid 1px #1a1a1a;
 }
+
 .public .info-box p
 {
     color: #3d3d3d !important;
@@ -36,17 +38,14 @@
 /*••••••••••••••••••••••••••••••••••••••••••••••••••••
                       GLOBAL                        
 •••••••••••••••••••••••••••••••••••••••••••••••••••••*/ 
-
 #wrapper
 {
     position: relative; 
-
 }
 
 /*••••••••••••••••••••••••••••••••••••••••••••••••••••*/ 
 /*                      PUBLIC                        */
 /*••••••••••••••••••••••••••••••••••••••••••••••••••••*/ 
-
 body.public
 {
     clear: both;
@@ -79,6 +78,7 @@ body.public
     color: rgba(0, 0, 0, 0.7);
     background-color: rgba(0, 0, 0, 0.7);
 }
+
 .public #login-container #logo
 {
     position: relative;
@@ -87,6 +87,7 @@ body.public
     width: 67%;
     min-width: 400px;
 }
+
 .public #login-container .login-button
 {
     display: block;
@@ -114,12 +115,14 @@ body.public
     border: 0;
     outline: 0;
 }
+
 .public #loginForm.response
 {
     text-align: center;
     color: #D95252;
     font-weight: bold;
 }
+
 .public #login-container-promo-text
 {
     /*margin: 10*/
@@ -131,6 +134,7 @@ body.public
     line-height: 1.2em;
     text-shadow: 4px 4px 10px rgba(0, 2, 0, 1);
 }
+
 .public #browsers
 {
     border: 1px #fff dashed;
@@ -153,6 +157,7 @@ body.public
     font-weight: bolder;
     letter-spacing: .3em;
 }
+
 .public #browsers #browsers-text /*Paragraph*/
 {
     padding: 22px 6%;
@@ -213,6 +218,7 @@ body.public
     height: 126px;
     overflow: hidden;
 }
+
 .public #top-bar .login-button
 {
     position: relative;
@@ -221,6 +227,7 @@ body.public
     width: 210px;
     margin: 3px 0;
 }
+
 .public #top-bar .login-button:hover, 
 .public #top-bar .login-button:focus
 {
@@ -229,28 +236,34 @@ body.public
     z-index:900;
 }
 
-.public #button-twit-gift {
+.public #button-twit-gift 
+{
     top: 40% !important;
     right: 0px;
     width: 26px !important;
     z-index: 140;
 }
-.public #button-twit-gift:hover {
+
+.public #button-twit-gift:hover 
+{
     width: 30px !important;
     z-index: 140;
 }
 
-.public #wrapper {
+.public #wrapper 
+{
     max-width: 1920px;
     min-height: 100%;
     margin: 20px;
     z-index: 5;
 }
+
 /* Bottom*/
 .public #bottom-container #social-media-icons-container li
 {
     display: inline-block;  
 }
+
 .public #bottom-container 
 {
     clear: both;
@@ -267,31 +280,42 @@ body.public
     background: rgba(0, 0, 0, 0.6);
     color: rgba(0, 0, 0, 0.6);
 }
+
 /*Social media icons*/
-.public #bottom-container-secondary #social-media-icons-container {
+.public #bottom-container-secondary #social-media-icons-container 
+{
     margin: 5px auto;
     vertical-align: middle;
-} 
-.public .social-media-icon {
+}
+
+.public .social-media-icon 
+{
     width: 40px;
     padding: 7px;
 }
-.public .social-media-icon:hover {
+
+.public .social-media-icon:hover 
+{
 }
-.public .bottom-text-container {
+
+.public .bottom-text-container 
+{
     font-size: .87em; 
     margin: 0 auto 10px auto;
     line-height: 1.8em;
 }
+
 .public .bottom-text-container li
 {
     display: block;  
     margin: 0;
 }
-.public .bottom-text-container a:hover {
-        -webkit-transition: all 0.2s ease-in-out;
-        -moz-transition: all 0.2s ease-in-out;   
-         transition: all 0.2s ease-in-out;
+
+.public .bottom-text-container a:hover 
+{
+    -webkit-transition: all 0.2s ease-in-out;
+    -moz-transition: all 0.2s ease-in-out;   
+    transition: all 0.2s ease-in-out;
 }
 
 /*
@@ -313,6 +337,7 @@ body.public
 {
     bottom: 0;
 }*/
+
 .public #bottom-container-secondary #social-media-icons-container
 {
     position: fixed;
@@ -323,12 +348,14 @@ body.public
     /*background-color: #0A98BF;*/
     z-index: 910;
 }
+
 .public #bottom-container-secondary .social-media-icon
 {
     display: block;
     width: 20px;
     padding: 4px;
 }
+
 .public #bottom-container-secondary .social-media-icon:hover
 {
     display: block;
@@ -361,4 +388,41 @@ body.public
     background: -ms-linear-gradient(top,  rgba(195,233,240,0.94) 0%,rgba(196,233,240,0.94) 1%,rgba(255,255,255,0.94) 100%); /* IE10+ */
     background: linear-gradient(to bottom,  rgba(195,233,240,0.94) 0%,rgba(196,233,240,0.94) 1%,rgba(255,255,255,0.94) 100%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f0c3e9f0', endColorstr='#f0ffffff',GradientType=0 ); /* IE6-8 */
+}
+
+.private #top-bar
+{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 63px;
+}
+
+.private #logo
+{
+    position: relative;
+    height: 40px;
+    padding: 10px; 
+}
+
+.private .top-line
+{
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    bottom: 1px;
+    background-color: #0A98BF;
+}
+
+#logout-button 
+{
+    display: inline;
+}
+
+.private #wrapper 
+{
+    min-height: 100%;
+    margin: 0px;
+    padding: 10px;
+    background-color: #0A98BF;
 }
