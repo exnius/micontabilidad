@@ -395,12 +395,15 @@ body.public
     position: fixed;
     top: 0;
     width: 100%;
-    height: 63px;
+    height: 61px;
+    z-index: 100;
 }
 
 .private #logo
 {
-    position: relative;
+    position: absolute;
+    top:0;
+    left: 0;
     height: 40px;
     padding: 10px; 
 }
@@ -409,14 +412,18 @@ body.public
 {
     position: absolute;
     width: 100%;
-    height: 3px;
+    height: 2px;
     bottom: 1px;
     background-color: #0A98BF;
 }
 
 #logout-button 
 {
-    display: inline;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 40px;
+    padding: 10px; 
 }
 
 .private #wrapper 
@@ -424,5 +431,5 @@ body.public
     min-height: 100%;
     margin: 0px;
     padding: 10px;
-    background-color: #0A98BF;
+    background-color: #63C2E0;
 }

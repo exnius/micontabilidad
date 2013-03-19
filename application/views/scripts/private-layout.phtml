@@ -25,7 +25,10 @@
                 <img id="logo" class="bg-color-transparent" src="<?= LINKS_URL ?>/images/logo.png"/>
             </a>
             <div id="logout-button">
-                <a href="<?= BASE_URL . "/logout" ?>">Cerrar sesión</a>
+                <a href="<?= BASE_URL . "/logout" ?>">
+                <h6><?= $this->tr("Cerrar sesión")?></h6>
+                <img src="" alt="<?= $this->tr("Cerrar sesión")?>" id="logout-button-image" />
+                </a>
             </div>
             <div id="profile-button">
                 <a href="<?= BASE_URL . "/profile" ?>" accesskey="p"><?= $this->tr("Mi perfil") ?></a>
