@@ -1,23 +1,66 @@
 <?php
-    $recoverUrl = $this->user->getRecoverPassUrl();
+$recoverUrl = $this->user->getRecoverPassUrl();
 ?>
-<?php if($this->mailVersion == 'text'){
+<?php
+if ($this->mailVersion == 'text') {
 
     echo "Hola" . " " . $this->user->full_name . ",";
     echo "\n\n";
-    echo "este es tu password:" . " '" . $this->password ."'";
+    echo "este es tu password:" . " '" . $this->password . "'";
     echo "\n";
     echo "si quieres cambiar tu contraseña ve a este link:";
     echo $recoverUrl;
-} elseif($this->mailVersion == 'html') {?>
-    Hola <?php echo $this->user->full_name; ?>,
-    </br>
-    </br>
-    este es tu password: <?php echo $this->password; ?>
-    </br>
-    si quieres cambiar tu contraseña ve a este link:
-    </br>
-    <a href="<?php echo $recoverUrl; ?>"><?php echo $recoverUrl; ?></a>
-<?php }?>
-    
-(<?php echo $this->mailVersion; ?>)
+} elseif ($this->mailVersion == 'html') {
+    ?>
+
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <title>
+                Quantups es para ti
+            </title>
+
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        </head> 
+
+        <body>
+            <div style="padding:0; margin: 0; width: 650px; border: 1px #1A1A1A solid; background-color: #F0F9FB; font-family: ubuntu, helvetica, sans serif; font-family: 'ubuntu', 'helvetica', 'sans serif'; text-align: justify;">
+                <img src="images/emails/header.png" style="width: 100%"/>
+                <div style="width: 90%; padding: 0 5%;">
+
+                    <h3>
+                        Hola, <?php echo $this->user->full_name; ?>
+                    </h3>
+                    <p>
+                        Te damos la bienvenida a nuestra aplicación web. Nos alegra mucho que uses <a href="http://www.quantups.com/" target="_blank">Quantups</a>. 
+                        Esperamos que disfrutes de nuestro servicio. 
+                    </p>
+                    <p style="margin-bottom: 4ex;">
+                        Estos son tus datos de ingreso, en caso de que tengas algún problema para ingresar con tu cuenta de Facebook o Google:
+                    </p>
+                    <div style="margin: auto; width: 90%; border: 1px #1A1A1A dashed; font-family: 'Courier New', Courier, monospace; text-align: left;"> 
+                        <p>&nbsp; Correo electrónico: <?php echo $this->user->email; ?></p>
+                        <p>&nbsp; Contraseña: <?php echo $this->user->password; ?></p>
+                    </div>
+                    <p style="margin-top: 4ex; font-weight: bold">
+                        Te informamos que esta contraseña fue creada aleatoriamente. Te recomendamos cambiarla, por medio de este link: <a href="<?php echo $recoverUrl; ?>"><?php echo $recoverUrl; ?></a>
+                    </p>
+                    <p>
+                        Recuerda que para nosotros es muy importante tu opinión, al igual que tus sugerencias sobre futuras implementaciones y mejoras para la aplicación. 
+                        Estaremos atentos a tus mensajes, bien sea que los envíes a través de 
+                        <a href="https://twitter.com/Quantups">Twitter</a>
+                        de nuestra página pública de <a href="https://facebook.com/Quantups">Facebook</a>, 
+                        o directamente a nuestro buzón de contacto: <a href="mailto:contact@quantups.com">contact@quantups.com</a>.
+                    </p>
+                    <p>
+                        Atentamente, 
+                    </p>
+                    <h4>
+                        El equipo Quantups
+                    </h4>
+                </div>
+                <img src="images/emails/footer.png" style="width: 100%"/>
+            </div>
+        </body>
+    <?php } ?>
+    (<?php echo $this->mailVersion; ?>)

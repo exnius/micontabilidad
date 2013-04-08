@@ -1,13 +1,53 @@
-<?php if($this->mailVersion == 'text'){
+<?php
+if ($this->mailVersion == 'text') {
 
     echo "Hola" . " " . $this->user->full_name . ",";
     echo "\n\n";
     echo "Bienvenido a Quantups";
-} elseif($this->mailVersion == 'html') {?>
-    Hola <?php echo $this->user->full_name; ?>,
-    </br>
-    </br>
-    Bienvenido a Quantups
-<?php }?>
-    
-(<?php echo $this->mailVersion; ?>)
+} elseif ($this->mailVersion == 'html') {
+    ?>
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <title>
+                Quantups es para ti
+            </title>
+
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        </head> 
+
+        <body>
+            <div style="padding:0; margin: 0; width: 650px; border: 1px #1A1A1A solid; background-color: #F0F9FB; font-family: ubuntu, helvetica, sans serif; font-family: 'ubuntu', 'helvetica', 'sans serif'; text-align: justify;">
+                <img src="images/emails/header.png" style="width: 100%"/>
+                <div style="width: 90%; padding: 0 5%;">
+
+                    <h3>
+                        Hola, <?php echo $this->user->full_name; ?>
+                    </h3>
+                    <p>
+                        Te damos la bienvenida a nuestra aplicación web. Nos alegra mucho que uses <a href="http://www.quantups.com/" target="_blank">Quantups</a>. Esperamos que disfrutes de nuestro servicio. 
+                    </p>
+                    <p>
+                        Para nosotros es muy importante tu opinión, al igual que tus sugerencias sobre futuras implementaciones y mejoras para la aplicación. 
+                        Estaremos atentos a tus mensajes, bien sea que los envíes a través de <a href="https://twitter.com/Quantups">Twitter</a>, de nuestra página pública de <a href="https://facebook.com/Quantups">Facebook</a> 
+                        o directamente a nuestro buzón de contacto: <a href="mailto:contact@quantups.com">contact@quantups.com</a>.
+                    </p>
+                    <p>
+                        Atentamente, 
+                    </p>
+
+                    <h4>
+                        El equipo Quantups
+                    </h4>
+                </div>
+                <img src="images/emails/footer.png" style="width: 100%"/>
+            </div>
+
+            <h3>Mensaje en caso de login por Facebook o Google</h3>
+
+
+        </body>
+
+    <?php } ?>
+
+    (<?php echo $this->mailVersion; ?>)
