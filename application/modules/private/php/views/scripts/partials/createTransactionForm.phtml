@@ -17,7 +17,7 @@
     <p><?=$this->tr("Valor")?></p>
     <input type="text" name="value" class="required money">
     <p><?=$this->tr("Fecha")?></p>
-    <input type="text" name="date" class="date" readonly="true">
+    <input type="text" name="date" class="date">
     <?php if(!$this->account->is_independent){ ?>
         <p>
             <input id="is_frequent" type="checkbox" name="is_frequent"/>
