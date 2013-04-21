@@ -5,7 +5,7 @@
 
         <title><?= $this->title ?></title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
-        <link rel="shortcut icon" href="<?= BASE_URL ?>/assets/layouts/img/favicon.png" />
+        <link rel="shortcut icon" href="<?= BASE_URL ?>/images/icons/favicon.png" />
 
         <?php echo $this->render('headLinks.phtml'); ?>
         <script src="<?= LINKS_URL ?>/js/feedbacks.js" language="javascript" type="text/javascript"></script>
@@ -22,16 +22,15 @@
 
         <div id="top-bar" class="bg-color-fixed-bars-2">
             <a href="<?= BASE_URL ?>" title="Quantups">
-                <img id="logo" class="bg-color-transparent" src="<?= LINKS_URL ?>/images/logo.png"/>
+                <img id="logo" class="bg-color-transparent" src="<?= LINKS_URL ?>/images/logo.svg"/>
             </a>
             <div id="logout-button">
-                <a href="<?= BASE_URL . "/logout" ?>">
-                <h6><?= $this->tr("Cerrar sesión")?></h6>
-                <img src="" alt="<?= $this->tr("Cerrar sesión")?>" id="logout-button-image" />
-                </a>
-            </div>
-            <div id="profile-button">
-                <a href="<?= BASE_URL . "/profile" ?>" accesskey="p"><?= $this->tr("Mi perfil") ?></a>
+                <p class="color-white">
+                    <a href="<?= BASE_URL . "/profile" ?>" accesskey="p"><?= $this->tr("Perfil") ?></a>
+                    &nbsp;|&nbsp;
+                    <a href="<?= BASE_URL . "/logout" ?>"><?= $this->tr("Cerrar sesión") ?></a> 
+                </p>
+
             </div>
             <div class="top-line"></div>
         </div>
@@ -50,6 +49,13 @@
             </script>
             <span id="js-time" style="display: none;"><?= time(); ?></span>
         </div>
-
+        <div id="buttons-container">
+            <a href="#" onclick="window.open('https://twitter.com/intent/tweet?&text=Ahora%20uso%20%23Quantups%20y%20puedo%20controlar%20super%20fácil%20mi%20dinero.%20Entra%20a%20www.quantups.com%20y%20síguelos%20en%20%40Quantups', 'Twitter', 'device-width=10', 'height=5', 'status=no', 'scrollbars=no', 'toolbars=no', 'menubar=no', 'direction=no', 'location=no'); return false;">
+                <img src="<?= LINKS_URL ?>/images/buttons/twit-gift.png" id="button-twit-gift" class="transition-3s opacity-95-percent opacity-on-hover-no-opacity bg-color-transparent"/>
+            </a>
+            <a href="#" class="wv-js-feedbacks">
+                <img src="<?= LINKS_URL ?>/images/buttons/message.png" id="button-message" class="transition-3s opacity-95-percent opacity-on-hover-no-opacity bg-color-transparent"/>
+            </a>
+        </div>
     </body>
 </html>

@@ -408,6 +408,18 @@ body.public
     padding: 10px; 
 }
 
+.private #top-bar p
+{
+    font-size: 10.5pt;
+    line-height: 0;
+    text-align: right;
+}
+
+.private #top-bar a
+{
+    color: inherit;
+}
+
 .private .top-line
 {
     position: absolute;
@@ -420,10 +432,11 @@ body.public
 #logout-button 
 {
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 10px;
+    right: 10px;
     height: 40px;
-    padding: 10px; 
+    padding: 0; 
+    margin: 0;
 }
 
 .private #wrapper 
@@ -432,4 +445,25 @@ body.public
     margin: 0px;
     padding: 10px;
     background-color: #63C2E0;
+}
+
+.private #buttons-container
+{
+    position: fixed;
+    top: 35%;
+    right: 0;
+    width: 26px;
+    text-align: right;
+}
+.private #buttons-container img
+{
+    width: 24px;
+    z-index: 130;
+    display: block;
+}
+
+.private #buttons-container img:hover 
+{
+    width: 30px !important;
+    z-index: 140;
 }
