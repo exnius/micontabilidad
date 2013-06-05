@@ -1,0 +1,73 @@
+/*****************/
+/** QapTcha CSS **/
+/*****************/
+.QapTcha 
+{
+    position: relative;
+    width:252px;
+    margin: 15px 0;
+}
+
+/*.QapTcha .clr{clear:both}*/
+.QapTcha .bgSlider 
+{
+    width:301px;
+    height:30px;
+
+    background-color:#2c2c2c;
+    border: 1px solid #878787;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+
+    -webkit-box-shadow: 0px 0px 10px rgba(50, 50, 50, 0.75);
+    -moz-box-shadow:    0px 0px 10px rgba(50, 50, 50, 0.75);
+    box-shadow:         0px 0px 10px rgba(50, 50, 50, 0.75);
+
+    background: rgb(44,44,44); /* Old browsers */
+    background: -moz-linear-gradient(left,  rgba(44,44,44,1) 0%, rgba(232,232,232,1) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(44,44,44,1)), color-stop(100%,rgba(232,232,232,1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(left,  rgba(44,44,44,1) 0%,rgba(232,232,232,1) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(left,  rgba(44,44,44,1) 0%,rgba(232,232,232,1) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(left,  rgba(44,44,44,1) 0%,rgba(232,232,232,1) 100%); /* IE10+ */
+    background: linear-gradient(to right,  rgba(44,44,44,1) 0%,rgba(232,232,232,1) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2c2c2c', endColorstr='#e8e8e8',GradientType=1 ); /* IE6-9 */
+}
+
+.QapTcha .Slider 
+{
+    width:52px;
+    height:30px;
+    background:transparent url('../../images/buttons/bg_draggable_qaptcha.jpg') no-repeat center;
+    cursor:e-resize;
+    position:relative;
+    top:0;
+    left:0;
+
+    -moz-opacity: 0.80;
+    opacity: 0.80;
+
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+.QapTcha .TxtStatus 
+{
+    width:301px;
+    margin-top:7px;
+    text-align:center;
+    color:#bb2828;
+    font-family:inherit;
+    font-size:10px;
+    /*clear:both;*/
+}
+
+.QapTcha .dropSuccess
+{
+    color:#4e8b37;
+}
+.QapTcha .dropError 
+{
+    color:#bb2828;
+}

@@ -1,62 +1,86 @@
-<h1>Editar Perfil</h1>
-<div>
-    <div id="avatar-response" style="display: none;"></div>
-    <img id="avatar" src="<?= $this->user->getPictureUrl()?>" class="user-avatar" width="100"/>
-    <div id="iframe_container">
-        <iframe src="<?= BASE_URL . "/private/profile/iframe"?>" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" style="height: 75px; width: 500px;"></iframe>
-    </div>
-</div>
 <div id="profile-form">
+    <h3><?= $this->tr("Editar perfil") ?></h3>
+    <div>
+        <div id="avatar-response" style="display: none;"></div>
+        <img id="avatar" src="<?= $this->user->getPictureUrl() ?>" class="user-avatar" width="100px"/>
+        <div id="iframe_container">
+            <iframe src="<?= BASE_URL . "/private/profile/iframe" ?>" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" style="height: 75px; width: 500px;"></iframe>
+        </div>
+    </div>
     <form action="" method="POST">
-        <p><?=$this->tr("Mi Nombre")?></p>
-        <input value="<?= $this->user->full_name?>" type="text" name="full_name" class="required">
-        <p><?=$this->tr("Mi Correo")?></p>
-        <input type="text" value="<?= $this->user->email?>" name="email" readonly='true'>
-        <p><?=$this->tr("Mi Contraseña")?></p>
+        <h4 class="color-gray-1"><?= $this->tr("Mi Nombre") ?></h4>
+        <input 
+            id="input-name"
+            value="<?= $this->user->full_name ?>" 
+            type="text" 
+            name="full_name" 
+            class="required input-text"
+            placeholder="<?= $this->tr("Nombre completo") ?>"
+            />
+        <p><?= $this->tr("Mi Correo") ?></p>
+        <input 
+            id="input-email"
+            class="opacity-75-percent"
+            type="text" 
+            value="<?= $this->user->email ?>" 
+            name="email" 
+            readonly='true'
+            >
+        <p><?= $this->tr("Mi Contraseña") ?></p>
         <span id="fake-password">*************</span>
-        <a id="display-password-form" href="#"><?=$this->tr("Editar")?></a>
+        <a id="display-password-form" href="#"><?= $this->tr("Nueva contraseña") ?></a>
         <div id="password-form" style="display: none;">
-            <p><?=$this->tr("Mi contraseña actual")?></p>
+            <p><?= $this->tr("Mi contraseña actual") ?></p>
             <input type="password" name="old_pass" class="required">
-            <p><?=$this->tr("Mi Nueva Contraseña")?></p>
+            <p><?= $this->tr("Mi Nueva Contraseña") ?></p>
             <input type="password" name="new_pass" class="required">
-            <p><?=$this->tr("Confirmar Contraseña")?></p>
+            <p><?= $this->tr("Confirmar Contraseña") ?></p>
             <input type="password" is_equal_to="new_pass" name="confirm_pass" class="required">
             <div class="password-response"></div>
             <p>
-                <a id="hide-password-form" href="#"><?=$this->tr("Cancelar")?></a>
-                <input id="change-password" type="button" value="<?= $this->tr("Cambiar")?>">
+                <a id="hide-password-form" href="#"><?= $this->tr("Cancelar") ?></a>
+                <input id="change-password" type="button" value="<?= $this->tr("Cambiar") ?>">
             </p>
         </div>
-        <p><?=$this->tr("Mi Genero")?></p>
-        <input id="male" type="radio" name="gender" value="male" <?= $this->user["gender"] == "male" ? "checked" : null?>> 
-        <label for="male"><?= $this->tr("Hombre") ?></label>
-        <input id="female" type="radio" name="gender" value="female" <?= $this->user["gender"] == "female" ? "checked" : null?>>
-        <label for="female"><?= $this->tr("Mujer") ?></label>
-        <p><?=$this->tr("Mi Pais")?></p>
+        <p><?= $this->tr("Género") ?></p>
+        <input id="male" type="radio" name="gender" value="male" <?= $this->user["gender"] == "male" ? "checked" : null ?>> 
+        <label for="male"><?= $this->tr("Masculino") ?></label>
+        <input id="female" type="radio" name="gender" value="female" <?= $this->user["gender"] == "female" ? "checked" : null ?>>
+        <label for="female"><?= $this->tr("Femenino") ?></label>
+        <p><?= $this->tr("Mi Pais") ?></p>
         <select name="country">
-            <?php foreach($this->countries as $countryId => $countryName){?>
-                <?php if($countryId == $this->user->country){?>
-                    <option selected="selected" value="<?= $countryId?>"><?= $countryName?></option>
-                <?php } else {?>
-                    <option value="<?= $countryId?>"><?= $countryName?></option>
+            <?php foreach ($this->countries as $countryId => $countryName) { ?>
+                <?php if ($countryId == $this->user->country) { ?>
+                    <option selected="selected" value="<?= $countryId ?>"><?= $countryName ?></option>
+                <?php } else { ?>
+                    <option value="<?= $countryId ?>"><?= $countryName ?></option>
                 <?php } ?>
-            <?php }?>
+            <?php } ?>
         </select>
-        <p><?=$this->tr("Mi Ciudad")?></p>
-        <input type="text" value="<?= $this->user->city?>" name="city">
-        <p><?=$this->tr("Tipo de moneda")?></p>
+        <p><?= $this->tr("Mi Ciudad") ?></p>
+        <input type="text" value="<?= $this->user->city ?>" name="city">
+        <p><?= $this->tr("Tipo de moneda") ?></p>
         <select name="id_currency">
-            <?php foreach ($this->currencys as $currency){?>
-                <?php if($currency->id == $this->user->id_currency){?>
-                    <option value="<?= $currency->id?>" selected=""><?= $currency->name ?></option>
-                <?php } else {?>
-                    <option value="<?= $currency->id?>"><?= $currency->name ?></option>
-                <?php }?>
-            <?php }?>
+            <?php foreach ($this->currencys as $currency) { ?>
+                <?php if ($currency->id == $this->user->id_currency) { ?>
+                    <option value="<?= $currency->id ?>" selected=""><?= $currency->name ?></option>
+                <?php } else { ?>
+                    <option value="<?= $currency->id ?>"><?= $currency->name ?></option>
+                <?php } ?>
+            <?php } ?>
         </select>
-        <input type="submit" value="<?=$this->tr("Guardar")?>">
+
+        <h6>-</h6> <!--Separador-->
+
+        <input 
+            class="input-button"
+            type="submit" value="<?= $this->tr("Guardar cambios") ?>">
     </form>
+    <h6>-</h6> <!--Separador-->
+    <h6>-</h6> <!--Separador-->
+    <h6>-</h6> <!--Separador-->
+    <h6>-</h6> <!--Separador-->
+    <h6>-</h6> <!--Separador-->
     <div class="response"></div>
 </div>
 

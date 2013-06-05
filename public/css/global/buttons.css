@@ -5,6 +5,7 @@
 .input-button
 {        
     display: inline-block;
+    width: auto;
     white-space: nowrap;
 
     background: #4c4c4c; /* Old browsers */
@@ -18,14 +19,11 @@
     background: linear-gradient(to bottom,  #4c4c4c 0%,#131313 100%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4c4c4c', endColorstr='#131313',GradientType=0 ); /* IE6-8 */
 
-
-
     font-size: 13.5pt;
     /*    font-weight: bold;*/
     /*font: bold 1em/2em;*/
     color: #DFF3F7;
     text-decoration: none;
-
 
     border: 1px solid #777;
     padding: 0 1.5em;

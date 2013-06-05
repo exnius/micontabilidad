@@ -1,31 +1,31 @@
-<a href="#"><?= $this->user->full_name ?></a></br>
-<a id="js-fancy-create-account" href="#"><?= $this->tr("Crear presupuesto")?></a></br>
-
-<div id="accounts-container">
-    <?php $m = new Mustache_Engine;
-    foreach ($this->accounts as $account){
-        if ($account->picture_url == null) $account->picture_url = LINKS_URL."/default_pictures/budget.png";
-    ?>
-        <?= $m->render($this->render("mustache/account-row.phtml"), array(
-            "id" => $account->id,
-            "accountUrl" => $this->createUrl("account", $account),
-            "name" => $account->name,
-            "benefit" => $this->currencyValue($account->benefit, $account->id_currency),
-            "date_ini" => Contabilidad_Utils_Dates::toDate($account->date_ini),
-            "date_end" => Contabilidad_Utils_Dates::toDate($account->date_end),
-            "picture_url" => $account->picture_url
-        ));?>
-    <?php }?>
-</div>
-<script type="text/html" id="account-row-tpl" class="template" style="display: none;">
-    <?= $this->render("mustache/account-row.phtml") ?>
-</script>
-
-<script type="text/html" id="create-account-form" style="display: none;">
-    <?php echo $this->render('partials/createAccountForm.phtml'); ?>
-    <div class="response"></div>
-</script>
-
-<script language="javascript">
-    window.Contabilidad.accounts = <?= Zend_Json::encode($this->serializedAccounts); ?>;
-</script>
+    <a href="#"><?= $this->user->full_name ?></a></br>
+    <a id="js-fancy-create-account" href="#"><?= $this->tr("Crear presupuesto")?></a></br>
+    
+    <div id="accounts-container">
+        <?php $m = new Mustache_Engine;
+        foreach ($this->accounts as $account){
+            if ($account->picture_url == null) $account->picture_url = LINKS_URL."/default_pictures/budget.png";
+        ?>
+            <?= $m->render($this->render("mustache/account-row.phtml"), array(
+                "id" => $account->id,
+                "accountUrl" => $this->createUrl("account", $account),
+                "name" => $account->name,
+                "benefit" => $this->currencyValue($account->benefit, $account->id_currency),
+                "date_ini" => Contabilidad_Utils_Dates::toDate($account->date_ini),
+                "date_end" => Contabilidad_Utils_Dates::toDate($account->date_end),
+                "picture_url" => $account->picture_url
+            ));?>
+        <?php }?>
+    </div>
+    <script type="text/html" id="account-row-tpl" class="template" style="display: none;">
+        <?= $this->render("mustache/account-row.phtml") ?>
+    </script>
+    
+    <script type="text/html" id="create-account-form" style="display: none;">
+        <?php echo $this->render('partials/createAccountForm.phtml'); ?>
+        <div class="response"></div>
+    </script>
+    
+    <script language="javascript">
+        window.Contabilidad.accounts = <?= Zend_Json::encode($this->serializedAccounts); ?>;
+    </script>

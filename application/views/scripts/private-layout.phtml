@@ -27,7 +27,8 @@
             </a>
             <div id="logout-button">
                 <p class="color-white">
-                    <a href="<?= BASE_URL . "/profile" ?>" accesskey="p"><?= $this->tr("Perfil") ?></a>
+                    
+                    <a href="<?= BASE_URL . "/profile" ?>" accesskey="p"><?= $this->user->full_name ?></a>
                     &nbsp;|&nbsp;
                     <a href="<?= BASE_URL . "/logout" ?>"><?= $this->tr("Cerrar sesión") ?></a> 
                 </p>
@@ -37,9 +38,7 @@
         </div>
 
         <div id="wrapper">
-            <div>
-                <a href="#" class="wv-js-feedbacks"><?= $this->tr("Comentarios") ?></a>
-            </div>
+          
             <?= $this->layout()->content; ?>
 
             <div id="delete-popup-tpl" class="template" style="display: none;">

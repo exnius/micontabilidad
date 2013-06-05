@@ -1,18 +1,16 @@
-<div id="register" class="border-radius-0 color-gray-1 form-box padding-20px">
+<div id="register" class="text-align-center border-radius-0 color-gray-1 form-box padding-20px">
+    <h3 class="color-gray-1"><?= $this->tr("Regístrate con tu cuenta de correo") ?></h3>
+    <h6>-</h6> <!--Separador-->
+    <div class="QapTcha"></div>
+    <h6>-</h6> <!--Separador-->
     <form action="" method="POST" class="bg-color-transparent color-gray-1">
-
-        <h3>Regístrate con tu cuenta de correo</h3>
-
-        <h6 class="color-transparent">-</h6> <!--Separador-->
-
-        <input 
+        <input
             id="input-name" 
             type="text" 
             name="full_name" 
             class="required input-text" 
-            placeholder="Nombre completo"
+            placeholder="<?= $this->tr("Nombre completo") ?>"
             >
-
         <h6>-</h6> <!--Separador-->
 
         <input 
@@ -20,7 +18,7 @@
             type="text" 
             name="email" 
             class="required is_email input-text" 
-            placeholder="Correo electrónico"
+            placeholder="<?= $this->tr("Correo electrónico") ?>"
             > 
 
         <h6>-</h6> <!--Separador-->
@@ -29,7 +27,7 @@
             type="password" 
             name="password" 
             class="input-password required input-text" 
-            placeholder="Contraseña"
+            placeholder="<?= $this->tr("Contraseña") ?>"
             >
 
         <h6>-</h6> <!--Separador-->
@@ -39,24 +37,25 @@
             name="confirm_password" 
             class="input-password required input-text" 
             is_equal_to="password" 
-            placeholder="Contraseña (nuevamente)"
+            placeholder="<?= $this->tr("Contraseña (nuevamente)") ?>"
             />
 
         <h6>-</h6> <!--Separador-->
-<div class="QapTcha"></div>
+
         <input 
             class="input-button"
             type="submit" 
-            value="Registrar" 
+            value="<?= $this->tr("Registrar") ?>" 
             />
     </form>
     <h6>-</h6> <!--Separador-->
-    <p id="info" class="padding-0 margin-left-right-auto color-gray-1">Para mayor comodidad, puedes registrarte rápidamente usando una cuenta de 
+    <p id="info" class="padding-0 margin-left-right-auto color-gray-1">
+        <?= $this->tr("Para mayor comodidad, puedes registrarte rápidamente usando una cuenta de") ?>
         <a 
             id="google-login"
             class="js-google-login" 
             href="#">Google</a>
-        o una de 
+        <?= $this->tr("o una de") ?> 
         <a 
             id="facebook-login"
             class="js-facebook-login" 
@@ -64,6 +63,6 @@
             Facebook
         </a>.
 
-        <!--PENDIENTE: <div id="fb-root"></div> FB no funciona-->
+        <!--PENDIENTE: Alinear el validador-->
     </p>
 </div>

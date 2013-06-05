@@ -1,3 +1,9 @@
+#budget.form-box 
+{
+    display: block !important;
+    /*width: 800px;*/
+    text-align: center;
+}
 #mail.form-box 
 {
     display: block !important;
@@ -20,6 +26,7 @@
     width: 500px;
     text-align: center;
 }
+
 #register #info
 {
     border: 1px dashed #0998BF !important;
@@ -51,28 +58,30 @@
     box-shadow: inset -2px -2px 25px -2px #DFF3F7;
 }
 
-.form-box h6 {
+.form-box h6 
+{
     font-size: 6px;
     color: transparent;
 }
+
 input
 {
+    width: 250px;
+    height: 22px;
+    margin: 5px 0;
+    
+    border: 1px solid #333;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    
     font-size: 1.05em;
     padding: 7px 5px 7px 44px;
     /*line-height: 1em !important;*/
-    margin: 5px 0;
 
     font-family: ubuntu, helvetica, sans serif; 
-    border: 1px solid #333;
     background-color: #F0F9FB;
-
     color: #1A1A1A;
-    width: 250px;
-    height: 22px;
-
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
 }
 
 input:focus, input:hover:focus
@@ -80,7 +89,6 @@ input:focus, input:hover:focus
     transition: all 0.35s ease-in-out;
     -webkit-transition: all 0.35s ease-in-out;
     -moz-transition: all 0.35s ease-in-out;
-
     background-color: #FFF;
     border: 1px solid #1A1A1A;
     outline: 2.5px solid #333333;
@@ -131,12 +139,6 @@ input.input-date
     background-repeat: no-repeat;
 }
 
-input.input-date
-{
-    background-image: url(../../images/forms/date.png); 
-    background-repeat: no-repeat;
-}
-
 input.input-budget
 {
     background-image: url(../../images/forms/budget.png); 
@@ -158,4 +160,10 @@ sea de exito, de error o de alerta*/
     outline: #D95252 solid 1px;
     font-family: ubuntu, helvetica, sans serif; 
     color: #BA1818;
+}
+
+#profile-form h6 
+{
+    font-size: 6px;
+    color: transparent;
 }
