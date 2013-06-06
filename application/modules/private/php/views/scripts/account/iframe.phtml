@@ -1,9 +1,19 @@
-<form name="iform" action="<?= BASE_URL . "/private/account/uploadpicture"?>" method="post" enctype="multipart/form-data">
-    <input id="file" type="file" name="picture" onChange="window.parent.QHelpers.account.uploadPicture(this);" /><br>
-    <span><?= $this->tr("Tipos de archivo permitidos: jpg, png, svg y gif.")?></span>
-    <input type="hidden" value="" name="account_id" />
-</form>
+<!--PENDIENTE DE CASCADA DE ESTILO-->
+<head>
+    <link rel="stylesheet" type="text/css" href="<?= LINKS_URL ?>/css/private/iframes.css"/>
+    <link rel="stylesheet" type="text/css" href="<?= LINKS_URL ?>/css/global/text.css"/>
+    <link rel="stylesheet" type="text/css" href="<?= LINKS_URL ?>/css/global/input.css"/>
+    <link rel="stylesheet" type="text/css" href="<?= LINKS_URL ?>/css/global/buttons.css"/>
+</head>
 
-<script language="javascript">
-    window.parent.QHelpers.account.addIframe(window);
-</script>
+<body>
+    <form id="form" name="iform" action="<?= BASE_URL . "/private/account/uploadpicture" ?>" method="post" enctype="multipart/form-data">
+        <input id="file" class="border-width-1px border-style-solid" type="file" accept="image/gif,image/png,image/bmp,image/jpg,image/svg" name="picture" onChange="window.parent.QHelpers.account.uploadPicture(this);" /><br>
+        <span><?= $this->tr("Tipos de archivo permitidos: jpg, png, svg y gif.") ?></span>
+        <input type="hidden" value="" name="account_id" />
+    </form>
+
+    <script language="javascript">
+        window.parent.QHelpers.account.addIframe(window);
+    </script>
+</body>

@@ -27,16 +27,26 @@
             </a>
             <div id="logout-button">
                 <p class="color-white">
-                    
+                    <?php 
+                    if ($this->user->picture_url)
+                    {
+                        $resizePic = new resizePicture($this->user->picture_url);
+                        $resizePic -> resizeImage(50, 50);
+                    } else
+                    {
+                        $resizePic = LINKS_URL . "/default_pictures/male.png";
+                    }
+                    ?>
+                    <img id="user-picture" src="<?= $resizePic ?>" width="50" height="50" />
                     <a href="<?= BASE_URL . "/profile" ?>" accesskey="p"><?= $this->user->full_name ?></a>
                     &nbsp;|&nbsp;
                     <a href="<?= BASE_URL . "/logout" ?>"><?= $this->tr("Cerrar sesión") ?></a> 
                 </p>
 
             </div>
+            <?php var_dump($this->user);?>
             <div class="top-line"></div>
         </div>
-
         <div id="wrapper">
           
             <?= $this->layout()->content; ?>

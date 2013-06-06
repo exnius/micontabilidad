@@ -8,6 +8,7 @@ class Private_AccountController extends Zend_Controller_Action
 //        $accountId = $explode[0];
         $accountId = $request->getParam('id');
         $user = Contabilidad_Auth::getInstance()->getUser();
+        $this->view->user = $user;
         $this->view->account = $account = Proxy_Account::getInstance()->findById($accountId);
         if(!$account || $user->id != $account->id_user){
             $this->_forward("unavailable", "error", "public");
